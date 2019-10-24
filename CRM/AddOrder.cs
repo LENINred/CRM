@@ -536,6 +536,8 @@ namespace CRM
 
         private void buttonDownloadFiles_Click(object sender, EventArgs e)
         {
+            FormLoading formLoading = new FormLoading();
+            formLoading.Show();
             if (!new InternetConnection().CheckForInternetConnection())
             {
                 MessageBox.Show("На компьютере отсутствует интернет соединение");
@@ -548,6 +550,7 @@ namespace CRM
                 Process.Start(@"C:\\Users\Public\orders\order_" + order_id);
             }
             catch { }
+            formLoading.Dispose();
         }
 
         private void downloadFiles(bool who)

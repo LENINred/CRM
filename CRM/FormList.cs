@@ -117,26 +117,34 @@ namespace CRM
 
         private void ButtonRm_Click(object sender, EventArgs e)
         {
-            Label lab = (Label)((Button)sender).Parent.Controls.Find("label-" + ((Button)sender).Name.ToString().Split('-')[1], true)[0];
-            using (var mySqlConnection = new DBUtils().getDBConnection())
+            DialogResult dialogResult = MessageBox.Show("Удалить сотрудника", "Подтверждение", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                using (var cmd = new MySqlCommand())
+                Label lab = (Label)((Button)sender).Parent.Controls.Find("label-" + ((Button)sender).Name.ToString().Split('-')[1], true)[0];
+                using (var mySqlConnection = new DBUtils().getDBConnection())
                 {
-                    cmd.Connection = mySqlConnection;
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = querys[1];
-                    cmd.Parameters.Clear();
-                    MySqlParameter p1 = cmd.Parameters.Add("@id", MySqlDbType.Int32);
-                    p1.Direction = ParameterDirection.Input;
+                    using (var cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = mySqlConnection;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandText = querys[1];
+                        cmd.Parameters.Clear();
+                        MySqlParameter p1 = cmd.Parameters.Add("@id", MySqlDbType.Int32);
+                        p1.Direction = ParameterDirection.Input;
 
-                    p1.Value = lab.Tag;
-                    mySqlConnection.Open();
-                    cmd.ExecuteNonQuery();
+                        p1.Value = lab.Tag;
+                        mySqlConnection.Open();
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+                panelUsers.Controls.Clear();
+                list.Clear();
+                loadList(query);
             }
-            panelUsers.Controls.Clear();
-            list.Clear();
-            loadList(query);
+            else if (dialogResult == DialogResult.No)
+            {
+                //--
+            }
         }
 
         private void ButtonCh_Click(object sender, EventArgs e)
@@ -145,32 +153,35 @@ namespace CRM
             FormEditText editText = new FormEditText(lab.Text, formText);
             if (editText.ShowDialog(this) == DialogResult.OK)
             {
-                using (var mySqlConnection = new DBUtils().getDBConnection())
+                if (editText.textBox1.Text.Trim().Length > 0)
                 {
-                    using (var cmd = new MySqlCommand())
+                    using (var mySqlConnection = new DBUtils().getDBConnection())
                     {
-                        cmd.Connection = mySqlConnection;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = querys[2];
-                        cmd.Parameters.Clear();
-                        MySqlParameter p1 = cmd.Parameters.Add("@id", MySqlDbType.Int32);
-                        p1.Direction = ParameterDirection.Input;
-                        MySqlParameter p2 = cmd.Parameters.Add("@oldname", MySqlDbType.VarChar);
-                        p2.Direction = ParameterDirection.Input;
-                        MySqlParameter p3 = cmd.Parameters.Add("@newname", MySqlDbType.VarChar);
-                        p3.Direction = ParameterDirection.Input;
+                        using (var cmd = new MySqlCommand())
+                        {
+                            cmd.Connection = mySqlConnection;
+                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                            cmd.CommandText = querys[2];
+                            cmd.Parameters.Clear();
+                            MySqlParameter p1 = cmd.Parameters.Add("@id", MySqlDbType.Int32);
+                            p1.Direction = ParameterDirection.Input;
+                            MySqlParameter p2 = cmd.Parameters.Add("@oldname", MySqlDbType.VarChar);
+                            p2.Direction = ParameterDirection.Input;
+                            MySqlParameter p3 = cmd.Parameters.Add("@newname", MySqlDbType.VarChar);
+                            p3.Direction = ParameterDirection.Input;
 
-                        p1.Value = lab.Tag;
-                        p2.Value = lab.Text;
-                        p3.Value = editText.textBox1.Text;
-                        mySqlConnection.Open();
-                        cmd.ExecuteNonQuery();
+                            p1.Value = lab.Tag;
+                            p2.Value = lab.Text;
+                            p3.Value = editText.textBox1.Text;
+                            mySqlConnection.Open();
+                            cmd.ExecuteNonQuery();
+                        }
                     }
+                    panelUsers.Controls.Clear();
+                    list.Clear();
+                    loadList(query);
                 }
             }
-            panelUsers.Controls.Clear();
-            list.Clear();
-            loadList(query);
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -178,26 +189,29 @@ namespace CRM
             FormEditText userName = new FormEditText("", formText);
             if (userName.ShowDialog(this) == DialogResult.OK)
             {
-                using (var mySqlConnection = new DBUtils().getDBConnection())
+                if (userName.textBox1.Text.Trim().Length > 0)
                 {
-                    using (var cmd = new MySqlCommand())
+                    using (var mySqlConnection = new DBUtils().getDBConnection())
                     {
-                        cmd.Connection = mySqlConnection;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = querys[0];
-                        cmd.Parameters.Clear();
-                        MySqlParameter p1 = cmd.Parameters.Add("@name", MySqlDbType.VarChar);
-                        p1.Direction = ParameterDirection.Input;
+                        using (var cmd = new MySqlCommand())
+                        {
+                            cmd.Connection = mySqlConnection;
+                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                            cmd.CommandText = querys[0];
+                            cmd.Parameters.Clear();
+                            MySqlParameter p1 = cmd.Parameters.Add("@name", MySqlDbType.VarChar);
+                            p1.Direction = ParameterDirection.Input;
 
-                        p1.Value = userName.textBox1.Text;
-                        mySqlConnection.Open();
-                        cmd.ExecuteNonQuery();
+                            p1.Value = userName.textBox1.Text;
+                            mySqlConnection.Open();
+                            cmd.ExecuteNonQuery();
+                        }
                     }
+                    panelUsers.Controls.Clear();
+                    list.Clear();
+                    loadList(query);
                 }
             }
-            panelUsers.Controls.Clear();
-            list.Clear();
-            loadList(query);
         }
     }
 }

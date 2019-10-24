@@ -18,7 +18,7 @@ namespace CRM
                 return;
             }
             FormLogs logs = new FormLogs();
-            logs.Show();
+            logs.ShowDialog();
         }
 
         private void buttonUsersList_Click(object sender, EventArgs e)
@@ -29,7 +29,7 @@ namespace CRM
                 return;
             }
             FormList list = new FormList(1);
-            list.Show();
+            list.ShowDialog();
         }
 
         private void buttonOrdersTypeList_Click(object sender, EventArgs e)
@@ -40,7 +40,7 @@ namespace CRM
                 return;
             }
             FormList list = new FormList(2);
-            list.Show();
+            list.ShowDialog();
         }
     }
 }

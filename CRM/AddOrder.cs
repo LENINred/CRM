@@ -548,9 +548,14 @@ namespace CRM
             try
             {
                 Process.Start(@"C:\\Users\Public\orders\order_" + order_id);
+                formLoading.Dispose();
             }
-            catch { }
-            formLoading.Dispose();
+            catch
+            {
+                formLoading.Dispose();
+                MessageBox.Show("Файлы отсутствуют");
+            }
+            
         }
 
         private void downloadFiles(bool who)

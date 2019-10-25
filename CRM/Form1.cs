@@ -1,6 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Windows.Forms;
@@ -20,7 +19,6 @@ namespace CRM
         private void Form1_Load(object sender, EventArgs e)
         {
             dataGridView1.DataSource = loadOrdersFromDB(what);
-            dataGrid = dataGridView1;
             loadGroupTree();
 
             if ((user_type == 1) || (user_type == 2))
@@ -32,34 +30,30 @@ namespace CRM
 
         private void loadGroupTree()
         {
-            List<int> accInd = new List<int>(), workInd = new List<int>(), endInd = new List<int>(), delvInd = new List<int>();
+            int acc = 0, work = 0, end = 0, delv = 0;
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                string cellStat = dataGridView1.Rows[i].Cells[5].Value.ToString();
-                if (cellStat.Equals("Принят"))
+                switch (dataGridView1.Rows[i].Cells[5].Value.ToString())
                 {
-                    accInd.Add(i);
-                }
-                else
-                if (cellStat.Equals("Выдан"))
-                {
-                    delvInd.Add(i);
-                }
-                else
-                if (cellStat.Equals("Работа завершена"))
-                {
-                    endInd.Add(i);
-                }
-                else
-                {
-                    workInd.Add(i);
+                    case "Принят":
+                        acc++;
+                        break;
+                    case "Выдан":
+                        delv++;
+                        break;
+                    case "Работа завершена":
+                        end++;
+                        break;
+                    default:
+                        work++;
+                        break;
                 }
             }
-            treeViewGroups.Nodes[0].Text = "Все (" + (accInd.Count + workInd.Count + endInd.Count + delvInd.Count) + ")";
-            treeViewGroups.Nodes[0].Nodes[0].Text = "Принятые (" + accInd.Count + ")";
-            treeViewGroups.Nodes[0].Nodes[1].Text = "В работе (" + workInd.Count + ")";
-            treeViewGroups.Nodes[0].Nodes[2].Text = "Завершенные (" + endInd.Count + ")";
-            treeViewGroups.Nodes[0].Nodes[3].Text = "Выданные (" + delvInd.Count + ")";
+            treeViewGroups.Nodes[0].Text = "Все (" + (acc + work + end + delv) + ")";
+            treeViewGroups.Nodes[0].Nodes[0].Text = "Принятые (" + acc + ")";
+            treeViewGroups.Nodes[0].Nodes[1].Text = "В работе (" + work + ")";
+            treeViewGroups.Nodes[0].Nodes[2].Text = "Завершенные (" + end + ")";
+            treeViewGroups.Nodes[0].Nodes[3].Text = "Выданные (" + delv + ")";
             treeViewGroups.ExpandAll();
         }
 
@@ -114,11 +108,7 @@ namespace CRM
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            if (!new InternetConnection().CheckForInternetConnection())
-            {
-                MessageBox.Show("На компьютере отсутствует интернет соединение");
-                return;
-            }
+            if (!checkInet()) return;
             AddOrder add = new AddOrder(true, user_type, 0);
             this.Activated += Form1_Activated;
             add.Show(this);
@@ -126,11 +116,7 @@ namespace CRM
 
         private void buttonShow_Click(object sender, EventArgs e)
         {
-            if (!new InternetConnection().CheckForInternetConnection())
-            {
-                MessageBox.Show("На компьютере отсутствует интернет соединение");
-                return;
-            }
+            if (!checkInet()) return;
             AddOrder add = new AddOrder(false, user_type, order_id);
             this.Activated += Form1_Activated;
             add.Show(this);
@@ -149,14 +135,9 @@ namespace CRM
                 order_id = Int32.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString());
         }
 
-        DataGridView dataGrid = new DataGridView();
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            if (!new InternetConnection().CheckForInternetConnection())
-            {
-                MessageBox.Show("На компьютере отсутствует интернет соединение");
-                return;
-            }
+            if (!checkInet()) return;
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 int selIndex = dataGridView1.SelectedRows[0].Index;
@@ -169,40 +150,35 @@ namespace CRM
 
         private void treeViewGroups_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Node.Text.Contains("Все"))
+            switch (e.Node.Text.Split('(')[0].Trim())
             {
-                what = "1";
-                dataGridView1.DataSource = loadOrdersFromDB(what);
-            }
-            if (e.Node.Text.Contains("Принятые"))
-            {
-                what = "`status` = 'Принят'";
-                dataGridView1.DataSource = loadOrdersFromDB(what);
-            }
-            if (e.Node.Text.Contains("Выданные"))
-            {
-                what = "`status` = 'Выдан'";
-                dataGridView1.DataSource = loadOrdersFromDB(what);
-            }
-            if (e.Node.Text.Contains("В работе"))
-            {
-                what = "(`status` = 'Подтверждение макета заказчиком' OR `status` = 'Макет подтвержден заказчиком' OR `status` = 'Ожидание внешнего подрядчика')";
-                dataGridView1.DataSource = loadOrdersFromDB(what);
-            }
-            if (e.Node.Text.Contains("Завершенные"))
-            {
-                what = "`status` = 'Работа завершена'";
-                dataGridView1.DataSource = loadOrdersFromDB(what);
+                case "Все":
+                    what = "1";
+                    dataGridView1.DataSource = loadOrdersFromDB(what);
+                    break;
+                case "Принятые":
+                    what = "`status` = 'Принят'";
+                    dataGridView1.DataSource = loadOrdersFromDB(what);
+                    break;
+                case "Выданные":
+                    what = "`status` = 'Выдан'";
+                    dataGridView1.DataSource = loadOrdersFromDB(what);
+                    break;
+                case "В работе":
+                    what = "(`status` = 'Подтверждение макета заказчиком' OR `status` = 'Макет подтвержден заказчиком' OR `status` = 'Ожидание внешнего подрядчика')";
+                    dataGridView1.DataSource = loadOrdersFromDB(what);
+                    break;
+                case "Завершенные":
+                    what = "`status` = 'Работа завершена'";
+                    dataGridView1.DataSource = loadOrdersFromDB(what);
+                    break;
+
             }
         }
 
         private void buttonDateSort_Click(object sender, EventArgs e)
         {
-            if (!new InternetConnection().CheckForInternetConnection())
-            {
-                MessageBox.Show("На компьютере отсутствует интернет соединение");
-                return;
-            }
+            if (!checkInet()) return;
             if ((textBoxDateFrom.MaskCompleted) && (textBoxDateTo.MaskCompleted))
                 dataGridView1.DataSource = getOrdersDataInterval(textBoxDateFrom.Text, textBoxDateTo.Text);
             else
@@ -231,11 +207,7 @@ namespace CRM
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            if (!new InternetConnection().CheckForInternetConnection())
-            {
-                MessageBox.Show("На компьютере отсутствует интернет соединение");
-                return;
-            }
+            if (!checkInet()) return;
             string id = showFindOrder();
             if (id == "0")
             {
@@ -299,6 +271,16 @@ namespace CRM
             }
             loading.Dispose();
             return finded;
+        }
+
+        private bool checkInet()
+        {
+            if (!new InternetConnection().CheckForInternetConnection())
+            {
+                MessageBox.Show("На компьютере отсутствует интернет соединение");
+                return false;
+            }
+            else return true;
         }
     }
 }

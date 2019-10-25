@@ -40,7 +40,7 @@ namespace CRM
 
         private void doUpdate()
         {
-            MessageBox.Show("Updating");
+            MessageBox.Show("Имеется обновление для программы, Нажмите Ок чтобы продолжить");
             File.Delete(System.Reflection.Assembly.GetEntryAssembly().Location + ".bak");
             File.Move(System.Reflection.Assembly.GetEntryAssembly().Location, System.Reflection.Assembly.GetEntryAssembly().Location + ".bak");
             using (var client = new WebClient())

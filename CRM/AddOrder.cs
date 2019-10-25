@@ -264,7 +264,7 @@ namespace CRM
                                     if (!logData[2].Equals(richTextBoxOrderInfo.Text))
                                         l += "Инфо заказа: " + logData[2] + " -> " + richTextBoxOrderInfo.Text + "\n";
                                     if (!logData[3].Equals(textBoxCost.Text))
-                                        l += "Цена " + logData[3] + " -> " + textBoxCost.Text + "\n";
+                                        l += "Цена: " + logData[3] + " -> " + textBoxCost.Text + "\n";
                                     if (!logData[4].Equals(comboBoxOrderType.Text))
                                         l += "Тип заказа: " + logData[4] + " -> " + comboBoxOrderType.Text + "\n";
                                     if (!logData[5].Equals(comboBoxOrderStatus.Text))

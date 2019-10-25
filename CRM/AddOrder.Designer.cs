@@ -158,7 +158,6 @@
             this.comboBoxOrderType.Size = new System.Drawing.Size(406, 21);
             this.comboBoxOrderType.TabIndex = 10;
             this.comboBoxOrderType.SelectedIndexChanged += new System.EventHandler(this.comboBoxOrderType_SelectedIndexChanged);
-            this.comboBoxOrderType.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxOrderType_KeyPress);
             // 
             // comboBoxExecutor
             // 

@@ -41,11 +41,8 @@ namespace CRM
 
             comboBoxOrderStatus.Items.Add("Принят");
             comboBoxOrderStatus.Items.Add("Выдан");
+            log = "Продавцы";
 
-            if (user_type == 1)
-            {
-                log = "Продавцы";
-            }
             if ((user_type == 2) || (user_type == 3))
             {
                 log = "Дизайнеры";
@@ -191,7 +188,7 @@ namespace CRM
             return execs;
         }
 
-        private int getOrderID()
+        private int getLastOrderID()
         {
             using (var mySqlConnection = new DBUtils().getDBConnection())
             {
@@ -215,11 +212,7 @@ namespace CRM
 
         private void buttonAddOrder_Click(object sender, EventArgs e)
         {
-            if (!new InternetConnection().CheckForInternetConnection())
-            {
-                MessageBox.Show("На компьютере отсутствует интернет соединение");
-                return;
-            }
+            if (!checkInet()) return;
             FormLoading loading = new FormLoading();
             loading.Show();
 
@@ -228,9 +221,9 @@ namespace CRM
             {
                 if (comboBoxCustomers.SelectedIndex != -1)
                 {
-                    string selItem = comboBoxCustomers.SelectedItem.ToString();
-                    custName = selItem.Substring(0, selItem.IndexOf('('));
-                    comm = selItem.Substring(selItem.IndexOf('(') + 1, selItem.IndexOf(')') - selItem.IndexOf('(') - 1);
+                    string selectedCustomer = comboBoxCustomers.SelectedItem.ToString();
+                    custName = selectedCustomer.Substring(0, selectedCustomer.IndexOf('('));
+                    comm = selectedCustomer.Substring(selectedCustomer.IndexOf('(') + 1, selectedCustomer.IndexOf(')') - selectedCustomer.IndexOf('(') - 1);
                 }
                 else
                 {
@@ -260,26 +253,26 @@ namespace CRM
                         {
                             if (textBoxCost.Text.Length > 1)
                             {
-                                if (order_id == 0) order_id = getOrderID() + 1;
+                                if (order_id == 0) order_id = getLastOrderID() + 1;
                                 else
                                 {
                                     string l = "";
                                     if (!logData[0].Equals(textBoxPriorComm.Text))
-                                        l += logData[0] + " -> " + textBoxPriorComm.Text + "\n";
+                                        l += "Вид связи: " + logData[0] + " -> " + textBoxPriorComm.Text + "\n";
                                     if (!logData[1].Equals(textBoxSubComm.Text))
-                                        l += logData[1] + " -> " + textBoxSubComm.Text + "\n";
+                                        l += "Доп вид связи: " + logData[1] + " -> " + textBoxSubComm.Text + "\n";
                                     if (!logData[2].Equals(richTextBoxOrderInfo.Text))
-                                        l += logData[2] + " -> " + richTextBoxOrderInfo.Text + "\n";
+                                        l += "Инфо заказа: " + logData[2] + " -> " + richTextBoxOrderInfo.Text + "\n";
                                     if (!logData[3].Equals(textBoxCost.Text))
-                                        l += logData[3] + " -> " + textBoxCost.Text + "\n";
+                                        l += "Цена " + logData[3] + " -> " + textBoxCost.Text + "\n";
                                     if (!logData[4].Equals(comboBoxOrderType.Text))
-                                        l += logData[4] + " -> " + comboBoxOrderType.Text + "\n";
+                                        l += "Тип заказа: " + logData[4] + " -> " + comboBoxOrderType.Text + "\n";
                                     if (!logData[5].Equals(comboBoxOrderStatus.Text))
-                                        l += logData[5] + " -> " + comboBoxOrderStatus.Text + "\n";
+                                        l += "Статус заказа: " + logData[5] + " -> " + comboBoxOrderStatus.Text + "\n";
                                     if (!logData[6].Equals(comboBoxExecutor.Text))
-                                        l += logData[6] + " -> " + comboBoxExecutor.Text + "\n";
+                                        l += "Исполнитель: " + logData[6] + " -> " + comboBoxExecutor.Text + "\n";
                                     if (!logData[7].Equals(textBoxDate.Text))
-                                        l += logData[7] + " -> " + textBoxDate.Text + "\n";
+                                        l += "Дата дедлайна:" + logData[7] + " -> " + textBoxDate.Text + "\n";
                                     if (l.Length > 0)
                                     {
                                         log += " " + DateTime.Now.ToString("yyyy-MM-dd") + " изменили заявку No_" + order_id + ": \n";
@@ -454,11 +447,7 @@ namespace CRM
 
         private void buttonAddFile_Click(object sender, EventArgs e)
         {
-            if (!new InternetConnection().CheckForInternetConnection())
-            {
-                MessageBox.Show("На компьютере отсутствует интернет соединение");
-                return;
-            }
+            if (!checkInet()) return;
             openFileDialog1.Filter = "jpg files (*.jpg)|*.jpg|bmp files (*.bmp)|*.bmp|png files (*.png)|*.png";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -509,20 +498,11 @@ namespace CRM
             }
         }
 
-        private void textBoxCost_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
         private void buttonDownloadFiles_Click(object sender, EventArgs e)
         {
+            if (!checkInet()) return;
             FormLoading formLoading = new FormLoading();
             formLoading.Show();
-            if (!new InternetConnection().CheckForInternetConnection())
-            {
-                MessageBox.Show("На компьютере отсутствует интернет соединение");
-                return;
-            }
             downloadFiles(true);
             downloadFiles(false);
             try
@@ -595,11 +575,6 @@ namespace CRM
             }
         }
 
-        private void textBoxCustomer_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
         private void comboBoxOrderType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if ((comboBoxOrderType.SelectedItem.ToString().Contains("Печать на ")) && (!comboBoxOrderType.SelectedItem.ToString().Equals("Печать на принтере")))
@@ -611,21 +586,6 @@ namespace CRM
             else if (comboBoxOrderType.SelectedItem.ToString().Contains("Фотокн"))
                 textBoxDate.Text = DateTime.Now.AddDays(14).ToString("dd-MM-yyyy HH:mm");
             else textBoxDate.Text = DateTime.Now.AddDays(14).ToString("dd-MM-yyyy HH:mm");
-        }
-
-        private void textBoxPriorComm_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void textBoxSubComm_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void comboBoxOrderType_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            
         }
 
         private void comboBoxOrderStatus_KeyPress(object sender, KeyPressEventArgs e)
@@ -685,6 +645,16 @@ namespace CRM
             {
                 textBoxSubComm.Enabled = false;
             }
+        }
+
+        private bool checkInet()
+        {
+            if (!new InternetConnection().CheckForInternetConnection())
+            {
+                MessageBox.Show("На компьютере отсутствует интернет соединение");
+                return false;
+            }
+            else return true;
         }
     }
 }

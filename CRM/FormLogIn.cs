@@ -21,6 +21,7 @@ namespace CRM
                 MessageBox.Show("На компьютере отсутствует интернет соединение");
                 return;
             }
+            new ClassUpdateCRM().checkUpdate();
             string[] user = ((Button)sender).Tag.ToString().Split(';');
             string pass = showPasswordForm();
             if (pass != "666")

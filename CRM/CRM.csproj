@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassUpdateCRM.cs" />
     <Compile Include="FormAddOrder.cs">
       <SubType>Form</SubType>
     </Compile>

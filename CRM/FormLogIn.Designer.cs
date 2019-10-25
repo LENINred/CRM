@@ -1,6 +1,6 @@
 ﻿namespace CRM
 {
-    partial class LogInForm
+    partial class FormLogIn
     {
         /// <summary>
         /// Required designer variable.

@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace CRM
 {
-    public partial class LogInForm : Form
+    public partial class FormLogIn : Form
     {
-        public LogInForm()
+        public FormLogIn()
         {
             InitializeComponent();
         }
@@ -27,7 +27,7 @@ namespace CRM
             {
                 if (checkLoginPass(user[0], pass))
                 {
-                    Form1 form = new Form1(user[0], Int32.Parse(user[1]));
+                    FormMain form = new FormMain(user[0], Int32.Parse(user[1]));
                     this.Hide();
                     form.ShowDialog();
                 }

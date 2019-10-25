@@ -1,6 +1,6 @@
 ﻿namespace CRM
 {
-    partial class AddOrder
+    partial class FormAddOrder
     {
         /// <summary>
         /// Required designer variable.

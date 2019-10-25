@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace CRM
 {
-    public partial class AddOrder : Form
+    public partial class FormAddOrder : Form
     {
         bool enab;
         int user_type, order_id;
         string comText;
         string log = "";
         List<string> logData = new List<string>();
-        public AddOrder(bool enabled, int usr_tp, int ordr_tp)
+        public FormAddOrder(bool enabled, int usr_tp, int ordr_tp)
         {
             InitializeComponent();
             enab = enabled;

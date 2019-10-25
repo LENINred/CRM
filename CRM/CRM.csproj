@@ -81,19 +81,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddOrder.cs">
+    <Compile Include="FormAddOrder.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddOrder.Designer.cs">
-      <DependentUpon>AddOrder.cs</DependentUpon>
+    <Compile Include="FormAddOrder.Designer.cs">
+      <DependentUpon>FormAddOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="BackDoorConnection.cs" />
     <Compile Include="DBUtils.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="FormAdmin.cs">
       <SubType>Form</SubType>
@@ -138,19 +138,19 @@
       <DependentUpon>FormUserName.cs</DependentUpon>
     </Compile>
     <Compile Include="InternetConnection.cs" />
-    <Compile Include="LogInForm.cs">
+    <Compile Include="FormLogIn.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LogInForm.Designer.cs">
-      <DependentUpon>LogInForm.cs</DependentUpon>
+    <Compile Include="FormLogIn.Designer.cs">
+      <DependentUpon>FormLogIn.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AddOrder.resx">
-      <DependentUpon>AddOrder.cs</DependentUpon>
+    <EmbeddedResource Include="FormAddOrder.resx">
+      <DependentUpon>FormAddOrder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAdmin.resx">
       <DependentUpon>FormAdmin.cs</DependentUpon>
@@ -173,8 +173,8 @@
     <EmbeddedResource Include="FormUserName.resx">
       <DependentUpon>FormUserName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogInForm.resx">
-      <DependentUpon>LogInForm.cs</DependentUpon>
+    <EmbeddedResource Include="FormLogIn.resx">
+      <DependentUpon>FormLogIn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

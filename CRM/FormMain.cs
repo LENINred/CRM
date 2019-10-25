@@ -6,11 +6,11 @@ using System.Windows.Forms;
 
 namespace CRM
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
         int user_type;
         string what = "1";
-        public Form1(string username, int user_tp)
+        public FormMain(string username, int user_tp)
         {
             InitializeComponent();
             user_type = user_tp;
@@ -109,7 +109,7 @@ namespace CRM
         private void buttonNew_Click(object sender, EventArgs e)
         {
             if (!checkInet()) return;
-            AddOrder add = new AddOrder(true, user_type, 0);
+            FormAddOrder add = new FormAddOrder(true, user_type, 0);
             this.Activated += Form1_Activated;
             add.Show(this);
         }
@@ -117,7 +117,7 @@ namespace CRM
         private void buttonShow_Click(object sender, EventArgs e)
         {
             if (!checkInet()) return;
-            AddOrder add = new AddOrder(false, user_type, order_id);
+            FormAddOrder add = new FormAddOrder(false, user_type, order_id);
             this.Activated += Form1_Activated;
             add.Show(this);
         }
@@ -194,7 +194,7 @@ namespace CRM
         
         private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            AddOrder add = new AddOrder(false, user_type, order_id);
+            FormAddOrder add = new FormAddOrder(false, user_type, order_id);
             this.Activated += Form1_Activated;
             add.Show(this);
         }
@@ -220,7 +220,7 @@ namespace CRM
             }
             else
             {
-                AddOrder add = new AddOrder(false, user_type, int.Parse(id));
+                FormAddOrder add = new FormAddOrder(false, user_type, int.Parse(id));
                 this.Activated += Form1_Activated;
                 add.Show(this);
             }

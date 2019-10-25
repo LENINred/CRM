@@ -230,7 +230,8 @@ namespace CRM
         {
             using (var frmFindOrder = new FormFindOrder())
             {
-                if (frmFindOrder.ShowDialog(this) == DialogResult.OK)
+                DialogResult result = frmFindOrder.ShowDialog();
+                if (result == DialogResult.OK)
                 {
                     if ((frmFindOrder.textBox1.Text.Trim().Length > 0) && (findOrder(frmFindOrder.textBox1.Text)))
                     {
@@ -241,7 +242,7 @@ namespace CRM
                         return "0";
                     }
                 }
-                else if (frmFindOrder.ShowDialog(this) == DialogResult.Cancel)
+                else if (result == DialogResult.Cancel)
                 {
                     return "-1";
                 }

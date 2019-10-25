@@ -125,7 +125,7 @@ namespace CRM
             }
             AddOrder add = new AddOrder(true, user_type, 0);
             this.Activated += Form1_Activated;
-            add.ShowDialog();
+            add.Show(this);
         }
 
         private void buttonShow_Click(object sender, EventArgs e)
@@ -137,7 +137,7 @@ namespace CRM
             }
             AddOrder add = new AddOrder(false, user_type, order_id);
             this.Activated += Form1_Activated;
-            add.ShowDialog();
+            add.Show(this);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -224,7 +224,7 @@ namespace CRM
         {
             AddOrder add = new AddOrder(false, user_type, order_id);
             this.Activated += Form1_Activated;
-            add.ShowDialog();
+            add.Show(this);
         }
 
         private void Form1_Activated(object sender, EventArgs e)
@@ -254,7 +254,7 @@ namespace CRM
             {
                 AddOrder add = new AddOrder(false, user_type, int.Parse(id));
                 this.Activated += Form1_Activated;
-                add.ShowDialog();
+                add.Show(this);
             }
         }
 

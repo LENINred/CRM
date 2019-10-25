@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CRM
@@ -62,6 +55,11 @@ namespace CRM
             textBox1.Text = actualdata;
             textBox1.SelectionStart = textBox1.Text.Length;
             textBox1.SelectionLength = 0;
+        }
+
+        private void FormFindOrder_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

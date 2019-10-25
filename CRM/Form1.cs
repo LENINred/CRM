@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace CRM
@@ -77,9 +76,10 @@ namespace CRM
             using (var mySqlConnection = new DBUtils().getDBConnection())
             {
                 mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `order_id` AS 'ИД заказа', `customer` AS 'Заказчик', `info` AS 'Информация', `type` AS 'Тип', `date` AS 'Дата заказа', `status` AS 'Статус', `cost` AS 'Стоимость', `executor` AS 'Исполнитель' FROM `Orders` WHERE " + what, mySqlConnection))
+                using (var cmd = new MySqlCommand("SELECT `order_id` AS 'ИД заказа', `name` AS 'Заказчик', `info` AS 'Информация', `type` AS 'Тип', `date` AS 'Дата заказа', `status` AS 'Статус', `cost` AS 'Стоимость', `executor` AS 'Исполнитель' " +
+                    "FROM Orders ords " +
+                    "JOIN Customers cs on ords.customer_id = cs.customer_id and " + what, mySqlConnection))
                 {
-                    Debug.WriteLine("checkCustomerExist");
                     using (DbDataReader reader = cmd.ExecuteReader())
                     {
                         dataTable.Load(reader);
@@ -102,9 +102,10 @@ namespace CRM
             using (var mySqlConnection = new DBUtils().getDBConnection())
             {
                 mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `order_id` AS 'ИД заказа', `customer` AS 'Заказчик', `info` AS 'Информация', `type` AS 'Тип', `date` AS 'Дата заказа', `status` AS 'Статус', `cost` AS 'Стоимость', `executor` AS 'Исполнитель' from `Orders` where `date` >= '" + dateFrom + "' and `date` <= '"+ dateTo + "'", mySqlConnection))
+                using (var cmd = new MySqlCommand("SELECT `order_id` AS 'ИД заказа', `name` AS 'Заказчик', `info` AS 'Информация', `type` AS 'Тип', `date` AS 'Дата заказа', `status` AS 'Статус', `cost` AS 'Стоимость', `executor` AS 'Исполнитель' " +
+                    "from Orders ords " +
+                    "JOIN Customers cs on ords.customer_id = cs.customer_id and `date` >= '" + dateFrom + "' and `date` <= '"+ dateTo + "'", mySqlConnection))
                 {
-                    Debug.WriteLine("checkCustomerExist");
                     using (DbDataReader reader = cmd.ExecuteReader())
                     {
                         dataTable.Load(reader);
@@ -189,7 +190,7 @@ namespace CRM
             }
             if (e.Node.Text.Contains("В работе"))
             {
-                what = "`status` = 'Подтверждение макета заказчиком' OR `status` = 'Макет подтвержден заказчиком' OR `status` = 'Ожидание внешнего подрядчика'";
+                what = "(`status` = 'Подтверждение макета заказчиком' OR `status` = 'Макет подтвержден заказчиком' OR `status` = 'Ожидание внешнего подрядчика')";
                 dataGridView1.DataSource = loadOrdersFromDB(what);
             }
             if (e.Node.Text.Contains("Завершенные"))
@@ -239,35 +240,48 @@ namespace CRM
                 MessageBox.Show("На компьютере отсутствует интернет соединение");
                 return;
             }
-            string id = findOrder();
-            if (id != "0")
+            string id = showFindOrder();
+            if (id == "0")
+            {
+                MessageBox.Show("Заявка не найдена");
+                buttonSearch.PerformClick();
+            }
+            else if (id == "-1")
+            {
+                //--
+            }
+            else
             {
                 AddOrder add = new AddOrder(false, user_type, int.Parse(id));
                 this.Activated += Form1_Activated;
                 add.ShowDialog();
             }
-            else
-            {
-                MessageBox.Show("Заявка не найдена");
-                buttonSearch.PerformClick();
-            }
         }
 
-        private string findOrder()
+        private string showFindOrder()
         {
-            FormFindOrder formFindOrder = new FormFindOrder();
-            if (formFindOrder.ShowDialog(this) == DialogResult.OK)
+            using (var frmFindOrder = new FormFindOrder())
             {
-                if ((formFindOrder.textBox1.Text.Length > 0) && (findOrder(formFindOrder.textBox1.Text)))
+                if (frmFindOrder.ShowDialog(this) == DialogResult.OK)
                 {
-                    return formFindOrder.textBox1.Text;
+                    if ((frmFindOrder.textBox1.Text.Trim().Length > 0) && (findOrder(frmFindOrder.textBox1.Text)))
+                    {
+                        return frmFindOrder.textBox1.Text;
+                    }
+                    else
+                    {
+                        return "0";
+                    }
+                }
+                else if (frmFindOrder.ShowDialog(this) == DialogResult.Cancel)
+                {
+                    return "-1";
                 }
                 else
                 {
-                    return "0";
+                    return "-1";
                 }
             }
-            return "0";
         }
 
         private bool findOrder(string id)

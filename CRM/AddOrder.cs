@@ -58,6 +58,7 @@ namespace CRM
             {
                 this.Text = "Изменение заказа";
                 comText = "change_the_order";
+
                 richTextBoxOrderInfo.Enabled = true;
                 textBoxCustomer.Enabled = false;
 
@@ -90,13 +91,9 @@ namespace CRM
             using (var mySqlConnection = new DBUtils().getDBConnection())
             {
                 mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `customer` AS 'Заказчик', " +
-                    "`info` AS 'Информация', " +
-                    "`type` AS 'Тип', " +
-                    "`status` AS 'Статус', " +
-                    "`cost` AS 'Стоимость', " +
-                    "`deadline` AS 'Дата', " +
-                    "`executor` AS 'Исполнитель' FROM `Orders` WHERE `order_id` = " + order_id, mySqlConnection))
+                using (var cmd = new MySqlCommand("SELECT `info`, `type`, `status`, `cost`, `deadline`, `executor`, `name`, `communication`, `subCommunication` " +
+                    "FROM Orders ords " +
+                    "JOIN Customers cs on ords.customer_id = cs.customer_id and ords.order_id = " + order_id, mySqlConnection))
                 {
                     using (DbDataReader reader = cmd.ExecuteReader())
                     {
@@ -104,40 +101,23 @@ namespace CRM
                         {
                             while (reader.Read())
                             {
-                                textBoxCustomer.Text = reader.GetString(0);
                                 textBoxCustomer.Enabled = false;
-                                richTextBoxOrderInfo.Text = reader.GetString(1);
-                                comboBoxOrderType.Text = reader.GetString(2);
-                                if(!comboBoxOrderStatus.Items.Contains(reader.GetString(3)))
-                                    comboBoxOrderStatus.Items.Add(reader.GetString(3));
-                                comboBoxOrderStatus.Text = reader.GetString(3);
-                                textBoxCost.Text = reader.GetString(4);
-                                textBoxDate.Text = Convert.ToDateTime(reader.GetString(5)).ToString("MM-dd-yyyy HH:mm");
-                                comboBoxExecutor.Text = reader.GetString(6);
+                                richTextBoxOrderInfo.Text = reader.GetString(0);
+                                comboBoxOrderType.Text = reader.GetString(1);
+                                if(!comboBoxOrderStatus.Items.Contains(reader.GetString(2)))
+                                    comboBoxOrderStatus.Items.Add(reader.GetString(2));
+                                comboBoxOrderStatus.Text = reader.GetString(2);
+                                textBoxCost.Text = reader.GetString(3);
+                                textBoxDate.Text = Convert.ToDateTime(reader.GetString(4)).ToString("MM-dd-yyyy HH:mm");
+                                comboBoxExecutor.Text = reader.GetString(5);
+                                textBoxCustomer.Text = reader.GetString(6);
+                                textBoxPriorComm.Text = reader.GetString(7);
+                                textBoxSubComm.Text = reader.GetString(8);
                             }
                         }
                     }
                 }
             }
-            using (var mySqlConnection = new DBUtils().getDBConnection())
-            {
-                mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `communication`, `subCommunication` FROM `Customers` WHERE `name` = '" + textBoxCustomer.Text + "'", mySqlConnection))
-                {
-                    using (DbDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            while (reader.Read())
-                            {
-                                textBoxPriorComm.Text = reader.GetString(0);
-                                textBoxSubComm.Text = reader.GetString(1);
-                            }
-                        }
-                    }
-                }
-            }
-
         }
 
         private List<string> loadCustomers()

@@ -17,7 +17,7 @@ namespace CRM
             
             string productVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
-            string update = productVersion;
+            string update = "";
             using (var mySqlConnection = new BackDoorConnection().getDBConnection())
             {
                 mySqlConnection.Open();

@@ -10,18 +10,18 @@ namespace CRM
 {
     class ClassUpdateCRM
     {
-        public void checkUpdate()
+        public bool checkUpdate()
         {
-            FormLoading loading = new FormLoading();
-            loading.Show();
-
+            /*FormLoading loading = new FormLoading();
+            loading.Show();*/
+            
             string productVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
             string update = productVersion;
             using (var mySqlConnection = new BackDoorConnection().getDBConnection())
             {
                 mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `new_update` FROM `UPDATE` WHERE 1", mySqlConnection))
+                using (var cmd = new MySqlCommand("SELECT `new_build` FROM `UPDATE` WHERE 1", mySqlConnection))
                 {
                     using (DbDataReader reader = cmd.ExecuteReader())
                     {
@@ -37,15 +37,13 @@ namespace CRM
             }
             if (update != productVersion)
             {
-                File.Delete(System.Reflection.Assembly.GetEntryAssembly().Location + "CRM.bak");
-                File.Move(System.Reflection.Assembly.GetEntryAssembly().Location + "CRM.exe", System.Reflection.Assembly.GetEntryAssembly().Location + "CRM.bak");
-                using (var client = new WebClient())
-                {
-                    client.DownloadFile("https://github.com/LENINred/CRM/raw/master/CRM/bin/Debug/CRM.exe", "CRM.exe");
-                }
-                Application.Restart();
+                return true;
             }
-            loading.Dispose();
+            else
+            {
+                //loading.Dispose();
+                return false;
+            }
         }
     }
 }

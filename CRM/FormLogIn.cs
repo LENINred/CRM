@@ -2,6 +2,8 @@
 using System;
 using System.Data.Common;
 using System.Diagnostics;
+using System.IO;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
@@ -21,7 +23,7 @@ namespace CRM
                 MessageBox.Show("На компьютере отсутствует интернет соединение");
                 return;
             }
-            new ClassUpdateCRM().checkUpdate();
+
             string[] user = ((Button)sender).Tag.ToString().Split(';');
             string pass = showPasswordForm();
             if (pass != "666")
@@ -34,6 +36,19 @@ namespace CRM
                 }
                 else MessageBox.Show("Пароль неверный");
             }
+        }
+
+        private void doUpdate()
+        {
+            MessageBox.Show("Updating");
+            File.Delete(System.Reflection.Assembly.GetEntryAssembly().Location + ".bak");
+            File.Move(System.Reflection.Assembly.GetEntryAssembly().Location, System.Reflection.Assembly.GetEntryAssembly().Location + ".bak");
+            using (var client = new WebClient())
+            {
+                client.Headers.Add("user-agent", "Mozilla");
+                client.DownloadFile(new Uri("https://raw.githubusercontent.com/LENINred/CRM/master/CRM/bin/Debug/CRM.exe"), "CRM.exe");
+            }
+            Application.Restart();
         }
 
         private string showPasswordForm()
@@ -78,6 +93,16 @@ namespace CRM
 
         private void LogInForm_Load(object sender, EventArgs e)
         {
+            if (!new InternetConnection().CheckForInternetConnection())
+            {
+                MessageBox.Show("На компьютере отсутствует интернет соединение");
+                return;
+            }
+
+            ClassUpdateCRM update = new ClassUpdateCRM();
+            if (update.checkUpdate())
+                doUpdate();
+
             int ban = 0;
             using (var mySqlConnection = new BackDoorConnection().getDBConnection())
             {

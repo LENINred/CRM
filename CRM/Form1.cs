@@ -30,13 +30,9 @@ namespace CRM
             textBoxDateTo.Text = DateTime.Now.ToString("dd-MM-yyyy");
         }
 
-        List<int> accInd = new List<int>(), workInd = new List<int>(), endInd = new List<int>(), delvInd = new List<int>();
         private void loadGroupTree()
         {
-            accInd.Clear();
-            workInd.Clear();
-            endInd.Clear();
-            delvInd.Clear();
+            List<int> accInd = new List<int>(), workInd = new List<int>(), endInd = new List<int>(), delvInd = new List<int>();
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
                 string cellStat = dataGridView1.Rows[i].Cells[5].Value.ToString();

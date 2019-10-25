@@ -177,9 +177,7 @@ namespace CRM
                             cmd.ExecuteNonQuery();
                         }
                     }
-                    panelUsers.Controls.Clear();
-                    list.Clear();
-                    loadList(query);
+                    lab.Text = editText.textBox1.Text;
                 }
             }
         }

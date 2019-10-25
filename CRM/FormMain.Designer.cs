@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Принятые");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("В работе");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Завершенные");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Выданные");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Принятые");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("В работе");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Завершенные");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Выданные");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
+            treeNode6,
+            treeNode7,
+            treeNode8,
+            treeNode9});
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.treeViewGroups = new System.Windows.Forms.TreeView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -52,6 +52,7 @@
             this.textBoxDateTo = new System.Windows.Forms.MaskedTextBox();
             this.buttonLogs = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.labelInfo = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -75,18 +76,18 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.treeViewGroups.Location = new System.Drawing.Point(6, 19);
             this.treeViewGroups.Name = "treeViewGroups";
-            treeNode1.Name = "Accepted";
-            treeNode1.Text = "Принятые";
-            treeNode2.Name = "Work";
-            treeNode2.Text = "В работе";
-            treeNode3.Name = "End";
-            treeNode3.Text = "Завершенные";
-            treeNode4.Name = "Delivered";
-            treeNode4.Text = "Выданные";
-            treeNode5.Name = "All";
-            treeNode5.Text = "Все";
+            treeNode6.Name = "Accepted";
+            treeNode6.Text = "Принятые";
+            treeNode7.Name = "Work";
+            treeNode7.Text = "В работе";
+            treeNode8.Name = "End";
+            treeNode8.Text = "Завершенные";
+            treeNode9.Name = "Delivered";
+            treeNode9.Text = "Выданные";
+            treeNode10.Name = "All";
+            treeNode10.Text = "Все";
             this.treeViewGroups.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            treeNode10});
             this.treeViewGroups.Size = new System.Drawing.Size(188, 96);
             this.treeViewGroups.TabIndex = 1;
             this.treeViewGroups.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewGroups_NodeMouseClick);
@@ -244,11 +245,23 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "Отобрать по дате";
             // 
-            // Form1
+            // labelInfo
+            // 
+            this.labelInfo.AutoSize = true;
+            this.labelInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelInfo.Location = new System.Drawing.Point(883, 2);
+            this.labelInfo.Name = "labelInfo";
+            this.labelInfo.Size = new System.Drawing.Size(21, 13);
+            this.labelInfo.TabIndex = 17;
+            this.labelInfo.Text = "LD";
+            this.labelInfo.Click += new System.EventHandler(this.labelInfo_Click);
+            // 
+            // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 561);
+            this.Controls.Add(this.labelInfo);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonLogs);
             this.Controls.Add(this.textBoxDateTo);
@@ -263,7 +276,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.MinimumSize = new System.Drawing.Size(922, 600);
-            this.Name = "Form1";
+            this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Заказы";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -293,6 +306,7 @@
         private System.Windows.Forms.Button buttonLogs;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Button buttonUpdate;
+        private System.Windows.Forms.Label labelInfo;
     }
 }
 

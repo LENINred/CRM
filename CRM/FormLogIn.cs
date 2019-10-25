@@ -128,5 +128,11 @@ namespace CRM
                 buttonAdmin.Enabled = false;
             }
         }
+
+        private void labelInfo_Click(object sender, EventArgs e)
+        {
+            FormDevInfo devInfo = new FormDevInfo();
+            devInfo.ShowDialog(this);
+        }
     }
 }

@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Принятые");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("В работе");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Завершенные");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Выданные");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode7,
-            treeNode8,
-            treeNode9});
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Принятые");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("В работе");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Завершенные");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Выданные");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
+            treeNode11,
+            treeNode12,
+            treeNode13,
+            treeNode14});
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.treeViewGroups = new System.Windows.Forms.TreeView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -52,7 +52,7 @@
             this.textBoxDateTo = new System.Windows.Forms.MaskedTextBox();
             this.buttonLogs = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.labelInfo = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -76,18 +76,18 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.treeViewGroups.Location = new System.Drawing.Point(6, 19);
             this.treeViewGroups.Name = "treeViewGroups";
-            treeNode6.Name = "Accepted";
-            treeNode6.Text = "Принятые";
-            treeNode7.Name = "Work";
-            treeNode7.Text = "В работе";
-            treeNode8.Name = "End";
-            treeNode8.Text = "Завершенные";
-            treeNode9.Name = "Delivered";
-            treeNode9.Text = "Выданные";
-            treeNode10.Name = "All";
-            treeNode10.Text = "Все";
+            treeNode11.Name = "Accepted";
+            treeNode11.Text = "Принятые";
+            treeNode12.Name = "Work";
+            treeNode12.Text = "В работе";
+            treeNode13.Name = "End";
+            treeNode13.Text = "Завершенные";
+            treeNode14.Name = "Delivered";
+            treeNode14.Text = "Выданные";
+            treeNode15.Name = "All";
+            treeNode15.Text = "Все";
             this.treeViewGroups.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode10});
+            treeNode15});
             this.treeViewGroups.Size = new System.Drawing.Size(188, 96);
             this.treeViewGroups.TabIndex = 1;
             this.treeViewGroups.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewGroups_NodeMouseClick);
@@ -227,9 +227,9 @@
             // buttonLogs
             // 
             this.buttonLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonLogs.Location = new System.Drawing.Point(12, 526);
+            this.buttonLogs.Location = new System.Drawing.Point(222, 474);
             this.buttonLogs.Name = "buttonLogs";
-            this.buttonLogs.Size = new System.Drawing.Size(75, 23);
+            this.buttonLogs.Size = new System.Drawing.Size(132, 75);
             this.buttonLogs.TabIndex = 15;
             this.buttonLogs.Text = "Амин меню";
             this.buttonLogs.UseVisualStyleBackColor = true;
@@ -245,23 +245,24 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "Отобрать по дате";
             // 
-            // labelInfo
+            // label4
             // 
-            this.labelInfo.AutoSize = true;
-            this.labelInfo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.labelInfo.Location = new System.Drawing.Point(883, 2);
-            this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(21, 13);
-            this.labelInfo.TabIndex = 17;
-            this.labelInfo.Text = "LD";
-            this.labelInfo.Click += new System.EventHandler(this.labelInfo_Click);
+            this.label4.AutoSize = true;
+            this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(1, 552);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(48, 7);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Разработчик";
+            this.label4.Click += new System.EventHandler(this.labelInfo_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 561);
-            this.Controls.Add(this.labelInfo);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonLogs);
             this.Controls.Add(this.textBoxDateTo);
@@ -306,7 +307,7 @@
         private System.Windows.Forms.Button buttonLogs;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Button buttonUpdate;
-        private System.Windows.Forms.Label labelInfo;
+        private System.Windows.Forms.Label label4;
     }
 }
 

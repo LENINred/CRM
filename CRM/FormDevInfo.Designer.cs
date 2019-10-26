@@ -32,6 +32,7 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.buttonTellError = new System.Windows.Forms.Button();
             this.labelVer = new System.Windows.Forms.Label();
+            this.labelInfo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -56,17 +57,28 @@
             // labelVer
             // 
             this.labelVer.AutoSize = true;
-            this.labelVer.Location = new System.Drawing.Point(12, 164);
+            this.labelVer.Location = new System.Drawing.Point(12, 148);
             this.labelVer.Name = "labelVer";
             this.labelVer.Size = new System.Drawing.Size(41, 13);
             this.labelVer.TabIndex = 2;
             this.labelVer.Text = "version";
+            // 
+            // labelInfo
+            // 
+            this.labelInfo.AutoSize = true;
+            this.labelInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelInfo.Location = new System.Drawing.Point(12, 164);
+            this.labelInfo.Name = "labelInfo";
+            this.labelInfo.Size = new System.Drawing.Size(21, 13);
+            this.labelInfo.TabIndex = 18;
+            this.labelInfo.Text = "LD";
             // 
             // FormDevInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(586, 186);
+            this.Controls.Add(this.labelInfo);
             this.Controls.Add(this.labelVer);
             this.Controls.Add(this.buttonTellError);
             this.Controls.Add(this.richTextBox1);
@@ -87,5 +99,6 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button buttonTellError;
         private System.Windows.Forms.Label labelVer;
+        private System.Windows.Forms.Label labelInfo;
     }
 }

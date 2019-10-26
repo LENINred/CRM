@@ -71,11 +71,12 @@
             // 
             this.labelInfo.AutoSize = true;
             this.labelInfo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.labelInfo.Location = new System.Drawing.Point(115, 2);
+            this.labelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelInfo.Location = new System.Drawing.Point(43, 140);
             this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(21, 13);
+            this.labelInfo.Size = new System.Drawing.Size(48, 7);
             this.labelInfo.TabIndex = 7;
-            this.labelInfo.Text = "LD";
+            this.labelInfo.Text = "Разработчик";
             this.labelInfo.Click += new System.EventHandler(this.labelInfo_Click);
             // 
             // FormLogIn

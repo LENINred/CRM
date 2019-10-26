@@ -75,6 +75,7 @@
             this.Name = "FormAdmin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Меню админа";
+            this.Load += new System.EventHandler(this.FormAdmin_Load);
             this.ResumeLayout(false);
 
         }

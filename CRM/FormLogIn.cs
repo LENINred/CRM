@@ -1,10 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace CRM
@@ -71,12 +71,17 @@ namespace CRM
         {
             FormLoading loading = new FormLoading();
             loading.Show();
-            using (var mySqlConnection = new DBUtils().getDBConnection())
+
+            using (var con = new DBUtils().getDBConnection())
             {
-                mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `login` FROM `Users` WHERE `login`='" + login + "' AND `password`='" + pass + "'", mySqlConnection))
+                con.Open();
+                using (var cmd = new MySqlCommand("check_login_pass", con))
                 {
-                    Debug.WriteLine("checkCustomerExist");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new MySqlParameter("@login", MySqlDbType.VarChar));
+                    cmd.Parameters["@login"].Value = login;
+                    cmd.Parameters.Add(new MySqlParameter("@pass", MySqlDbType.VarChar));
+                    cmd.Parameters["@pass"].Value = pass;
                     if (cmd.ExecuteReader().HasRows)
                     {
                         loading.Dispose();

@@ -85,13 +85,15 @@ namespace CRM
 
         private void loadOrderData()
         {
+            DataTable tblOrders = new DataTable();
             using (var mySqlConnection = new DBUtils().getDBConnection())
             {
                 mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `info`, `type`, `status`, `cost`, `deadline`, `executor`, `name`, `communication`, `subCommunication` " +
-                    "FROM Orders ords " +
-                    "JOIN Customers cs on ords.customer_id = cs.customer_id and ords.order_id = " + order_id, mySqlConnection))
+                using (var cmd = new MySqlCommand("get_order_info", mySqlConnection))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new MySqlParameter("@order_id", MySqlDbType.VarChar));
+                    cmd.Parameters["@order_id"].Value = order_id;
                     using (DbDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.HasRows)
@@ -101,7 +103,7 @@ namespace CRM
                                 textBoxCustomer.Enabled = false;
                                 richTextBoxOrderInfo.Text = reader.GetString(0);
                                 comboBoxOrderType.Text = reader.GetString(1);
-                                if(!comboBoxOrderStatus.Items.Contains(reader.GetString(2)))
+                                if (!comboBoxOrderStatus.Items.Contains(reader.GetString(2)))
                                     comboBoxOrderStatus.Items.Add(reader.GetString(2));
                                 comboBoxOrderStatus.Text = reader.GetString(2);
                                 textBoxCost.Text = reader.GetString(3);
@@ -123,16 +125,16 @@ namespace CRM
             using (var mySqlConnection = new DBUtils().getDBConnection())
             {
                 mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `name`, `communication` FROM `Customers` WHERE 1", mySqlConnection))
+                using (var cmd = new MySqlCommand("load_customers", mySqlConnection))
                 {
-                    Debug.WriteLine("checkCustomerExist");
+                    cmd.CommandType = CommandType.StoredProcedure;
                     using (DbDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.HasRows)
                         {
                             while (reader.Read())
                             {
-                                custs.Add(reader.GetString(0) + " ("+ reader.GetString(1) + ")");
+                                custs.Add(reader.GetString(0) + " (" + reader.GetString(1) + ")");
                             }
                         }
                     }
@@ -147,8 +149,9 @@ namespace CRM
             using (var mySqlConnection = new DBUtils().getDBConnection())
             {
                 mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT * FROM `WorkTypes` WHERE 1", mySqlConnection))
+                using (var cmd = new MySqlCommand("load_order_types", mySqlConnection))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
                     using (DbDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.HasRows)
@@ -170,9 +173,9 @@ namespace CRM
             using (var mySqlConnection = new DBUtils().getDBConnection())
             {
                 mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `name` FROM `Executors` WHERE 1", mySqlConnection))
+                using (var cmd = new MySqlCommand("load_executors", mySqlConnection))
                 {
-                    Debug.WriteLine("checkCustomerExist");
+                    cmd.CommandType = CommandType.StoredProcedure;
                     using (DbDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.HasRows)
@@ -193,8 +196,9 @@ namespace CRM
             using (var mySqlConnection = new DBUtils().getDBConnection())
             {
                 mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT MAX(`order_id`) FROM `Orders`", mySqlConnection))
+                using (var cmd = new MySqlCommand("get_last_order_id", mySqlConnection))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
                     using (DbDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.HasRows)
@@ -377,11 +381,15 @@ namespace CRM
 
         private bool checkCustomerExist(string customer)
         {
-            using (var mySqlConnection = new DBUtils().getDBConnection())
+            using (var con = new DBUtils().getDBConnection())
             {
-                mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `name` FROM `Customers` WHERE `name`='" + customer + "'", mySqlConnection))
+                con.Open();
+                using (var cmd = new MySqlCommand("check_customer_exist", con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new MySqlParameter("@customer", MySqlDbType.VarChar));
+                    cmd.Parameters["@customer"].Value = customer;
+                    MySqlDataAdapter dap = new MySqlDataAdapter(cmd);
                     if (cmd.ExecuteReader().HasRows)
                     {
                         return true;

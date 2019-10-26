@@ -42,5 +42,10 @@ namespace CRM
             FormList list = new FormList(2);
             list.ShowDialog();
         }
+
+        private void FormAdmin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

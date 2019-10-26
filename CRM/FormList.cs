@@ -24,14 +24,14 @@ namespace CRM
         {
             if (type == 1)
             {
-                query = "SELECT * FROM `Executors` WHERE 1";
+                query = "load_users_list";
                 querys = new[] { "add_user", "delete_user", "change_user" };
                 this.Text = "Сотрудники";
                 formText = "Ф.И.О.";
             }
             else
             {
-                query = "SELECT * FROM `WorkTypes` WHERE 1";
+                query = "load_types_list";
                 querys = new[] { "add_type", "delete_type", "change_type" };
                 this.Text = "Виды работ";
                 formText = "Вид работы";
@@ -48,6 +48,7 @@ namespace CRM
                 mySqlConnection.Open();
                 using (var cmd = new MySqlCommand(query, mySqlConnection))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
                     using (DbDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.HasRows)

@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
 using System.Data;
 using System.Data.Common;
 using System.Windows.Forms;
@@ -62,22 +63,19 @@ namespace CRM
             FormLoading loading = new FormLoading();
             loading.Show();
 
-            DataTable dataTable = new DataTable();
-            using (var mySqlConnection = new DBUtils().getDBConnection())
-            {
-                mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `order_id` AS 'ИД заказа', `name` AS 'Заказчик', `info` AS 'Информация', `type` AS 'Тип', `date` AS 'Дата заказа', `status` AS 'Статус', `cost` AS 'Стоимость', `executor` AS 'Исполнитель' " +
-                    "FROM Orders ords " +
-                    "JOIN Customers cs on ords.customer_id = cs.customer_id and " + what, mySqlConnection))
+            DataTable tblOrders = new DataTable();
+            using (var con = new DBUtils().getDBConnection()){
+                using (var cmd = new MySqlCommand("get_orders", con))
                 {
-                    using (DbDataReader reader = cmd.ExecuteReader())
-                    {
-                        dataTable.Load(reader);
-                        loading.Dispose(); 
-                        return dataTable;
-                    }
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new MySqlParameter("@what", MySqlDbType.VarChar));
+                    cmd.Parameters["@what"].Value = what;
+                    MySqlDataAdapter dap = new MySqlDataAdapter(cmd);
+                    dap.Fill(tblOrders);
                 }
             }
+            loading.Dispose();
+            return tblOrders;
         }
 
         private DataTable getOrdersDataInterval(string dateFrom, string dateTo)
@@ -88,22 +86,22 @@ namespace CRM
             dateFrom = Convert.ToDateTime(dateFrom).ToString("yyyy-MM-dd");
             dateTo = Convert.ToDateTime(dateTo).ToString("yyyy-MM-dd");
 
-            DataTable dataTable = new DataTable();
-            using (var mySqlConnection = new DBUtils().getDBConnection())
+            DataTable tblOrders = new DataTable();
+            using (var con = new DBUtils().getDBConnection())
             {
-                mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `order_id` AS 'ИД заказа', `name` AS 'Заказчик', `info` AS 'Информация', `type` AS 'Тип', `date` AS 'Дата заказа', `status` AS 'Статус', `cost` AS 'Стоимость', `executor` AS 'Исполнитель' " +
-                    "from Orders ords " +
-                    "JOIN Customers cs on ords.customer_id = cs.customer_id and `date` >= '" + dateFrom + "' and `date` <= '"+ dateTo + "'", mySqlConnection))
+                using (var cmd = new MySqlCommand("get_orders_by_date", con))
                 {
-                    using (DbDataReader reader = cmd.ExecuteReader())
-                    {
-                        dataTable.Load(reader);
-                        loading.Dispose();
-                        return dataTable;
-                    }
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new MySqlParameter("@dateFrom", MySqlDbType.Date));
+                    cmd.Parameters["@dateFrom"].Value = dateFrom;
+                    cmd.Parameters.Add(new MySqlParameter("@dateTo", MySqlDbType.Date));
+                    cmd.Parameters["@dateTo"].Value = dateTo;
+                    MySqlDataAdapter dap = new MySqlDataAdapter(cmd);
+                    dap.Fill(tblOrders);
                 }
             }
+            loading.Dispose();
+            return tblOrders;
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
@@ -157,19 +155,19 @@ namespace CRM
                     dataGridView1.DataSource = loadOrdersFromDB(what);
                     break;
                 case "Принятые":
-                    what = "`status` = 'Принят'";
+                    what = "Принят";
                     dataGridView1.DataSource = loadOrdersFromDB(what);
                     break;
                 case "Выданные":
-                    what = "`status` = 'Выдан'";
+                    what = "Выдан";
                     dataGridView1.DataSource = loadOrdersFromDB(what);
                     break;
                 case "В работе":
-                    what = "(`status` = 'Подтверждение макета заказчиком' OR `status` = 'Макет подтвержден заказчиком' OR `status` = 'Ожидание внешнего подрядчика')";
+                    what = "('Подтверждение макета заказчиком' OR `status` = 'Макет подтвержден заказчиком' OR `status` = 'Ожидание внешнего подрядчика')";
                     dataGridView1.DataSource = loadOrdersFromDB(what);
                     break;
                 case "Завершенные":
-                    what = "`status` = 'Работа завершена'";
+                    what = "Работа завершена";
                     dataGridView1.DataSource = loadOrdersFromDB(what);
                     break;
 
@@ -259,11 +257,15 @@ namespace CRM
             loading.Show();
 
             bool finded = false;
-            using (var mySqlConnection = new DBUtils().getDBConnection())
+            using (var con = new DBUtils().getDBConnection())
             {
-                mySqlConnection.Open();
-                using (var cmd = new MySqlCommand("SELECT `order_id` FROM `Orders` WHERE `order_id` = " + id, mySqlConnection))
+                con.Open();
+                using (var cmd = new MySqlCommand("find_order", con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new MySqlParameter("@order_id", MySqlDbType.Int32));
+                    cmd.Parameters["@order_id"].Value = id;
+                    MySqlDataAdapter dap = new MySqlDataAdapter(cmd);
                     if (cmd.ExecuteReader().HasRows)
                     {
                         finded = true;

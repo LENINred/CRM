@@ -10,32 +10,6 @@ namespace CRM
             InitializeComponent();
         }
 
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char number = e.KeyChar;
-
-            if (!Char.IsDigit(number))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control == true)
-            {
-                switch (e.KeyCode)
-                {
-                    case Keys.C:
-                    case Keys.P:
-                    case Keys.X:
-                        e.Handled = true;
-                        textBox1.SelectionLength = 0;
-                        break;
-                }
-            }
-        }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             string actualdata = string.Empty;

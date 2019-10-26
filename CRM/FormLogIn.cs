@@ -123,9 +123,11 @@ namespace CRM
             }
             if(ban == 1)
             {
-                buttonSeller.Enabled = false;
-                buttonDesigner.Enabled = false;
-                buttonAdmin.Enabled = false;
+                foreach(Control control in this.Controls)
+                {
+                    control.Enabled = false;
+                }
+                labelInfo.Enabled = true;
             }
         }
 

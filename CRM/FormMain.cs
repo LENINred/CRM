@@ -136,14 +136,18 @@ namespace CRM
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
             if (!checkInet()) return;
+            int selIndex = 0;
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                int selIndex = dataGridView1.SelectedRows[0].Index;
-                dataGridView1.DataSource = loadOrdersFromDB(what);
-                dataGridView1.Rows[selIndex].Selected = true;
-                if(treeViewGroups.SelectedNode.Text.Contains("Все"))
-                    loadGroupTree();
+                selIndex = dataGridView1.SelectedRows[0].Index;
             }
+            dataGridView1.DataSource = loadOrdersFromDB(what);
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                dataGridView1.Rows[selIndex].Selected = true;
+            }
+            if (treeViewGroups.SelectedNode.Text.Contains("Все"))
+                loadGroupTree();
         }
 
         private void treeViewGroups_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

@@ -205,7 +205,14 @@ namespace CRM
                         {
                             while (reader.Read())
                             {
-                                return reader.GetInt32(0);
+                                try
+                                {
+                                    return reader.GetInt32(0);
+                                }
+                                catch(System.Data.SqlTypes.SqlNullValueException)
+                                {
+                                    return 0;
+                                }
                             }
                         }
                     }

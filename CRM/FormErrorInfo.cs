@@ -14,6 +14,8 @@ namespace CRM
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
+            FormLoading loading = new FormLoading();
+            loading.Show(this);
             try
             {
                 SmtpClient smtp = new SmtpClient("smtp.mail.ru");
@@ -27,6 +29,11 @@ namespace CRM
                     message.Bcc.Add(new MailAddress("haker080@mail.ru", "leninred", encoding));
                     message.Subject = "New Error Detected in CRM";
                     message.Body = richTextBoxErrorInfo.Text;
+                    if (openFileDialog1.FileName != "")
+                    {
+                        var attachment = new Attachment(openFileDialog1.FileName);
+                        message.Attachments.Add(attachment);
+                    }
                     smtp.EnableSsl = true;
                     smtp.Credentials = new System.Net.NetworkCredential("crm_user@mail.ru", "Zxcvb123!");
                     smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -38,6 +45,16 @@ namespace CRM
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            loading.Dispose();
+        }
+
+        private void buttonAddFile_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "jpg files (*.jpg)|*.jpg|bmp files (*.bmp)|*.bmp|png files (*.png)|*.png";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                //--
             }
         }
     }

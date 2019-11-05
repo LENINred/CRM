@@ -31,6 +31,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.richTextBoxErrorInfo = new System.Windows.Forms.RichTextBox();
             this.buttonSend = new System.Windows.Forms.Button();
+            this.buttonAddFile = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // label1
@@ -60,11 +62,26 @@
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
+            // buttonAddFile
+            // 
+            this.buttonAddFile.Location = new System.Drawing.Point(249, 247);
+            this.buttonAddFile.Name = "buttonAddFile";
+            this.buttonAddFile.Size = new System.Drawing.Size(130, 23);
+            this.buttonAddFile.TabIndex = 3;
+            this.buttonAddFile.Text = "Прикрепить скриншот";
+            this.buttonAddFile.UseVisualStyleBackColor = true;
+            this.buttonAddFile.Click += new System.EventHandler(this.buttonAddFile_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // FormErrorInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(481, 282);
+            this.Controls.Add(this.buttonAddFile);
             this.Controls.Add(this.buttonSend);
             this.Controls.Add(this.richTextBoxErrorInfo);
             this.Controls.Add(this.label1);
@@ -84,5 +101,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox richTextBoxErrorInfo;
         private System.Windows.Forms.Button buttonSend;
+        private System.Windows.Forms.Button buttonAddFile;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

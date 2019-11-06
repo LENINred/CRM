@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Принятые");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("В работе");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Завершенные");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Выданные");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
-            treeNode11,
-            treeNode12,
-            treeNode13,
-            treeNode14});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Принятые");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("В работе");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Завершенные");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Выданные");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4});
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.treeViewGroups = new System.Windows.Forms.TreeView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -76,18 +76,18 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.treeViewGroups.Location = new System.Drawing.Point(6, 19);
             this.treeViewGroups.Name = "treeViewGroups";
-            treeNode11.Name = "Accepted";
-            treeNode11.Text = "Принятые";
-            treeNode12.Name = "Work";
-            treeNode12.Text = "В работе";
-            treeNode13.Name = "End";
-            treeNode13.Text = "Завершенные";
-            treeNode14.Name = "Delivered";
-            treeNode14.Text = "Выданные";
-            treeNode15.Name = "All";
-            treeNode15.Text = "Все";
+            treeNode1.Name = "Accepted";
+            treeNode1.Text = "Принятые";
+            treeNode2.Name = "Work";
+            treeNode2.Text = "В работе";
+            treeNode3.Name = "End";
+            treeNode3.Text = "Завершенные";
+            treeNode4.Name = "Delivered";
+            treeNode4.Text = "Выданные";
+            treeNode5.Name = "All";
+            treeNode5.Text = "Все";
             this.treeViewGroups.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode15});
+            treeNode5});
             this.treeViewGroups.Size = new System.Drawing.Size(188, 96);
             this.treeViewGroups.TabIndex = 1;
             this.treeViewGroups.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewGroups_NodeMouseClick);
@@ -231,7 +231,7 @@
             this.buttonLogs.Name = "buttonLogs";
             this.buttonLogs.Size = new System.Drawing.Size(132, 75);
             this.buttonLogs.TabIndex = 15;
-            this.buttonLogs.Text = "Амин меню";
+            this.buttonLogs.Text = "Админ меню";
             this.buttonLogs.UseVisualStyleBackColor = true;
             this.buttonLogs.Click += new System.EventHandler(this.buttonLogs_Click);
             // 

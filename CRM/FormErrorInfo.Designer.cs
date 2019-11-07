@@ -37,18 +37,18 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(406, 13);
+            this.label1.Size = new System.Drawing.Size(447, 30);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Опишите как можно подробней при каких обстоятельствах возникает ошибка";
+            this.label1.Text = "Опишите в какой момент происходит проблема, а также попробуйте инициировать повто" +
+    "рно ошибку и при возможности сделайте скриншот окна с текстом ошибки.";
             // 
             // richTextBoxErrorInfo
             // 
-            this.richTextBoxErrorInfo.Location = new System.Drawing.Point(16, 29);
+            this.richTextBoxErrorInfo.Location = new System.Drawing.Point(16, 46);
             this.richTextBoxErrorInfo.Name = "richTextBoxErrorInfo";
-            this.richTextBoxErrorInfo.Size = new System.Drawing.Size(444, 212);
+            this.richTextBoxErrorInfo.Size = new System.Drawing.Size(444, 195);
             this.richTextBoxErrorInfo.TabIndex = 1;
             this.richTextBoxErrorInfo.Text = "";
             // 
@@ -92,7 +92,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Информация о ошибке";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

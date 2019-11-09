@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("Принятые");
-            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("В работе");
-            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("Завершенные");
-            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("Выданные");
-            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
-            treeNode36,
-            treeNode37,
-            treeNode38,
-            treeNode39});
+            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("Принятые");
+            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("В работе");
+            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("Завершенные");
+            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("Выданные");
+            System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
+            treeNode41,
+            treeNode42,
+            treeNode43,
+            treeNode44});
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.treeViewGroups = new System.Windows.Forms.TreeView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -78,18 +78,18 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.treeViewGroups.Location = new System.Drawing.Point(6, 19);
             this.treeViewGroups.Name = "treeViewGroups";
-            treeNode36.Name = "Accepted";
-            treeNode36.Text = "Принятые";
-            treeNode37.Name = "Work";
-            treeNode37.Text = "В работе";
-            treeNode38.Name = "End";
-            treeNode38.Text = "Завершенные";
-            treeNode39.Name = "Delivered";
-            treeNode39.Text = "Выданные";
-            treeNode40.Name = "All";
-            treeNode40.Text = "Все";
+            treeNode41.Name = "Accepted";
+            treeNode41.Text = "Принятые";
+            treeNode42.Name = "Work";
+            treeNode42.Text = "В работе";
+            treeNode43.Name = "End";
+            treeNode43.Text = "Завершенные";
+            treeNode44.Name = "Delivered";
+            treeNode44.Text = "Выданные";
+            treeNode45.Name = "All";
+            treeNode45.Text = "Все";
             this.treeViewGroups.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode40});
+            treeNode45});
             this.treeViewGroups.Size = new System.Drawing.Size(188, 96);
             this.treeViewGroups.TabIndex = 1;
             this.treeViewGroups.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewGroups_NodeMouseClick);
@@ -232,6 +232,7 @@
             // dateTimePickerFrom
             // 
             this.dateTimePickerFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dateTimePickerFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerFrom.Location = new System.Drawing.Point(360, 6);
             this.dateTimePickerFrom.Name = "dateTimePickerFrom";
             this.dateTimePickerFrom.Size = new System.Drawing.Size(169, 20);
@@ -241,6 +242,7 @@
             // dateTimePickerTo
             // 
             this.dateTimePickerTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dateTimePickerTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerTo.Location = new System.Drawing.Point(570, 6);
             this.dateTimePickerTo.Name = "dateTimePickerTo";
             this.dateTimePickerTo.Size = new System.Drawing.Size(169, 20);

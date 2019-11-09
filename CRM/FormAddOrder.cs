@@ -107,7 +107,7 @@ namespace CRM
                                     comboBoxOrderStatus.Items.Add(reader.GetString(2));
                                 comboBoxOrderStatus.Text = reader.GetString(2);
                                 textBoxCost.Text = reader.GetString(3);
-                                textBoxDate.Text = Convert.ToDateTime(reader.GetString(4)).ToString("MM-dd-yyyy HH:mm");
+                                textBoxDate.Text = reader.GetString(4);
                                 comboBoxExecutor.Text = reader.GetString(5);
                                 textBoxCustomer.Text = reader.GetString(6);
                                 textBoxPriorComm.Text = reader.GetString(7);
@@ -351,7 +351,7 @@ namespace CRM
                                         p7.Value = textBoxPriorComm.Text.TrimStart();
                                         p8.Value = textBoxSubComm.Text.TrimStart();
                                         p9.Value = order_id;
-                                        p10.Value = Convert.ToDateTime(textBoxDate.Text).ToString("yyyy-dd-MM HH:mm");
+                                        p10.Value = textBoxDate.Text;
                                         mySqlConnection.Open();
                                         cmd.ExecuteNonQuery();
                                     }

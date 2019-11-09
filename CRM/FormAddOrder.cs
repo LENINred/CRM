@@ -371,7 +371,7 @@ namespace CRM
                     }
                     else
                     {
-                        MessageBox.Show("Введите хотябы основной вид связи");
+                        MessageBox.Show("Номер телефона заказчика - обязательное поле для ввода");
                     }
                 }
                 else
@@ -463,7 +463,7 @@ namespace CRM
         private void buttonAddFile_Click(object sender, EventArgs e)
         {
             if (!checkInet()) return;
-            openFileDialog1.Filter = "jpg files (*.jpg)|*.jpg|bmp files (*.bmp)|*.bmp|png files (*.png)|*.png";
+            openFileDialog1.Filter = "jpg files (*.jpg)|*.jpg|bmp files (*.bmp)|*.bmp|png files (*.png)|*.png|psd files (*.psd)|*.psd";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 //--

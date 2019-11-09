@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using ClosedXML.Excel;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections;
 using System.Data;
@@ -25,8 +26,8 @@ namespace CRM
             if ((user_type == 1) || (user_type == 2))
                 buttonLogs.Visible = false;
 
-            textBoxDateFrom.Text = "01-09-2019";
-            textBoxDateTo.Text = DateTime.Now.ToString("dd-MM-yyyy");
+            dateTimePickerFrom.Text = "01-09-2019";
+            dateTimePickerTo.Text = DateTime.Now.ToString("dd-MM-yyyy");
         }
 
         private void loadGroupTree()
@@ -136,6 +137,8 @@ namespace CRM
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
             if (!checkInet()) return;
+            dateTimePickerFrom.Text = "01-09-2019";
+            dateTimePickerTo.Text = DateTime.Now.ToString("dd-MM-yyyy");
             int selIndex = 0;
             if (dataGridView1.SelectedRows.Count > 0)
             {
@@ -181,10 +184,7 @@ namespace CRM
         private void buttonDateSort_Click(object sender, EventArgs e)
         {
             if (!checkInet()) return;
-            if ((textBoxDateFrom.MaskCompleted) && (textBoxDateTo.MaskCompleted))
-                dataGridView1.DataSource = getOrdersDataInterval(textBoxDateFrom.Text, textBoxDateTo.Text);
-            else
-                MessageBox.Show("Введите даты корректно");
+            dataGridView1.DataSource = getOrdersDataInterval(dateTimePickerFrom.Value.ToString("dd,MM,yyyy"), dateTimePickerTo.Value.ToString("dd,MM,yyyy"));
         }
 
         private void buttonLogs_Click(object sender, EventArgs e)
@@ -294,6 +294,42 @@ namespace CRM
         {
             FormDevInfo devInfo = new FormDevInfo();
             devInfo.ShowDialog(this);
+        }
+
+        private void buttonTableExport_Click(object sender, EventArgs e)
+        {
+            FormTableExport tableExport = new FormTableExport();
+            tableExport.ShowDialog();
+        }
+
+        private void buttonCustomersExport_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.Filter = "Excel файл (*.xlsx)|*.xlsx";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filename = saveFileDialog1.FileName;
+
+                DataTable tblOrders = new DataTable();
+                using (var mySqlConnection = new DBUtils().getDBConnection())
+                {
+                    using (var cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = mySqlConnection;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandText = "load_customers";
+
+                        mySqlConnection.Open();
+                        MySqlDataAdapter dap = new MySqlDataAdapter(cmd);
+                        dap.Fill(tblOrders);
+                    }
+                }
+
+                XLWorkbook wb = new XLWorkbook();
+                wb.Worksheets.Add(tblOrders, "Список клиентов");
+                wb.SaveAs(filename);
+
+                MessageBox.Show("Данные выгружены");
+            }
         }
     }
 }

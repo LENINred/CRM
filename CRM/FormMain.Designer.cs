@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Принятые");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("В работе");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Завершенные");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Выданные");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4});
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Принятые");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("В работе");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Завершенные");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Выданные");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
+            treeNode11,
+            treeNode12,
+            treeNode13,
+            treeNode14});
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.treeViewGroups = new System.Windows.Forms.TreeView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -48,11 +48,14 @@
             this.buttonDateSort = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxDateFrom = new System.Windows.Forms.MaskedTextBox();
-            this.textBoxDateTo = new System.Windows.Forms.MaskedTextBox();
             this.buttonLogs = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
+            this.buttonTableExport = new System.Windows.Forms.Button();
+            this.buttonCustomersExport = new System.Windows.Forms.Button();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -76,18 +79,18 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.treeViewGroups.Location = new System.Drawing.Point(6, 19);
             this.treeViewGroups.Name = "treeViewGroups";
-            treeNode1.Name = "Accepted";
-            treeNode1.Text = "Принятые";
-            treeNode2.Name = "Work";
-            treeNode2.Text = "В работе";
-            treeNode3.Name = "End";
-            treeNode3.Text = "Завершенные";
-            treeNode4.Name = "Delivered";
-            treeNode4.Text = "Выданные";
-            treeNode5.Name = "All";
-            treeNode5.Text = "Все";
+            treeNode11.Name = "Accepted";
+            treeNode11.Text = "Принятые";
+            treeNode12.Name = "Work";
+            treeNode12.Text = "В работе";
+            treeNode13.Name = "End";
+            treeNode13.Text = "Завершенные";
+            treeNode14.Name = "Delivered";
+            treeNode14.Text = "Выданные";
+            treeNode15.Name = "All";
+            treeNode15.Text = "Все";
             this.treeViewGroups.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            treeNode15});
             this.treeViewGroups.Size = new System.Drawing.Size(188, 96);
             this.treeViewGroups.TabIndex = 1;
             this.treeViewGroups.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewGroups_NodeMouseClick);
@@ -176,7 +179,7 @@
             // buttonDateSort
             // 
             this.buttonDateSort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonDateSort.Location = new System.Drawing.Point(20, 186);
+            this.buttonDateSort.Location = new System.Drawing.Point(18, 212);
             this.buttonDateSort.Name = "buttonDateSort";
             this.buttonDateSort.Size = new System.Drawing.Size(186, 23);
             this.buttonDateSort.TabIndex = 9;
@@ -188,7 +191,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 163);
+            this.label1.Location = new System.Drawing.Point(15, 167);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(14, 13);
             this.label1.TabIndex = 11;
@@ -198,31 +201,11 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(110, 165);
+            this.label2.Location = new System.Drawing.Point(15, 192);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(21, 13);
             this.label2.TabIndex = 12;
             this.label2.Text = "По";
-            // 
-            // textBoxDateFrom
-            // 
-            this.textBoxDateFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxDateFrom.Location = new System.Drawing.Point(35, 160);
-            this.textBoxDateFrom.Mask = "00.00.0000";
-            this.textBoxDateFrom.Name = "textBoxDateFrom";
-            this.textBoxDateFrom.Size = new System.Drawing.Size(69, 20);
-            this.textBoxDateFrom.TabIndex = 13;
-            this.textBoxDateFrom.ValidatingType = typeof(System.DateTime);
-            // 
-            // textBoxDateTo
-            // 
-            this.textBoxDateTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxDateTo.Location = new System.Drawing.Point(137, 160);
-            this.textBoxDateTo.Mask = "00.00.0000";
-            this.textBoxDateTo.Name = "textBoxDateTo";
-            this.textBoxDateTo.Size = new System.Drawing.Size(69, 20);
-            this.textBoxDateTo.TabIndex = 14;
-            this.textBoxDateTo.ValidatingType = typeof(System.DateTime);
             // 
             // buttonLogs
             // 
@@ -247,6 +230,7 @@
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
             this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -257,16 +241,52 @@
             this.label4.Text = "Разработчик";
             this.label4.Click += new System.EventHandler(this.labelInfo_Click);
             // 
+            // dateTimePickerFrom
+            // 
+            this.dateTimePickerFrom.Location = new System.Drawing.Point(35, 160);
+            this.dateTimePickerFrom.Name = "dateTimePickerFrom";
+            this.dateTimePickerFrom.Size = new System.Drawing.Size(169, 20);
+            this.dateTimePickerFrom.TabIndex = 19;
+            // 
+            // dateTimePickerTo
+            // 
+            this.dateTimePickerTo.Location = new System.Drawing.Point(35, 186);
+            this.dateTimePickerTo.Name = "dateTimePickerTo";
+            this.dateTimePickerTo.Size = new System.Drawing.Size(169, 20);
+            this.dateTimePickerTo.TabIndex = 20;
+            // 
+            // buttonTableExport
+            // 
+            this.buttonTableExport.Location = new System.Drawing.Point(18, 261);
+            this.buttonTableExport.Name = "buttonTableExport";
+            this.buttonTableExport.Size = new System.Drawing.Size(186, 23);
+            this.buttonTableExport.TabIndex = 21;
+            this.buttonTableExport.Text = "Выгрузить таблицу";
+            this.buttonTableExport.UseVisualStyleBackColor = true;
+            this.buttonTableExport.Click += new System.EventHandler(this.buttonTableExport_Click);
+            // 
+            // buttonCustomersExport
+            // 
+            this.buttonCustomersExport.Location = new System.Drawing.Point(18, 290);
+            this.buttonCustomersExport.Name = "buttonCustomersExport";
+            this.buttonCustomersExport.Size = new System.Drawing.Size(186, 23);
+            this.buttonCustomersExport.TabIndex = 22;
+            this.buttonCustomersExport.Text = "Выгрузить список клиентов";
+            this.buttonCustomersExport.UseVisualStyleBackColor = true;
+            this.buttonCustomersExport.Click += new System.EventHandler(this.buttonCustomersExport_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 561);
+            this.Controls.Add(this.buttonCustomersExport);
+            this.Controls.Add(this.buttonTableExport);
+            this.Controls.Add(this.dateTimePickerTo);
+            this.Controls.Add(this.dateTimePickerFrom);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonLogs);
-            this.Controls.Add(this.textBoxDateTo);
-            this.Controls.Add(this.textBoxDateFrom);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonDateSort);
@@ -302,12 +322,15 @@
         private System.Windows.Forms.Button buttonDateSort;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.MaskedTextBox textBoxDateFrom;
-        private System.Windows.Forms.MaskedTextBox textBoxDateTo;
         private System.Windows.Forms.Button buttonLogs;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DateTimePicker dateTimePickerFrom;
+        private System.Windows.Forms.DateTimePicker dateTimePickerTo;
+        private System.Windows.Forms.Button buttonTableExport;
+        private System.Windows.Forms.Button buttonCustomersExport;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

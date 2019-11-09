@@ -60,6 +60,7 @@
             // 
             this.comboBoxCustomers.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxCustomers.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxCustomers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCustomers.FormattingEnabled = true;
             this.comboBoxCustomers.Location = new System.Drawing.Point(189, 16);
             this.comboBoxCustomers.Name = "comboBoxCustomers";
@@ -328,7 +329,8 @@
             this.Controls.Add(this.textBoxCustomer);
             this.Controls.Add(this.comboBoxCustomers);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MinimumSize = new System.Drawing.Size(587, 395);
+            this.MaximumSize = new System.Drawing.Size(587, 446);
+            this.MinimumSize = new System.Drawing.Size(587, 446);
             this.Name = "FormAddOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Создание заказа";

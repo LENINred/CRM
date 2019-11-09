@@ -41,6 +41,11 @@ namespace CRM
             {
                 string filename = saveFileDialog1.FileName;
 
+                string custName = comboBoxCustomers.SelectedItem.ToString();
+                if (custName != "Все")
+                    custName = comboBoxCustomers.SelectedItem.ToString().Substring(0, comboBoxCustomers.SelectedItem.ToString().IndexOf('('));
+
+
                 DataTable tblOrders = new DataTable();
                 using (var mySqlConnection = new DBUtils().getDBConnection())
                 {
@@ -66,7 +71,7 @@ namespace CRM
                         p1.Value = comboBoxOrderType.SelectedItem.ToString();
                         p2.Value = comboBoxOrderStatus.SelectedItem.ToString();
                         p3.Value = comboBoxExecutor.SelectedItem.ToString();
-                        p4.Value = comboBoxCustomers.SelectedItem.ToString().Substring(0, comboBoxCustomers.SelectedItem.ToString().IndexOf('(')); ;
+                        p4.Value = custName;
                         p5.Value = dateTimePickerFrom.Value.ToString("yyyy-MM-dd");
                         p6.Value = dateTimePickerTo.Value.ToString("yyyy-MM-dd");
 

@@ -40,7 +40,6 @@
             this.comboBoxOrderType = new System.Windows.Forms.ComboBox();
             this.comboBoxExecutor = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.checkBoxSubComm = new System.Windows.Forms.CheckBox();
             this.textBoxSubComm = new System.Windows.Forms.TextBox();
             this.textBoxCost = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -54,6 +53,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.textBoxPriorComm = new System.Windows.Forms.MaskedTextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBoxCustomers
@@ -172,19 +172,6 @@
             this.label3.TabIndex = 14;
             this.label3.Text = "Телефон";
             // 
-            // checkBoxSubComm
-            // 
-            this.checkBoxSubComm.AutoSize = true;
-            this.checkBoxSubComm.Checked = true;
-            this.checkBoxSubComm.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSubComm.Location = new System.Drawing.Point(184, 115);
-            this.checkBoxSubComm.Name = "checkBoxSubComm";
-            this.checkBoxSubComm.Size = new System.Drawing.Size(50, 17);
-            this.checkBoxSubComm.TabIndex = 4;
-            this.checkBoxSubComm.Text = "Доп.";
-            this.checkBoxSubComm.UseVisualStyleBackColor = true;
-            this.checkBoxSubComm.CheckedChanged += new System.EventHandler(this.checkBoxDop_CheckedChanged);
-            // 
             // textBoxSubComm
             // 
             this.textBoxSubComm.Location = new System.Drawing.Point(248, 112);
@@ -297,11 +284,22 @@
             this.textBoxPriorComm.Size = new System.Drawing.Size(311, 20);
             this.textBoxPriorComm.TabIndex = 29;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(181, 115);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(37, 13);
+            this.label10.TabIndex = 30;
+            this.label10.Text = "Почта";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
+            // 
             // FormAddOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(571, 407);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.textBoxPriorComm);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -314,7 +312,6 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBoxCost);
             this.Controls.Add(this.textBoxSubComm);
-            this.Controls.Add(this.checkBoxSubComm);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBoxExecutor);
             this.Controls.Add(this.comboBoxOrderType);
@@ -353,7 +350,6 @@
         private System.Windows.Forms.ComboBox comboBoxOrderType;
         private System.Windows.Forms.ComboBox comboBoxExecutor;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox checkBoxSubComm;
         private System.Windows.Forms.TextBox textBoxSubComm;
         private System.Windows.Forms.TextBox textBoxCost;
         private System.Windows.Forms.Label label4;
@@ -367,5 +363,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.MaskedTextBox textBoxPriorComm;
+        private System.Windows.Forms.Label label10;
     }
 }

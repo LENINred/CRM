@@ -60,7 +60,6 @@
             // 
             this.comboBoxCustomers.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxCustomers.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBoxCustomers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCustomers.FormattingEnabled = true;
             this.comboBoxCustomers.Location = new System.Drawing.Point(189, 16);
             this.comboBoxCustomers.Name = "comboBoxCustomers";

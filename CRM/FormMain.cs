@@ -20,14 +20,14 @@ namespace CRM
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = loadOrdersFromDB(what);
-            loadGroupTree();
-
             if ((user_type == 1) || (user_type == 2))
                 buttonLogs.Visible = false;
 
-            dateTimePickerFrom.Text = "01-09-2019";
+            dateTimePickerFrom.Text = DateTime.Now.AddDays(-7).ToString("dd-MM-yyyy");
             dateTimePickerTo.Text = DateTime.Now.ToString("dd-MM-yyyy");
+
+            dataGridView1.DataSource = loadOrdersFromDB(what);
+            loadGroupTree();
         }
 
         private void loadGroupTree()
@@ -71,6 +71,10 @@ namespace CRM
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new MySqlParameter("@what", MySqlDbType.VarChar));
                     cmd.Parameters["@what"].Value = what;
+                    cmd.Parameters.Add(new MySqlParameter("@dateFrom", MySqlDbType.VarChar));
+                    cmd.Parameters["@dateFrom"].Value = Convert.ToDateTime(dateTimePickerFrom.Text).ToString("yyyy-MM-dd"); ;
+                    cmd.Parameters.Add(new MySqlParameter("@dateTo", MySqlDbType.VarChar));
+                    cmd.Parameters["@dateTo"].Value = Convert.ToDateTime(dateTimePickerTo.Text).ToString("yyyy-MM-dd");
                     MySqlDataAdapter dap = new MySqlDataAdapter(cmd);
                     dap.Fill(tblOrders);
                 }
@@ -137,8 +141,6 @@ namespace CRM
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
             if (!checkInet()) return;
-            dateTimePickerFrom.Text = "01-09-2019";
-            dateTimePickerTo.Text = DateTime.Now.ToString("dd-MM-yyyy");
             int selIndex = 0;
             if (dataGridView1.SelectedRows.Count > 0)
             {
@@ -177,14 +179,8 @@ namespace CRM
                     what = "Работа завершена";
                     dataGridView1.DataSource = loadOrdersFromDB(what);
                     break;
-
             }
-        }
-
-        private void buttonDateSort_Click(object sender, EventArgs e)
-        {
-            if (!checkInet()) return;
-            dataGridView1.DataSource = getOrdersDataInterval(dateTimePickerFrom.Value.ToString("dd,MM,yyyy"), dateTimePickerTo.Value.ToString("dd,MM,yyyy"));
+            loadGroupTree();
         }
 
         private void buttonLogs_Click(object sender, EventArgs e)
@@ -330,6 +326,18 @@ namespace CRM
 
                 MessageBox.Show("Данные выгружены");
             }
+        }
+
+        private void dateTimePickerTo_CloseUp(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = loadOrdersFromDB(what);
+            loadGroupTree();
+        }
+
+        private void dateTimePickerFrom_CloseUp(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = loadOrdersFromDB(what);
+            loadGroupTree();
         }
     }
 }

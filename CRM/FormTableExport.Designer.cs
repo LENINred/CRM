@@ -135,7 +135,7 @@
             // 
             // comboBoxExecutor
             // 
-            this.comboBoxExecutor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxExecutor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxExecutor.FormattingEnabled = true;
             this.comboBoxExecutor.Items.AddRange(new object[] {
             "Все"});
@@ -165,7 +165,7 @@
             // 
             // comboBoxCustomers
             // 
-            this.comboBoxCustomers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxCustomers.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxCustomers.FormattingEnabled = true;
             this.comboBoxCustomers.Items.AddRange(new object[] {
             "Все"});

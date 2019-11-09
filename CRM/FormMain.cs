@@ -83,32 +83,6 @@ namespace CRM
             return tblOrders;
         }
 
-        private DataTable getOrdersDataInterval(string dateFrom, string dateTo)
-        {
-            FormLoading loading = new FormLoading();
-            loading.Show();
-
-            dateFrom = Convert.ToDateTime(dateFrom).ToString("yyyy-MM-dd");
-            dateTo = Convert.ToDateTime(dateTo).ToString("yyyy-MM-dd");
-
-            DataTable tblOrders = new DataTable();
-            using (var con = new DBUtils().getDBConnection())
-            {
-                using (var cmd = new MySqlCommand("get_orders_by_date", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new MySqlParameter("@dateFrom", MySqlDbType.Date));
-                    cmd.Parameters["@dateFrom"].Value = dateFrom;
-                    cmd.Parameters.Add(new MySqlParameter("@dateTo", MySqlDbType.Date));
-                    cmd.Parameters["@dateTo"].Value = dateTo;
-                    MySqlDataAdapter dap = new MySqlDataAdapter(cmd);
-                    dap.Fill(tblOrders);
-                }
-            }
-            loading.Dispose();
-            return tblOrders;
-        }
-
         private void buttonNew_Click(object sender, EventArgs e)
         {
             if (!checkInet()) return;

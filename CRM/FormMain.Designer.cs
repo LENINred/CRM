@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("Принятые");
-            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("В работе");
-            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("Завершенные");
-            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("Выданные");
-            System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
-            treeNode41,
-            treeNode42,
-            treeNode43,
-            treeNode44});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Принятые");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("В работе");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Завершенные");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Выданные");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Все", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4});
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.treeViewGroups = new System.Windows.Forms.TreeView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -78,18 +78,18 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.treeViewGroups.Location = new System.Drawing.Point(6, 19);
             this.treeViewGroups.Name = "treeViewGroups";
-            treeNode41.Name = "Accepted";
-            treeNode41.Text = "Принятые";
-            treeNode42.Name = "Work";
-            treeNode42.Text = "В работе";
-            treeNode43.Name = "End";
-            treeNode43.Text = "Завершенные";
-            treeNode44.Name = "Delivered";
-            treeNode44.Text = "Выданные";
-            treeNode45.Name = "All";
-            treeNode45.Text = "Все";
+            treeNode1.Name = "Accepted";
+            treeNode1.Text = "Принятые";
+            treeNode2.Name = "Work";
+            treeNode2.Text = "В работе";
+            treeNode3.Name = "End";
+            treeNode3.Text = "Завершенные";
+            treeNode4.Name = "Delivered";
+            treeNode4.Text = "Выданные";
+            treeNode5.Name = "All";
+            treeNode5.Text = "Все";
             this.treeViewGroups.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode45});
+            treeNode5});
             this.treeViewGroups.Size = new System.Drawing.Size(188, 96);
             this.treeViewGroups.TabIndex = 1;
             this.treeViewGroups.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewGroups_NodeMouseClick);
@@ -177,7 +177,6 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(340, 12);
             this.label1.Name = "label1";
@@ -187,7 +186,6 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(543, 12);
             this.label2.Name = "label2";
@@ -208,7 +206,6 @@
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(219, 12);
             this.label3.Name = "label3";
@@ -231,7 +228,6 @@
             // 
             // dateTimePickerFrom
             // 
-            this.dateTimePickerFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.dateTimePickerFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerFrom.Location = new System.Drawing.Point(360, 6);
             this.dateTimePickerFrom.Name = "dateTimePickerFrom";
@@ -241,7 +237,6 @@
             // 
             // dateTimePickerTo
             // 
-            this.dateTimePickerTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.dateTimePickerTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerTo.Location = new System.Drawing.Point(570, 6);
             this.dateTimePickerTo.Name = "dateTimePickerTo";

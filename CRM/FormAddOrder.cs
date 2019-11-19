@@ -280,6 +280,8 @@ namespace CRM
                                                 l += "Инфо заказа: " + logData[2] + " -> " + richTextBoxOrderInfo.Text + "\n";
                                             if (!logData[3].Equals(textBoxCost.Text))
                                                 l += "Цена: " + logData[3] + " -> " + textBoxCost.Text + "\n";
+                                            if (!logData[3].Equals(textBoxFactCost.Text))
+                                                l += "Фактический оплаченныя сумма: " + logData[3] + " -> " + textBoxFactCost.Text + "\n";
                                             if (!logData[4].Equals(comboBoxOrderType.Text))
                                                 l += "Тип заказа: " + logData[4] + " -> " + comboBoxOrderType.Text + "\n";
                                             if (!logData[5].Equals(comboBoxOrderStatus.Text))
@@ -337,14 +339,16 @@ namespace CRM
                                                 p5.Direction = ParameterDirection.Input;
                                                 MySqlParameter p6 = cmd.Parameters.Add("@cost", MySqlDbType.VarChar);
                                                 p6.Direction = ParameterDirection.Input;
-                                                MySqlParameter p7 = cmd.Parameters.Add("@communication", MySqlDbType.VarChar);
+                                                MySqlParameter p7 = cmd.Parameters.Add("@fact_cost", MySqlDbType.VarChar);
                                                 p7.Direction = ParameterDirection.Input;
-                                                MySqlParameter p8 = cmd.Parameters.Add("@subCommunication", MySqlDbType.VarChar);
+                                                MySqlParameter p8 = cmd.Parameters.Add("@communication", MySqlDbType.VarChar);
                                                 p8.Direction = ParameterDirection.Input;
-                                                MySqlParameter p9 = cmd.Parameters.Add("@orderId", MySqlDbType.Int32);
+                                                MySqlParameter p9 = cmd.Parameters.Add("@subCommunication", MySqlDbType.VarChar);
                                                 p9.Direction = ParameterDirection.Input;
-                                                MySqlParameter p10 = cmd.Parameters.Add("@deadline", MySqlDbType.VarChar);
+                                                MySqlParameter p10 = cmd.Parameters.Add("@orderId", MySqlDbType.Int32);
                                                 p10.Direction = ParameterDirection.Input;
+                                                MySqlParameter p11 = cmd.Parameters.Add("@deadline", MySqlDbType.VarChar);
+                                                p11.Direction = ParameterDirection.Input;
 
                                                 p1.Value = custName.TrimStart();
                                                 p2.Value = richTextBoxOrderInfo.Text.TrimStart();
@@ -352,10 +356,11 @@ namespace CRM
                                                 p4.Value = comboBoxOrderType.SelectedItem.ToString();
                                                 p5.Value = comboBoxExecutor.SelectedItem.ToString();
                                                 p6.Value = textBoxCost.Text.ToString();
-                                                p7.Value = textBoxPriorComm.Text.TrimStart();
-                                                p8.Value = textBoxSubComm.Text.TrimStart();
-                                                p9.Value = order_id;
-                                                p10.Value = textBoxDate.Text;
+                                                p7.Value = textBoxFactCost.Text.ToString();
+                                                p8.Value = textBoxPriorComm.Text.TrimStart();
+                                                p9.Value = textBoxSubComm.Text.TrimStart();
+                                                p10.Value = order_id;
+                                                p11.Value = textBoxDate.Text;
                                                 mySqlConnection.Open();
                                                 cmd.ExecuteNonQuery();
                                             }

@@ -76,6 +76,7 @@ namespace CRM
             logData.Add(textBoxSubComm.Text);
             logData.Add(richTextBoxOrderInfo.Text);
             logData.Add(textBoxCost.Text);
+            logData.Add(textBoxFactCost.Text);
             logData.Add(comboBoxOrderType.Text);
             logData.Add(comboBoxOrderStatus.Text);
             logData.Add(comboBoxExecutor.Text);
@@ -106,11 +107,12 @@ namespace CRM
                                     comboBoxOrderStatus.Items.Add(reader.GetString(2));
                                 comboBoxOrderStatus.Text = reader.GetString(2);
                                 textBoxCost.Text = reader.GetString(3);
-                                textBoxDate.Text = reader.GetString(4);
-                                comboBoxExecutor.Text = reader.GetString(5);
-                                textBoxCustomer.Text = reader.GetString(6);
-                                textBoxPriorComm.Text = reader.GetString(7);
-                                textBoxSubComm.Text = reader.GetString(8);
+                                textBoxFactCost.Text = reader.GetString(4);
+                                textBoxDate.Text = reader.GetString(5);
+                                comboBoxExecutor.Text = reader.GetString(6);
+                                textBoxCustomer.Text = reader.GetString(7);
+                                textBoxPriorComm.Text = reader.GetString(8);
+                                textBoxSubComm.Text = reader.GetString(9);
                             }
                         }
                     }
@@ -264,100 +266,107 @@ namespace CRM
                             {
                                 if (textBoxCost.Text.Length > 1)
                                 {
-                                    if (order_id == 0) order_id = getLastOrderID() + 1;
-                                    else
+                                    if (textBoxFactCost.Text.Length > 1)
                                     {
-                                        string l = "";
-                                        if (!logData[0].Equals(textBoxPriorComm.Text))
-                                            l += "Вид связи: " + logData[0] + " -> " + textBoxPriorComm.Text + "\n";
-                                        if (!logData[1].Equals(textBoxSubComm.Text))
-                                            l += "Доп вид связи: " + logData[1] + " -> " + textBoxSubComm.Text + "\n";
-                                        if (!logData[2].Equals(richTextBoxOrderInfo.Text))
-                                            l += "Инфо заказа: " + logData[2] + " -> " + richTextBoxOrderInfo.Text + "\n";
-                                        if (!logData[3].Equals(textBoxCost.Text))
-                                            l += "Цена: " + logData[3] + " -> " + textBoxCost.Text + "\n";
-                                        if (!logData[4].Equals(comboBoxOrderType.Text))
-                                            l += "Тип заказа: " + logData[4] + " -> " + comboBoxOrderType.Text + "\n";
-                                        if (!logData[5].Equals(comboBoxOrderStatus.Text))
-                                            l += "Статус заказа: " + logData[5] + " -> " + comboBoxOrderStatus.Text + "\n";
-                                        if (!logData[6].Equals(comboBoxExecutor.Text))
-                                            l += "Исполнитель: " + logData[6] + " -> " + comboBoxExecutor.Text + "\n";
-                                        if (!logData[7].Equals(textBoxDate.Text))
-                                            l += "Дата дедлайна:" + logData[7] + " -> " + textBoxDate.Text + "\n";
-                                        if (l.Length > 0)
+                                        if (order_id == 0) order_id = getLastOrderID() + 1;
+                                        else
                                         {
-                                            log += " " + DateTime.Now.ToString("yyyy-MM-dd") + " изменили заявку No_" + order_id + ": \n";
-                                            log += l;
-                                            using (var mySqlConnection = new DBUtils().getDBConnection())
+                                            string l = "";
+                                            if (!logData[0].Equals(textBoxPriorComm.Text))
+                                                l += "Вид связи: " + logData[0] + " -> " + textBoxPriorComm.Text + "\n";
+                                            if (!logData[1].Equals(textBoxSubComm.Text))
+                                                l += "Доп вид связи: " + logData[1] + " -> " + textBoxSubComm.Text + "\n";
+                                            if (!logData[2].Equals(richTextBoxOrderInfo.Text))
+                                                l += "Инфо заказа: " + logData[2] + " -> " + richTextBoxOrderInfo.Text + "\n";
+                                            if (!logData[3].Equals(textBoxCost.Text))
+                                                l += "Цена: " + logData[3] + " -> " + textBoxCost.Text + "\n";
+                                            if (!logData[4].Equals(comboBoxOrderType.Text))
+                                                l += "Тип заказа: " + logData[4] + " -> " + comboBoxOrderType.Text + "\n";
+                                            if (!logData[5].Equals(comboBoxOrderStatus.Text))
+                                                l += "Статус заказа: " + logData[5] + " -> " + comboBoxOrderStatus.Text + "\n";
+                                            if (!logData[6].Equals(comboBoxExecutor.Text))
+                                                l += "Исполнитель: " + logData[6] + " -> " + comboBoxExecutor.Text + "\n";
+                                            if (!logData[7].Equals(textBoxDate.Text))
+                                                l += "Дата дедлайна:" + logData[7] + " -> " + textBoxDate.Text + "\n";
+                                            if (l.Length > 0)
                                             {
-                                                using (var cmd = new MySqlCommand())
+                                                log += " " + DateTime.Now.ToString("yyyy-MM-dd") + " изменили заявку No_" + order_id + ": \n";
+                                                log += l;
+                                                using (var mySqlConnection = new DBUtils().getDBConnection())
                                                 {
-                                                    cmd.Connection = mySqlConnection;
-                                                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                                                    cmd.CommandText = "addLog";
-                                                    cmd.Parameters.Clear();
-                                                    MySqlParameter p1 = cmd.Parameters.Add("@log", MySqlDbType.VarChar);
-                                                    p1.Direction = ParameterDirection.Input;
+                                                    using (var cmd = new MySqlCommand())
+                                                    {
+                                                        cmd.Connection = mySqlConnection;
+                                                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                                        cmd.CommandText = "addLog";
+                                                        cmd.Parameters.Clear();
+                                                        MySqlParameter p1 = cmd.Parameters.Add("@log", MySqlDbType.VarChar);
+                                                        p1.Direction = ParameterDirection.Input;
 
-                                                    p1.Value = log;
+                                                        p1.Value = log;
 
-                                                    mySqlConnection.Open();
-                                                    cmd.ExecuteNonQuery();
+                                                        mySqlConnection.Open();
+                                                        cmd.ExecuteNonQuery();
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
 
-                                    if (openFileDialog1.FileName != "")
-                                    {
-                                        UploadFtpFile("" + order_id, openFileDialog1.FileNames);
-                                    }
-
-                                    using (var mySqlConnection = new DBUtils().getDBConnection())
-                                    {
-                                        using (var cmd = new MySqlCommand())
+                                        if (openFileDialog1.FileName != "")
                                         {
-                                            cmd.Connection = mySqlConnection;
-                                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                                            cmd.CommandText = comText;
-                                            cmd.Parameters.Clear();
-                                            MySqlParameter p1 = cmd.Parameters.Add("@customer", MySqlDbType.VarChar);
-                                            p1.Direction = ParameterDirection.Input;
-                                            MySqlParameter p2 = cmd.Parameters.Add("@order_info", MySqlDbType.VarChar);
-                                            p2.Direction = ParameterDirection.Input;
-                                            MySqlParameter p3 = cmd.Parameters.Add("@order_status", MySqlDbType.VarChar);
-                                            p3.Direction = ParameterDirection.Input;
-                                            MySqlParameter p4 = cmd.Parameters.Add("@order_type", MySqlDbType.VarChar);
-                                            p4.Direction = ParameterDirection.Input;
-                                            MySqlParameter p5 = cmd.Parameters.Add("@executor", MySqlDbType.VarChar);
-                                            p5.Direction = ParameterDirection.Input;
-                                            MySqlParameter p6 = cmd.Parameters.Add("@cost", MySqlDbType.VarChar);
-                                            p6.Direction = ParameterDirection.Input;
-                                            MySqlParameter p7 = cmd.Parameters.Add("@communication", MySqlDbType.VarChar);
-                                            p7.Direction = ParameterDirection.Input;
-                                            MySqlParameter p8 = cmd.Parameters.Add("@subCommunication", MySqlDbType.VarChar);
-                                            p8.Direction = ParameterDirection.Input;
-                                            MySqlParameter p9 = cmd.Parameters.Add("@orderId", MySqlDbType.Int32);
-                                            p9.Direction = ParameterDirection.Input;
-                                            MySqlParameter p10 = cmd.Parameters.Add("@deadline", MySqlDbType.VarChar);
-                                            p10.Direction = ParameterDirection.Input;
-
-                                            p1.Value = custName.TrimStart();
-                                            p2.Value = richTextBoxOrderInfo.Text.TrimStart();
-                                            p3.Value = comboBoxOrderStatus.SelectedItem.ToString();
-                                            p4.Value = comboBoxOrderType.SelectedItem.ToString();
-                                            p5.Value = comboBoxExecutor.SelectedItem.ToString();
-                                            p6.Value = textBoxCost.Text.ToString();
-                                            p7.Value = textBoxPriorComm.Text.TrimStart();
-                                            p8.Value = textBoxSubComm.Text.TrimStart();
-                                            p9.Value = order_id;
-                                            p10.Value = textBoxDate.Text;
-                                            mySqlConnection.Open();
-                                            cmd.ExecuteNonQuery();
+                                            UploadFtpFile("" + order_id, openFileDialog1.FileNames);
                                         }
+
+                                        using (var mySqlConnection = new DBUtils().getDBConnection())
+                                        {
+                                            using (var cmd = new MySqlCommand())
+                                            {
+                                                cmd.Connection = mySqlConnection;
+                                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                                cmd.CommandText = comText;
+                                                cmd.Parameters.Clear();
+                                                MySqlParameter p1 = cmd.Parameters.Add("@customer", MySqlDbType.VarChar);
+                                                p1.Direction = ParameterDirection.Input;
+                                                MySqlParameter p2 = cmd.Parameters.Add("@order_info", MySqlDbType.VarChar);
+                                                p2.Direction = ParameterDirection.Input;
+                                                MySqlParameter p3 = cmd.Parameters.Add("@order_status", MySqlDbType.VarChar);
+                                                p3.Direction = ParameterDirection.Input;
+                                                MySqlParameter p4 = cmd.Parameters.Add("@order_type", MySqlDbType.VarChar);
+                                                p4.Direction = ParameterDirection.Input;
+                                                MySqlParameter p5 = cmd.Parameters.Add("@executor", MySqlDbType.VarChar);
+                                                p5.Direction = ParameterDirection.Input;
+                                                MySqlParameter p6 = cmd.Parameters.Add("@cost", MySqlDbType.VarChar);
+                                                p6.Direction = ParameterDirection.Input;
+                                                MySqlParameter p7 = cmd.Parameters.Add("@communication", MySqlDbType.VarChar);
+                                                p7.Direction = ParameterDirection.Input;
+                                                MySqlParameter p8 = cmd.Parameters.Add("@subCommunication", MySqlDbType.VarChar);
+                                                p8.Direction = ParameterDirection.Input;
+                                                MySqlParameter p9 = cmd.Parameters.Add("@orderId", MySqlDbType.Int32);
+                                                p9.Direction = ParameterDirection.Input;
+                                                MySqlParameter p10 = cmd.Parameters.Add("@deadline", MySqlDbType.VarChar);
+                                                p10.Direction = ParameterDirection.Input;
+
+                                                p1.Value = custName.TrimStart();
+                                                p2.Value = richTextBoxOrderInfo.Text.TrimStart();
+                                                p3.Value = comboBoxOrderStatus.SelectedItem.ToString();
+                                                p4.Value = comboBoxOrderType.SelectedItem.ToString();
+                                                p5.Value = comboBoxExecutor.SelectedItem.ToString();
+                                                p6.Value = textBoxCost.Text.ToString();
+                                                p7.Value = textBoxPriorComm.Text.TrimStart();
+                                                p8.Value = textBoxSubComm.Text.TrimStart();
+                                                p9.Value = order_id;
+                                                p10.Value = textBoxDate.Text;
+                                                mySqlConnection.Open();
+                                                cmd.ExecuteNonQuery();
+                                            }
+                                        }
+                                        MessageBox.Show("Заявка номер " + order_id + " составлена");
+                                        this.Close();
                                     }
-                                    MessageBox.Show("Заявка номер " + order_id + " составлена");
-                                    this.Close();
+                                    else
+                                    {
+                                        MessageBox.Show("Введите фактически оплаченную сумму");
+                                    }
                                 }
                                 else
                                 {

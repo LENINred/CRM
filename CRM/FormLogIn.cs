@@ -63,7 +63,6 @@ namespace CRM
                 Directory.CreateDirectory("prevVersion");
                 foreach (string s1 in Directory.GetFiles(System.IO.Path.GetDirectoryName(Application.ExecutablePath)))
                 {
-                    MessageBox.Show(s1);
                     string s2 = "prevVersion\\" + Path.GetFileName(s1);
                     File.Move(s1, s2);
                 }

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Windows.Forms;
 
@@ -41,12 +42,38 @@ namespace CRM
         private void doUpdate()
         {
             MessageBox.Show("Имеется обновление для программы, Нажмите Ок чтобы продолжить");
-            File.Delete(System.Reflection.Assembly.GetEntryAssembly().Location + ".bak");
-            File.Move(System.Reflection.Assembly.GetEntryAssembly().Location, System.Reflection.Assembly.GetEntryAssembly().Location + ".bak");
+            try
+            {
+                Directory.Delete("prevVersion", true);
+            }
+            catch {; }
             using (var client = new WebClient())
             {
-                client.Headers.Add("user-agent", "Mozilla");
-                client.DownloadFile(new Uri("https://raw.githubusercontent.com/LENINred/CRM/master/CRM/bin/Debug/CRM.exe"), "CRM.exe");
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                client.Headers.Add("user-agent", "Anything");
+                client.DownloadFile(
+                    "https://codeload.github.com/LENINred/CRM/zip/master",
+                    "CRM.zip");
+
+                string zipPath = @".\CRM.zip";
+                string extractPath = @".\";
+                ZipFile.ExtractToDirectory(zipPath, extractPath);
+                File.Delete("CRM.zip");
+
+                Directory.CreateDirectory("prevVersion");
+                foreach (string s1 in Directory.GetFiles(System.IO.Path.GetDirectoryName(Application.ExecutablePath)))
+                {
+                    MessageBox.Show(s1);
+                    string s2 = "prevVersion\\" + Path.GetFileName(s1);
+                    File.Move(s1, s2);
+                }
+
+                foreach (string s1 in Directory.GetFiles("CRM-master\\CRM\\bin\\Debug"))
+                {
+                    string s2 = Path.GetFileName(s1);
+                    File.Copy(s1, s2, true);
+                }
+                Directory.Delete("CRM-master", true);
             }
             Application.Restart();
         }

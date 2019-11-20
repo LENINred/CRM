@@ -317,7 +317,7 @@ namespace CRM
 
                                         if (openFileDialog1.FileName != "")
                                         {
-                                            UploadFtpFile("" + order_id, openFileDialog1.FileNames);
+                                            uploadFiles("" + order_id, openFileDialog1.FileNames);
                                         }
 
                                         using (var mySqlConnection = new DBUtils().getDBConnection())
@@ -481,19 +481,10 @@ namespace CRM
             }
         }
 
-        private void DownloadFile(bool who)
+        private void downloadFiles(string localDir, string ftpDir)
         {
-            string localDir = "", ftpDir = "";
-            if (who)
-            {
-                localDir = "\\start\\";
-                ftpDir = "/startImage/";
-            }
-            else
-            {
-                localDir = "\\end\\";
-                ftpDir = "/endImage/";
-            }
+            Directory.CreateDirectory(@"C:\\Users\Public\orders\order_" + order_id);
+
             StreamReader streamReader;
             List<string> directories;
             try
@@ -518,53 +509,39 @@ namespace CRM
             }
             streamReader.Close();
 
-            Directory.CreateDirectory(@"C:\\Users\Public\orders\order_" + order_id);
             Directory.CreateDirectory(@"C:\\Users\Public\orders\order_" + order_id + localDir);
-
-            using (WebClient ftpClient = new WebClient())
+            for (int i = 0; i <= directories.Count - 1; i++)
             {
-                ftpClient.Credentials = new System.Net.NetworkCredential("seller", "Az123456!");
-
-                for (int i = 0; i <= directories.Count - 1; i++)
+                if (directories[i].Contains("."))
                 {
-                    if (directories[i].Contains("."))
+                    string url = "ftp://83.220.174.171/order_" + order_id + ftpDir + directories[i].ToString();
+                    NetworkCredential credentials = new NetworkCredential("seller", "Az123456!");
+
+                    // Query size of the file to be downloaded
+                    WebRequest sizeRequest = WebRequest.Create(url);
+                    sizeRequest.Credentials = credentials;
+                    sizeRequest.Method = WebRequestMethods.Ftp.GetFileSize;
+                    int size = (int)sizeRequest.GetResponse().ContentLength;
+
+                    progressBar1.Invoke(
+                        (MethodInvoker)(() => progressBar1.Maximum = size));
+
+                    // Download the file
+                    WebRequest request = WebRequest.Create(url);
+                    request.Credentials = credentials;
+                    request.Method = WebRequestMethods.Ftp.DownloadFile;
+
+                    using (Stream ftpStream = request.GetResponse().GetResponseStream())
+                    using (Stream fileStream = File.Create(@"C:\\Users\Public\orders\order_" + order_id + localDir + directories[i].ToString()))
                     {
-                        try
+                        byte[] buffer = new byte[10240];
+                        int read;
+                        while ((read = ftpStream.Read(buffer, 0, buffer.Length)) > 0)
                         {
-                            string url = "ftp://83.220.174.171/order_" + order_id + ftpDir + directories[i].ToString();
-                            NetworkCredential credentials = new NetworkCredential("seller", "Az123456!");
-
-                            // Query size of the file to be downloaded
-                            WebRequest sizeRequest = WebRequest.Create(url);
-                            sizeRequest.Credentials = credentials;
-                            sizeRequest.Method = WebRequestMethods.Ftp.GetFileSize;
-                            int size = (int)sizeRequest.GetResponse().ContentLength;
-
+                            fileStream.Write(buffer, 0, read);
+                            int position = (int)fileStream.Position;
                             progressBar1.Invoke(
-                                (MethodInvoker)(() => progressBar1.Maximum = size));
-
-                            // Download the file
-                            WebRequest request = WebRequest.Create(url);
-                            request.Credentials = credentials;
-                            request.Method = WebRequestMethods.Ftp.DownloadFile;
-
-                            using (Stream ftpStream = request.GetResponse().GetResponseStream())
-                            using (Stream fileStream = File.Create(@"C:\\Users\Public\orders\order_" + order_id + localDir + directories[i].ToString()))
-                            {
-                                byte[] buffer = new byte[10240];
-                                int read;
-                                while ((read = ftpStream.Read(buffer, 0, buffer.Length)) > 0)
-                                {
-                                    fileStream.Write(buffer, 0, read);
-                                    int position = (int)fileStream.Position;
-                                    progressBar1.Invoke(
-                                        (MethodInvoker)(() => progressBar1.Value = position));
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            MessageBox.Show(e.Message);
+                                (MethodInvoker)(() => progressBar1.Value = position));
                         }
                     }
                 }
@@ -614,82 +591,81 @@ namespace CRM
             }
         }
 
+        public void uploadFiles(string ordr_id, string[] fileNames)
+        {
+            string folderName = "";
+
+            if (user_type == 1)
+            {
+                folderName = "/startImage/";
+            }
+            else if ((user_type == 2) || (user_type == 3))
+            {
+                folderName = "/endImage/";
+            }
+
+            WebRequest request = WebRequest.Create("ftp://83.220.174.171/order_" + ordr_id);
+            request.Method = WebRequestMethods.Ftp.MakeDirectory;
+            request.Credentials = new NetworkCredential("seller", "Az123456!");
+            try
+            {
+                request.GetResponse();
+            }
+            catch { }
+
+            request = WebRequest.Create("ftp://83.220.174.171/order_" + ordr_id + folderName);
+            request.Method = WebRequestMethods.Ftp.MakeDirectory;
+            request.Credentials = new NetworkCredential("seller", "Az123456!");
+            try
+            {
+                request.GetResponse();
+            }
+            catch { }
+
+            int i = 1;
+            foreach (string file in fileNames)
+            {
+                FtpWebRequest request_n = (FtpWebRequest)WebRequest.Create("ftp://83.220.174.171/order_" + ordr_id + "" + folderName + i + Path.GetExtension(file));
+                request_n.Credentials = new NetworkCredential("seller", "Az123456!");
+                request_n.Method = WebRequestMethods.Ftp.UploadFile;
+
+                using (Stream fileStream = File.OpenRead(file))
+                using (Stream ftpStream = request_n.GetRequestStream())
+                {
+                    progressBar1.Invoke(
+                        (MethodInvoker)delegate { progressBar1.Maximum = (int)fileStream.Length; });
+
+                    byte[] buffer = new byte[10240];
+                    int read;
+                    while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        ftpStream.Write(buffer, 0, read);
+                        progressBar1.Invoke(
+                            (MethodInvoker)delegate {
+                                progressBar1.Value = (int)fileStream.Position;
+                            });
+                    }
+                }
+
+                i++;
+            }
+        }
+
         private void buttonDownloadFiles_Click(object sender, EventArgs e)
         {
             if (!checkInet()) return;
-            FormLoading formLoading = new FormLoading();
-            //Task.Run(() => DownloadFile(true));
-            // Task.Run(() => DownloadFile(false));
-            downloadFiles(true);
-            downloadFiles(false);
+
+            downloadFiles("\\start\\", "/startImage/");
+            downloadFiles("\\end\\", "/endImage/");
             try
             {
                 Process.Start(@"C:\\Users\Public\orders\order_" + order_id);
-                formLoading.Dispose();
             }
             catch
             {
-                formLoading.Dispose();
                 MessageBox.Show("Файлы отсутствуют");
             }
-            
-        }
 
-        private void downloadFiles(bool who)
-        {
-            string localDir = "", ftpDir = "";
-            if (who)
-            {
-                localDir = "\\start\\";
-                ftpDir = "/startImage/";
-            }
-            else
-            {
-                localDir = "\\end\\";
-                ftpDir = "/endImage/";
-            }
-            StreamReader streamReader;
-            List<string> directories;
-            try
-            {
-                FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create("ftp://83.220.174.171/order_" + order_id + ftpDir);
-                ftpRequest.Credentials = new NetworkCredential("seller", "Az123456!");
-                ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
-                FtpWebResponse response = (FtpWebResponse)ftpRequest.GetResponse();
-                streamReader = new StreamReader(response.GetResponseStream());
-                directories = new List<string>();
-            }
-            catch
-            {
-                return;
-            }
-
-            string line = streamReader.ReadLine();
-            while (!string.IsNullOrEmpty(line))
-            {
-                directories.Add(line);
-                line = streamReader.ReadLine();
-            }
-            streamReader.Close();
-
-            Directory.CreateDirectory(@"C:\\Users\Public\orders\order_" + order_id);
-            Directory.CreateDirectory(@"C:\\Users\Public\orders\order_" + order_id + localDir);
-
-            using (WebClient ftpClient = new WebClient())
-            {
-                ftpClient.Credentials = new System.Net.NetworkCredential("seller", "Az123456!");
-
-                for (int i = 0; i <= directories.Count - 1; i++)
-                {
-                    if (directories[i].Contains("."))
-                    {
-
-                        string path = "ftp://83.220.174.171/order_" + order_id + ftpDir + directories[i].ToString();
-                        string trnsfrpth = @"C:\\Users\Public\orders\order_" + order_id + localDir + directories[i].ToString();
-                        ftpClient.DownloadFile(path, trnsfrpth);
-                    }
-                }
-            }
         }
 
         private void comboBoxOrderType_SelectedIndexChanged(object sender, EventArgs e)

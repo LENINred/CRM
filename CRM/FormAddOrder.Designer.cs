@@ -368,6 +368,7 @@
             this.Controls.Add(this.textBoxCustomer);
             this.Controls.Add(this.comboBoxCustomers);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximumSize = new System.Drawing.Size(587, 478);
             this.MinimumSize = new System.Drawing.Size(587, 446);
             this.Name = "FormAddOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

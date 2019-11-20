@@ -619,7 +619,7 @@ namespace CRM
             if (!checkInet()) return;
             FormLoading formLoading = new FormLoading();
             //Task.Run(() => DownloadFile(true));
-            //Task.Run(() => DownloadFile(false));
+            // Task.Run(() => DownloadFile(false));
             downloadFiles(true);
             downloadFiles(false);
             try

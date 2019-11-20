@@ -180,74 +180,62 @@ namespace CRM
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             if (!checkInet()) return;
-            string id = showFindOrder();
-            if (id == "0")
+
+            try
+            {
+                DataTable table = showFindAnyOrder();
+                dataGridView1.DataSource = table;
+            }
+            catch
             {
                 MessageBox.Show("Заявка не найдена");
                 buttonSearch.PerformClick();
             }
-            else if (id == "-1")
-            {
-                //--
-            }
-            else
-            {
-                FormAddOrder add = new FormAddOrder(false, user_type, int.Parse(id));
-                this.Activated += Form1_Activated;
-                add.Show(this);
-            }
         }
 
-        private string showFindOrder()
+        private DataTable showFindAnyOrder()
         {
             using (var frmFindOrder = new FormFindOrder())
             {
                 DialogResult result = frmFindOrder.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    if ((frmFindOrder.textBox1.Text.Trim().Length > 0) && (findOrder(frmFindOrder.textBox1.Text)))
+                    DataTable table = findAnyOrder(frmFindOrder.textBox1.Text);
+                    if ((frmFindOrder.textBox1.Text.Trim().Length > 0) && (table.Rows.Count > 0))
                     {
-                        return frmFindOrder.textBox1.Text;
+                        return table;
                     }
                     else
                     {
-                        return "0";
+                        return table;
                     }
                 }
                 else if (result == DialogResult.Cancel)
                 {
-                    return "-1";
+                    return null;
                 }
                 else
                 {
-                    return "-1";
+                    return null;
                 }
             }
         }
 
-        private bool findOrder(string id)
+        private DataTable findAnyOrder(string text)
         {
-            FormLoading loading = new FormLoading();
-            loading.Show();
-
-            bool finded = false;
+            DataTable tblOrders = new DataTable();
             using (var con = new DBUtils().getDBConnection())
             {
-                con.Open();
-                using (var cmd = new MySqlCommand("find_order", con))
+                using (var cmd = new MySqlCommand("find_any_order", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new MySqlParameter("@order_id", MySqlDbType.Int32));
-                    cmd.Parameters["@order_id"].Value = id;
+                    cmd.Parameters.Add(new MySqlParameter("@text", MySqlDbType.VarChar));
+                    cmd.Parameters["@text"].Value = text;
                     MySqlDataAdapter dap = new MySqlDataAdapter(cmd);
-                    if (cmd.ExecuteReader().HasRows)
-                    {
-                        finded = true;
-                    }
+                    dap.Fill(tblOrders);
+                    return tblOrders;
                 }
             }
-            loading.Dispose();
-            return finded;
         }
 
         private bool checkInet()

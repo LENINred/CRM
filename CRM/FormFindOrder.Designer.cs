@@ -36,28 +36,27 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(123, 13);
+            this.label1.Size = new System.Drawing.Size(177, 64);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Введите номер заявки";
+            this.label1.Text = "Введите номер заявки, фамилию заказчика или его номер слитно в виде 9998887777";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(16, 29);
+            this.textBox1.Location = new System.Drawing.Point(16, 57);
             this.textBox1.MaxLength = 16;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(120, 20);
+            this.textBox1.Size = new System.Drawing.Size(169, 20);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // buttonFind
             // 
             this.buttonFind.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonFind.Location = new System.Drawing.Point(16, 56);
+            this.buttonFind.Location = new System.Drawing.Point(16, 83);
             this.buttonFind.Name = "buttonFind";
-            this.buttonFind.Size = new System.Drawing.Size(56, 23);
+            this.buttonFind.Size = new System.Drawing.Size(81, 23);
             this.buttonFind.TabIndex = 2;
             this.buttonFind.Text = "Найти";
             this.buttonFind.UseVisualStyleBackColor = true;
@@ -65,9 +64,9 @@
             // buttonAbort
             // 
             this.buttonAbort.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonAbort.Location = new System.Drawing.Point(80, 56);
+            this.buttonAbort.Location = new System.Drawing.Point(103, 83);
             this.buttonAbort.Name = "buttonAbort";
-            this.buttonAbort.Size = new System.Drawing.Size(56, 23);
+            this.buttonAbort.Size = new System.Drawing.Size(82, 23);
             this.buttonAbort.TabIndex = 3;
             this.buttonAbort.Text = "Отмена";
             this.buttonAbort.UseVisualStyleBackColor = true;
@@ -76,13 +75,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(152, 92);
+            this.ClientSize = new System.Drawing.Size(197, 122);
             this.Controls.Add(this.buttonAbort);
             this.Controls.Add(this.buttonFind);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.MaximumSize = new System.Drawing.Size(168, 131);
             this.MinimumSize = new System.Drawing.Size(168, 131);
             this.Name = "FormFindOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

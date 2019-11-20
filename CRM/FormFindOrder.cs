@@ -16,7 +16,7 @@ namespace CRM
             char[] entereddata = textBox1.Text.ToCharArray();
             foreach (char aChar in entereddata)
             {
-                if (Char.IsDigit(aChar))
+                if (Char.IsLetterOrDigit(aChar))
                 {
                     actualdata += aChar;
                 }

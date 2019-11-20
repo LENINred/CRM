@@ -618,11 +618,10 @@ namespace CRM
         {
             if (!checkInet()) return;
             FormLoading formLoading = new FormLoading();
-            formLoading.Show();
-            Task.Run(() => DownloadFile(true));
-            Task.Run(() => DownloadFile(false));
-            //downloadFiles(true);
-            //downloadFiles(false);
+            //Task.Run(() => DownloadFile(true));
+            //Task.Run(() => DownloadFile(false));
+            downloadFiles(true);
+            downloadFiles(false);
             try
             {
                 Process.Start(@"C:\\Users\Public\orders\order_" + order_id);

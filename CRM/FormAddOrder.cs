@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CRM
@@ -280,16 +281,16 @@ namespace CRM
                                                 l += "Инфо заказа: " + logData[2] + " -> " + richTextBoxOrderInfo.Text + "\n";
                                             if (!logData[3].Equals(textBoxCost.Text))
                                                 l += "Цена: " + logData[3] + " -> " + textBoxCost.Text + "\n";
-                                            if (!logData[3].Equals(textBoxFactCost.Text))
-                                                l += "Фактический оплаченныя сумма: " + logData[3] + " -> " + textBoxFactCost.Text + "\n";
-                                            if (!logData[4].Equals(comboBoxOrderType.Text))
-                                                l += "Тип заказа: " + logData[4] + " -> " + comboBoxOrderType.Text + "\n";
-                                            if (!logData[5].Equals(comboBoxOrderStatus.Text))
-                                                l += "Статус заказа: " + logData[5] + " -> " + comboBoxOrderStatus.Text + "\n";
-                                            if (!logData[6].Equals(comboBoxExecutor.Text))
-                                                l += "Исполнитель: " + logData[6] + " -> " + comboBoxExecutor.Text + "\n";
-                                            if (!logData[7].Equals(textBoxDate.Text))
-                                                l += "Дата дедлайна:" + logData[7] + " -> " + textBoxDate.Text + "\n";
+                                            if (!logData[4].Equals(textBoxFactCost.Text))
+                                                l += "Фактический оплаченныя сумма: " + logData[4] + " -> " + textBoxFactCost.Text + "\n";
+                                            if (!logData[5].Equals(comboBoxOrderType.Text))
+                                                l += "Тип заказа: " + logData[5] + " -> " + comboBoxOrderType.Text + "\n";
+                                            if (!logData[6].Equals(comboBoxOrderStatus.Text))
+                                                l += "Статус заказа: " + logData[6] + " -> " + comboBoxOrderStatus.Text + "\n";
+                                            if (!logData[7].Equals(comboBoxExecutor.Text))
+                                                l += "Исполнитель: " + logData[7] + " -> " + comboBoxExecutor.Text + "\n";
+                                            if (!logData[8].Equals(textBoxDate.Text))
+                                                l += "Дата дедлайна:" + logData[8] + " -> " + textBoxDate.Text + "\n";
                                             if (l.Length > 0)
                                             {
                                                 log += " " + DateTime.Now.ToString("yyyy-MM-dd") + " изменили заявку No_" + order_id + ": \n";
@@ -480,6 +481,96 @@ namespace CRM
             }
         }
 
+        private void DownloadFile(bool who)
+        {
+            string localDir = "", ftpDir = "";
+            if (who)
+            {
+                localDir = "\\start\\";
+                ftpDir = "/startImage/";
+            }
+            else
+            {
+                localDir = "\\end\\";
+                ftpDir = "/endImage/";
+            }
+            StreamReader streamReader;
+            List<string> directories;
+            try
+            {
+                FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create("ftp://83.220.174.171/order_" + order_id + ftpDir);
+                ftpRequest.Credentials = new NetworkCredential("seller", "Az123456!");
+                ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
+                FtpWebResponse response = (FtpWebResponse)ftpRequest.GetResponse();
+                streamReader = new StreamReader(response.GetResponseStream());
+                directories = new List<string>();
+            }
+            catch
+            {
+                return;
+            }
+
+            string line = streamReader.ReadLine();
+            while (!string.IsNullOrEmpty(line))
+            {
+                directories.Add(line);
+                line = streamReader.ReadLine();
+            }
+            streamReader.Close();
+
+            Directory.CreateDirectory(@"C:\\Users\Public\orders\order_" + order_id);
+            Directory.CreateDirectory(@"C:\\Users\Public\orders\order_" + order_id + localDir);
+
+            using (WebClient ftpClient = new WebClient())
+            {
+                ftpClient.Credentials = new System.Net.NetworkCredential("seller", "Az123456!");
+
+                for (int i = 0; i <= directories.Count - 1; i++)
+                {
+                    if (directories[i].Contains("."))
+                    {
+                        try
+                        {
+                            string url = "ftp://83.220.174.171/order_" + order_id + ftpDir + directories[i].ToString();
+                            NetworkCredential credentials = new NetworkCredential("seller", "Az123456!");
+
+                            // Query size of the file to be downloaded
+                            WebRequest sizeRequest = WebRequest.Create(url);
+                            sizeRequest.Credentials = credentials;
+                            sizeRequest.Method = WebRequestMethods.Ftp.GetFileSize;
+                            int size = (int)sizeRequest.GetResponse().ContentLength;
+
+                            progressBar1.Invoke(
+                                (MethodInvoker)(() => progressBar1.Maximum = size));
+
+                            // Download the file
+                            WebRequest request = WebRequest.Create(url);
+                            request.Credentials = credentials;
+                            request.Method = WebRequestMethods.Ftp.DownloadFile;
+
+                            using (Stream ftpStream = request.GetResponse().GetResponseStream())
+                            using (Stream fileStream = File.Create(@"C:\\Users\Public\orders\order_" + order_id + localDir + directories[i].ToString()))
+                            {
+                                byte[] buffer = new byte[10240];
+                                int read;
+                                while ((read = ftpStream.Read(buffer, 0, buffer.Length)) > 0)
+                                {
+                                    fileStream.Write(buffer, 0, read);
+                                    int position = (int)fileStream.Position;
+                                    progressBar1.Invoke(
+                                        (MethodInvoker)(() => progressBar1.Value = position));
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(e.Message);
+                        }
+                    }
+                }
+            }
+        }
+
         public void UploadFtpFile(string ordr_id, string[] fileNames)
         {
             string absoluteFileName = "";
@@ -528,8 +619,10 @@ namespace CRM
             if (!checkInet()) return;
             FormLoading formLoading = new FormLoading();
             formLoading.Show();
-            downloadFiles(true);
-            downloadFiles(false);
+            Task.Run(() => DownloadFile(true));
+            Task.Run(() => DownloadFile(false));
+            //downloadFiles(true);
+            //downloadFiles(false);
             try
             {
                 Process.Start(@"C:\\Users\Public\orders\order_" + order_id);

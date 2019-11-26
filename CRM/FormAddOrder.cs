@@ -6,6 +6,10 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
+using System.Net.WebSockets;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,6 +18,7 @@ namespace CRM
     public partial class FormAddOrder : Form
     {
         bool enab;
+        int ord_type;
         int user_type, order_id;
         string comText;
         string log = "";
@@ -24,6 +29,7 @@ namespace CRM
             enab = enabled;
             user_type = usr_tp;
             order_id = ordr_tp;
+            ord_type = ordr_tp;
         }
 
         private void AddOrder_Load(object sender, EventArgs e)
@@ -366,6 +372,34 @@ namespace CRM
                                                 cmd.ExecuteNonQuery();
                                             }
                                         }
+                                        string json = "";
+                                        if (ord_type == 0)
+                                        {
+                                             json = @"{" +
+                                                "\"ordertype\":\"new\"," +
+                                                "\"order_id\":\"" + order_id + "\"," +
+                                                "\"deadline\":\"" + textBoxDate.Text + "\"," +
+                                                "\"cust_name\":\"" + custName.TrimStart() + "\"," +
+                                                "\"cust_phone\":\"" + textBoxPriorComm.Text.TrimStart() + "\"" + "}";
+                                        }
+                                        else
+                                        {
+                                            if (comboBoxOrderStatus.Text == "Ожидание внешнего подрядчика")
+                                            {
+                                                 json = @"{" +
+                                                "\"ordertype\":\"ext\"," +
+                                                "\"order_id\":\"" + order_id + "\"," +
+                                                "\"deadline\":\"" + textBoxDate.Text + "\"," +
+                                                "\"cust_name\":\"" + custName.TrimStart() + "\"," +
+                                                "\"cust_phone\":\"" + textBoxPriorComm.Text.TrimStart() + "\"" + "}";
+                                                
+                                            }
+                                        }
+                                        try
+                                        {
+                                            ClientLaunchAsync(json);
+                                        }
+                                        catch { MessageBox.Show("Оповещение о создании/изменении заявки не отправлено, обратитесь к руководителю либо напишите разработчику из меню сообщения об ошибке"); }
                                         MessageBox.Show("Заявка номер " + order_id + " составлена");
                                         this.Close();
                                     }
@@ -404,6 +438,18 @@ namespace CRM
                 MessageBox.Show("Выберите статус, тип и исполнителя заявки");
             }
             loading.Dispose();
+        }
+
+        private static async void ClientLaunchAsync(string message)
+        {
+            ClientWebSocket webSocket = null;
+            webSocket = new ClientWebSocket();
+            await webSocket.ConnectAsync(new Uri("ws://83.220.174.171:8081"), CancellationToken.None);
+
+            // Do something with WebSocket
+
+            var arraySegment = new ArraySegment<byte>(Encoding.UTF8.GetBytes(message));
+            await webSocket.SendAsync(arraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
         private bool checkCustomerExist(string customer)

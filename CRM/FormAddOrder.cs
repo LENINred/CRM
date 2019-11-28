@@ -450,6 +450,7 @@ namespace CRM
 
             var arraySegment = new ArraySegment<byte>(Encoding.UTF8.GetBytes(message));
             await webSocket.SendAsync(arraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
+            await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "ItsOk", CancellationToken.None);
         }
 
         private bool checkCustomerExist(string customer)

@@ -1,9 +1,10 @@
 ﻿using ClosedXML.Excel;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections;
 using System.Data;
-using System.Data.Common;
+using System.Diagnostics;
+using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace CRM
@@ -28,6 +29,8 @@ namespace CRM
 
             dataGridView1.DataSource = loadOrdersFromDB(what);
             loadGroupTree();
+
+            new Thread(() => setLogInTime()).Start();
         }
 
         private void loadGroupTree()
@@ -81,6 +84,25 @@ namespace CRM
             }
             loading.Dispose();
             return tblOrders;
+        }
+
+        private void setLogInTime()
+        {
+            using (var con = new DBUtils().getDBConnection())
+            {
+                using (var cmd = new MySqlCommand("set_login_time", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new MySqlParameter("@ip", MySqlDbType.VarChar));
+                    cmd.Parameters["@ip"].Value = new System.Net.WebClient().DownloadString("https://api.ipify.org");
+                    cmd.Parameters.Add(new MySqlParameter("@time", MySqlDbType.Date));
+                    cmd.Parameters["@time"].Value = Convert.ToDateTime(dateTimePickerFrom.Text).ToString("yyyy-MM-dd"); ;
+                    cmd.Parameters.Add(new MySqlParameter("@app_ver", MySqlDbType.VarChar));
+                    cmd.Parameters["@app_ver"].Value = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
+                    cmd.Parameters.Add(new MySqlParameter("@pc_name", MySqlDbType.VarChar));
+                    cmd.Parameters["@pc_name"].Value = Environment.MachineName;
+                }
+            }
         }
 
         private void buttonNew_Click(object sender, EventArgs e)

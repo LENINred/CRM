@@ -444,7 +444,7 @@ namespace CRM
         {
             ClientWebSocket webSocket = null;
             webSocket = new ClientWebSocket();
-            await webSocket.ConnectAsync(new Uri("ws://83.220.174.171:8081"), CancellationToken.None);
+            await webSocket.ConnectAsync(new Uri("ws://83.220.174.171:18357"), CancellationToken.None);
 
             // Do something with WebSocket
 

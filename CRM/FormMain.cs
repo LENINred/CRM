@@ -30,7 +30,7 @@ namespace CRM
             dataGridView1.DataSource = loadOrdersFromDB(what);
             loadGroupTree();
 
-            new Thread(() => setLogInTime()).Start();
+            setLogInTime();
         }
 
         private void loadGroupTree()

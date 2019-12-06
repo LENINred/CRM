@@ -30,7 +30,7 @@ namespace CRM
             dataGridView1.DataSource = loadOrdersFromDB(what);
             loadGroupTree();
 
-            setLogInTime();
+            new Thread(() => setLogInTime()).Start();
         }
 
         private void loadGroupTree()
@@ -101,6 +101,8 @@ namespace CRM
                     cmd.Parameters["@app_ver"].Value = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
                     cmd.Parameters.Add(new MySqlParameter("@pc_name", MySqlDbType.VarChar));
                     cmd.Parameters["@pc_name"].Value = Environment.MachineName;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

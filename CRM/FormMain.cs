@@ -96,7 +96,7 @@ namespace CRM
                     cmd.Parameters.Add(new MySqlParameter("@ip", MySqlDbType.VarChar));
                     cmd.Parameters["@ip"].Value = new System.Net.WebClient().DownloadString("https://api.ipify.org");
                     cmd.Parameters.Add(new MySqlParameter("@time", MySqlDbType.Date));
-                    cmd.Parameters["@time"].Value = Convert.ToDateTime(dateTimePickerFrom.Text).ToString("yyyy-MM-dd"); ;
+                    cmd.Parameters["@time"].Value = DateTime.Now.ToString("yyyy-MM-dd"); ;
                     cmd.Parameters.Add(new MySqlParameter("@app_ver", MySqlDbType.VarChar));
                     cmd.Parameters["@app_ver"].Value = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
                     cmd.Parameters.Add(new MySqlParameter("@pc_name", MySqlDbType.VarChar));

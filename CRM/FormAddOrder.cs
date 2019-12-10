@@ -91,6 +91,7 @@ namespace CRM
             logData.Add(comboBoxExecutor.Text);
             logData.Add(comboBoxAcceptor.Text);
             logData.Add(textBoxDate.Text);
+            logData.Add(comboBoxPointOfGrub.Text);
         }
 
         private void loadOrderData()
@@ -124,6 +125,7 @@ namespace CRM
                                 textBoxCustomer.Text = reader.GetString(8);
                                 textBoxPriorComm.Text = reader.GetString(9);
                                 textBoxSubComm.Text = reader.GetString(10);
+                                comboBoxPointOfGrub.Text = reader.GetString(11);
                             }
                         }
                     }
@@ -265,7 +267,7 @@ namespace CRM
             if (!checkCustomerExist(custName))
                 addNewCustomer(custName, comm, subcomm);
 
-            if ((comboBoxOrderStatus.SelectedIndex != -1) && (comboBoxOrderType.SelectedIndex != -1) && (comboBoxAcceptor.SelectedIndex != -1))
+            if ((comboBoxOrderStatus.SelectedIndex != -1) && (comboBoxOrderType.SelectedIndex != -1) && (comboBoxAcceptor.SelectedIndex != -1) && (comboBoxPointOfGrub.SelectedIndex != -1))
             {
                 if (!custName.Trim().Equals(""))
                 {
@@ -303,6 +305,8 @@ namespace CRM
                                                 l += "Принявший заказ: " + logData[8] + " -> " + comboBoxAcceptor.Text + "\n";
                                             if (!logData[9].Equals(textBoxDate.Text))
                                                 l += "Дата дедлайна:" + logData[9] + " -> " + textBoxDate.Text + "\n";
+                                            if (!logData[10].Equals(textBoxDate.Text))
+                                                l += "Точка выдачи:" + logData[10] + " -> " + comboBoxPointOfGrub.Text + "\n";
                                             if (l.Length > 0)
                                             {
                                                 log += " " + DateTime.Now.ToString("yyyy-MM-dd") + " изменили заявку No_" + order_id + ": \n";
@@ -364,6 +368,8 @@ namespace CRM
                                                 p11.Direction = ParameterDirection.Input;
                                                 MySqlParameter p12 = cmd.Parameters.Add("@deadline", MySqlDbType.VarChar);
                                                 p12.Direction = ParameterDirection.Input;
+                                                MySqlParameter p13 = cmd.Parameters.Add("@deadline", MySqlDbType.VarChar);
+                                                p13.Direction = ParameterDirection.Input;
 
                                                 p1.Value = custName.TrimStart();
                                                 p2.Value = richTextBoxOrderInfo.Text.TrimStart();
@@ -377,6 +383,7 @@ namespace CRM
                                                 p10.Value = textBoxSubComm.Text.TrimStart();
                                                 p11.Value = order_id;
                                                 p12.Value = textBoxDate.Text;
+                                                p13.Value = comboBoxPointOfGrub.Text;
                                                 mySqlConnection.Open();
                                                 cmd.ExecuteNonQuery();
                                             }

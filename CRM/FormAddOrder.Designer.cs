@@ -58,6 +58,10 @@
             this.label12 = new System.Windows.Forms.Label();
             this.textBoxFactCost = new System.Windows.Forms.TextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label13 = new System.Windows.Forms.Label();
+            this.comboBoxAcceptor = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.comboBoxPointOfGrub = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // comboBoxCustomers
@@ -89,9 +93,9 @@
             // 
             // buttonAddOrder
             // 
-            this.buttonAddOrder.Location = new System.Drawing.Point(425, 293);
+            this.buttonAddOrder.Location = new System.Drawing.Point(425, 323);
             this.buttonAddOrder.Name = "buttonAddOrder";
-            this.buttonAddOrder.Size = new System.Drawing.Size(134, 131);
+            this.buttonAddOrder.Size = new System.Drawing.Size(134, 141);
             this.buttonAddOrder.TabIndex = 13;
             this.buttonAddOrder.Text = "Добавить";
             this.buttonAddOrder.UseVisualStyleBackColor = true;
@@ -162,9 +166,9 @@
             // 
             this.comboBoxExecutor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxExecutor.FormattingEnabled = true;
-            this.comboBoxExecutor.Location = new System.Drawing.Point(13, 403);
+            this.comboBoxExecutor.Location = new System.Drawing.Point(13, 443);
             this.comboBoxExecutor.Name = "comboBoxExecutor";
-            this.comboBoxExecutor.Size = new System.Drawing.Size(406, 21);
+            this.comboBoxExecutor.Size = new System.Drawing.Size(267, 21);
             this.comboBoxExecutor.TabIndex = 12;
             // 
             // label3
@@ -238,7 +242,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(236, 300);
+            this.label6.Location = new System.Drawing.Point(376, 300);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 13);
             this.label6.TabIndex = 24;
@@ -246,7 +250,7 @@
             // 
             // textBoxDate
             // 
-            this.textBoxDate.Location = new System.Drawing.Point(320, 297);
+            this.textBoxDate.Location = new System.Drawing.Point(460, 297);
             this.textBoxDate.Mask = "00.00.0000 00:00";
             this.textBoxDate.Name = "textBoxDate";
             this.textBoxDate.Size = new System.Drawing.Size(99, 20);
@@ -274,7 +278,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 387);
+            this.label9.Location = new System.Drawing.Point(12, 427);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(74, 13);
             this.label9.TabIndex = 28;
@@ -328,16 +332,59 @@
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(0, 429);
+            this.progressBar1.Location = new System.Drawing.Point(0, 472);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(571, 13);
             this.progressBar1.TabIndex = 34;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(14, 387);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(45, 13);
+            this.label13.TabIndex = 36;
+            this.label13.Text = "Принял";
+            // 
+            // comboBoxAcceptor
+            // 
+            this.comboBoxAcceptor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxAcceptor.FormattingEnabled = true;
+            this.comboBoxAcceptor.Location = new System.Drawing.Point(15, 403);
+            this.comboBoxAcceptor.Name = "comboBoxAcceptor";
+            this.comboBoxAcceptor.Size = new System.Drawing.Size(406, 21);
+            this.comboBoxAcceptor.TabIndex = 35;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(286, 427);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(77, 13);
+            this.label14.TabIndex = 38;
+            this.label14.Text = "Точка выдачи";
+            // 
+            // comboBoxPointOfGrub
+            // 
+            this.comboBoxPointOfGrub.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPointOfGrub.FormattingEnabled = true;
+            this.comboBoxPointOfGrub.Items.AddRange(new object[] {
+            "Мир",
+            "Центральный рынок"});
+            this.comboBoxPointOfGrub.Location = new System.Drawing.Point(287, 443);
+            this.comboBoxPointOfGrub.Name = "comboBoxPointOfGrub";
+            this.comboBoxPointOfGrub.Size = new System.Drawing.Size(134, 21);
+            this.comboBoxPointOfGrub.TabIndex = 37;
             // 
             // FormAddOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(571, 439);
+            this.ClientSize = new System.Drawing.Size(571, 482);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.comboBoxPointOfGrub);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.comboBoxAcceptor);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label12);
@@ -368,7 +415,6 @@
             this.Controls.Add(this.textBoxCustomer);
             this.Controls.Add(this.comboBoxCustomers);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MaximumSize = new System.Drawing.Size(587, 478);
             this.MinimumSize = new System.Drawing.Size(587, 446);
             this.Name = "FormAddOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -411,5 +457,9 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox textBoxFactCost;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox comboBoxAcceptor;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox comboBoxPointOfGrub;
     }
 }

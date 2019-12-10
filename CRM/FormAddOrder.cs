@@ -42,7 +42,9 @@ namespace CRM
             radioButtonExistCustomer.Enabled = enab;
             radioButtonNewCustomer.Enabled = enab;
             comboBoxCustomers.Items.AddRange(loadCustomers().ToArray());
-            comboBoxExecutor.Items.AddRange(loadExecutors().ToArray());
+            List<string> users = loadExecutors();
+            comboBoxExecutor.Items.AddRange(users.ToArray());
+            comboBoxAcceptor.Items.AddRange(users.ToArray());
             comboBoxOrderType.Items.AddRange(loadOrderTypes().ToArray());
 
             comboBoxOrderStatus.Items.Add("Принят");
@@ -87,6 +89,7 @@ namespace CRM
             logData.Add(comboBoxOrderType.Text);
             logData.Add(comboBoxOrderStatus.Text);
             logData.Add(comboBoxExecutor.Text);
+            logData.Add(comboBoxAcceptor.Text);
             logData.Add(textBoxDate.Text);
         }
 
@@ -117,9 +120,10 @@ namespace CRM
                                 textBoxFactCost.Text = reader.GetString(4);
                                 textBoxDate.Text = reader.GetString(5);
                                 comboBoxExecutor.Text = reader.GetString(6);
-                                textBoxCustomer.Text = reader.GetString(7);
-                                textBoxPriorComm.Text = reader.GetString(8);
-                                textBoxSubComm.Text = reader.GetString(9);
+                                comboBoxAcceptor.Text = reader.GetString(7);
+                                textBoxCustomer.Text = reader.GetString(8);
+                                textBoxPriorComm.Text = reader.GetString(9);
+                                textBoxSubComm.Text = reader.GetString(10);
                             }
                         }
                     }
@@ -261,7 +265,7 @@ namespace CRM
             if (!checkCustomerExist(custName))
                 addNewCustomer(custName, comm, subcomm);
 
-            if ((comboBoxOrderStatus.SelectedIndex != -1) && (comboBoxOrderType.SelectedIndex != -1) && (comboBoxExecutor.SelectedIndex != -1))
+            if ((comboBoxOrderStatus.SelectedIndex != -1) && (comboBoxOrderType.SelectedIndex != -1) && (comboBoxAcceptor.SelectedIndex != -1))
             {
                 if (!custName.Trim().Equals(""))
                 {
@@ -295,8 +299,10 @@ namespace CRM
                                                 l += "Статус заказа: " + logData[6] + " -> " + comboBoxOrderStatus.Text + "\n";
                                             if (!logData[7].Equals(comboBoxExecutor.Text))
                                                 l += "Исполнитель: " + logData[7] + " -> " + comboBoxExecutor.Text + "\n";
-                                            if (!logData[8].Equals(textBoxDate.Text))
-                                                l += "Дата дедлайна:" + logData[8] + " -> " + textBoxDate.Text + "\n";
+                                            if (!logData[8].Equals(comboBoxExecutor.Text))
+                                                l += "Принявший заказ: " + logData[8] + " -> " + comboBoxAcceptor.Text + "\n";
+                                            if (!logData[9].Equals(textBoxDate.Text))
+                                                l += "Дата дедлайна:" + logData[9] + " -> " + textBoxDate.Text + "\n";
                                             if (l.Length > 0)
                                             {
                                                 log += " " + DateTime.Now.ToString("yyyy-MM-dd") + " изменили заявку No_" + order_id + ": \n";
@@ -344,30 +350,33 @@ namespace CRM
                                                 p4.Direction = ParameterDirection.Input;
                                                 MySqlParameter p5 = cmd.Parameters.Add("@executor", MySqlDbType.VarChar);
                                                 p5.Direction = ParameterDirection.Input;
-                                                MySqlParameter p6 = cmd.Parameters.Add("@cost", MySqlDbType.VarChar);
+                                                MySqlParameter p6 = cmd.Parameters.Add("@acceptor", MySqlDbType.VarChar);
                                                 p6.Direction = ParameterDirection.Input;
-                                                MySqlParameter p7 = cmd.Parameters.Add("@fact_cost", MySqlDbType.VarChar);
+                                                MySqlParameter p7 = cmd.Parameters.Add("@cost", MySqlDbType.VarChar);
                                                 p7.Direction = ParameterDirection.Input;
-                                                MySqlParameter p8 = cmd.Parameters.Add("@communication", MySqlDbType.VarChar);
+                                                MySqlParameter p8 = cmd.Parameters.Add("@fact_cost", MySqlDbType.VarChar);
                                                 p8.Direction = ParameterDirection.Input;
-                                                MySqlParameter p9 = cmd.Parameters.Add("@subCommunication", MySqlDbType.VarChar);
+                                                MySqlParameter p9 = cmd.Parameters.Add("@communication", MySqlDbType.VarChar);
                                                 p9.Direction = ParameterDirection.Input;
-                                                MySqlParameter p10 = cmd.Parameters.Add("@orderId", MySqlDbType.Int32);
+                                                MySqlParameter p10 = cmd.Parameters.Add("@subCommunication", MySqlDbType.VarChar);
                                                 p10.Direction = ParameterDirection.Input;
-                                                MySqlParameter p11 = cmd.Parameters.Add("@deadline", MySqlDbType.VarChar);
+                                                MySqlParameter p11 = cmd.Parameters.Add("@orderId", MySqlDbType.Int32);
                                                 p11.Direction = ParameterDirection.Input;
+                                                MySqlParameter p12 = cmd.Parameters.Add("@deadline", MySqlDbType.VarChar);
+                                                p12.Direction = ParameterDirection.Input;
 
                                                 p1.Value = custName.TrimStart();
                                                 p2.Value = richTextBoxOrderInfo.Text.TrimStart();
                                                 p3.Value = comboBoxOrderStatus.SelectedItem.ToString();
                                                 p4.Value = comboBoxOrderType.SelectedItem.ToString();
                                                 p5.Value = comboBoxExecutor.SelectedItem.ToString();
-                                                p6.Value = textBoxCost.Text.ToString();
-                                                p7.Value = textBoxFactCost.Text.ToString();
-                                                p8.Value = textBoxPriorComm.Text.TrimStart();
-                                                p9.Value = textBoxSubComm.Text.TrimStart();
-                                                p10.Value = order_id;
-                                                p11.Value = textBoxDate.Text;
+                                                p6.Value = comboBoxAcceptor.SelectedItem.ToString();
+                                                p7.Value = textBoxCost.Text.ToString();
+                                                p8.Value = textBoxFactCost.Text.ToString();
+                                                p9.Value = textBoxPriorComm.Text.TrimStart();
+                                                p10.Value = textBoxSubComm.Text.TrimStart();
+                                                p11.Value = order_id;
+                                                p12.Value = textBoxDate.Text;
                                                 mySqlConnection.Open();
                                                 cmd.ExecuteNonQuery();
                                             }
@@ -435,7 +444,7 @@ namespace CRM
             }
             else
             {
-                MessageBox.Show("Выберите статус, тип и исполнителя заявки");
+                MessageBox.Show("Выберите статус, тип и сотрудника принявшего заявку");
             }
             loading.Dispose();
         }

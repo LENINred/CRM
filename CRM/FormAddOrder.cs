@@ -368,7 +368,7 @@ namespace CRM
                                                 p11.Direction = ParameterDirection.Input;
                                                 MySqlParameter p12 = cmd.Parameters.Add("@deadline", MySqlDbType.VarChar);
                                                 p12.Direction = ParameterDirection.Input;
-                                                MySqlParameter p13 = cmd.Parameters.Add("@deadline", MySqlDbType.VarChar);
+                                                MySqlParameter p13 = cmd.Parameters.Add("@point", MySqlDbType.VarChar);
                                                 p13.Direction = ParameterDirection.Input;
 
                                                 p1.Value = custName.TrimStart();

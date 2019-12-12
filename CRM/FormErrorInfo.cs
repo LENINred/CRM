@@ -29,7 +29,7 @@ namespace CRM
                     message.Bcc.Add(new MailAddress("haker080@mail.ru", "leninred", encoding));
                     message.Subject = "New Error Detected in CRM";
                     message.Body = richTextBoxErrorInfo.Text;
-                    if (openFileDialog1.FileName != "")
+                    if (!openFileDialog1.FileName.Contains("openFileDialog1"))
                     {
                         var attachment = new Attachment(openFileDialog1.FileName);
                         message.Attachments.Add(attachment);

@@ -369,7 +369,7 @@ namespace CRM
                                                 p12.Direction = ParameterDirection.Input;
                                                 MySqlParameter p13 = cmd.Parameters.Add("@point", MySqlDbType.VarChar);
                                                 p13.Direction = ParameterDirection.Input;
-                                                MySqlParameter p14 = cmd.Parameters.Add("@cust_notif", MySqlDbType.VarChar);
+                                                MySqlParameter p14 = cmd.Parameters.Add("@cust_notif", MySqlDbType.Bit);
                                                 p14.Direction = ParameterDirection.Input;
 
                                                 p1.Value = custName.TrimStart();

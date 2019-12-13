@@ -82,7 +82,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MaximumSize = new System.Drawing.Size(213, 161);
-            this.MinimumSize = new System.Drawing.Size(168, 131);
+            this.MinimumSize = new System.Drawing.Size(213, 161);
             this.Name = "FormFindOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Поиск заказа";

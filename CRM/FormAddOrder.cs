@@ -6,11 +6,9 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CRM
@@ -77,7 +75,7 @@ namespace CRM
                 }
                 buttonAddOrder.Text = "Сохранить";
             }
-            else 
+            else
                 comText = "add_new_order";
 
             loadOrderData();
@@ -126,6 +124,7 @@ namespace CRM
                                 textBoxPriorComm.Text = reader.GetString(9);
                                 textBoxSubComm.Text = reader.GetString(10);
                                 comboBoxPointOfGrub.Text = reader.GetString(11);
+                                checkBoxCustNotif.Enabled = reader.GetBoolean(12);
                             }
                         }
                     }
@@ -223,7 +222,7 @@ namespace CRM
                                 {
                                     return reader.GetInt32(0);
                                 }
-                                catch(System.Data.SqlTypes.SqlNullValueException)
+                                catch (System.Data.SqlTypes.SqlNullValueException)
                                 {
                                     return 0;
                                 }
@@ -370,6 +369,8 @@ namespace CRM
                                                 p12.Direction = ParameterDirection.Input;
                                                 MySqlParameter p13 = cmd.Parameters.Add("@point", MySqlDbType.VarChar);
                                                 p13.Direction = ParameterDirection.Input;
+                                                MySqlParameter p14 = cmd.Parameters.Add("@cust_notif", MySqlDbType.VarChar);
+                                                p14.Direction = ParameterDirection.Input;
 
                                                 p1.Value = custName.TrimStart();
                                                 p2.Value = richTextBoxOrderInfo.Text.TrimStart();
@@ -384,6 +385,7 @@ namespace CRM
                                                 p11.Value = order_id;
                                                 p12.Value = textBoxDate.Text;
                                                 p13.Value = comboBoxPointOfGrub.Text;
+                                                p14.Value = checkBoxCustNotif.Checked;
                                                 mySqlConnection.Open();
                                                 cmd.ExecuteNonQuery();
                                             }
@@ -391,24 +393,24 @@ namespace CRM
                                         string json = "";
                                         if (ord_type == 0)
                                         {
-                                             json = @"{" +
-                                                "\"ordertype\":\"new\"," +
-                                                "\"order_id\":\"" + order_id + "\"," +
-                                                "\"deadline\":\"" + textBoxDate.Text + "\"," +
-                                                "\"cust_name\":\"" + custName.TrimStart() + "\"," +
-                                                "\"cust_phone\":\"" + textBoxPriorComm.Text.TrimStart() + "\"" + "}";
+                                            json = @"{" +
+                                               "\"ordertype\":\"new\"," +
+                                               "\"order_id\":\"" + order_id + "\"," +
+                                               "\"deadline\":\"" + textBoxDate.Text + "\"," +
+                                               "\"cust_name\":\"" + custName.TrimStart() + "\"," +
+                                               "\"cust_phone\":\"" + textBoxPriorComm.Text.TrimStart() + "\"" + "}";
                                         }
                                         else
                                         {
                                             if (comboBoxOrderStatus.Text == "Ожидание внешнего подрядчика")
                                             {
-                                                 json = @"{" +
-                                                "\"ordertype\":\"ext\"," +
-                                                "\"order_id\":\"" + order_id + "\"," +
-                                                "\"deadline\":\"" + textBoxDate.Text + "\"," +
-                                                "\"cust_name\":\"" + custName.TrimStart() + "\"," +
-                                                "\"cust_phone\":\"" + textBoxPriorComm.Text.TrimStart() + "\"" + "}";
-                                                
+                                                json = @"{" +
+                                               "\"ordertype\":\"ext\"," +
+                                               "\"order_id\":\"" + order_id + "\"," +
+                                               "\"deadline\":\"" + textBoxDate.Text + "\"," +
+                                               "\"cust_name\":\"" + custName.TrimStart() + "\"," +
+                                               "\"cust_phone\":\"" + textBoxPriorComm.Text.TrimStart() + "\"" + "}";
+
                                             }
                                         }
                                         try
@@ -631,7 +633,7 @@ namespace CRM
             {
                 request.GetResponse();
             }
-            catch {  }
+            catch { }
 
             request = WebRequest.Create("ftp://83.220.174.171/order_" + ordr_id + absoluteFileName);
             request.Method = WebRequestMethods.Ftp.MakeDirectory;
@@ -704,7 +706,8 @@ namespace CRM
                     {
                         ftpStream.Write(buffer, 0, read);
                         progressBar1.Invoke(
-                            (MethodInvoker)delegate {
+                            (MethodInvoker)delegate
+                            {
                                 progressBar1.Value = (int)fileStream.Position;
                             });
                     }

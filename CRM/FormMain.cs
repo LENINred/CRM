@@ -68,7 +68,8 @@ namespace CRM
             loading.Show();
 
             DataTable tblOrders = new DataTable();
-            using (var con = new DBUtils().getDBConnection()){
+            using (var con = new DBUtils().getDBConnection())
+            {
                 using (var cmd = new MySqlCommand("get_orders", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -132,7 +133,7 @@ namespace CRM
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             buttonShow.Enabled = true;
-            if(dataGridView1.SelectedRows.Count > 0)
+            if (dataGridView1.SelectedRows.Count > 0)
                 order_id = Int32.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString());
         }
 
@@ -187,7 +188,7 @@ namespace CRM
             this.Activated += Form1_Activated;
             adminForm.Show();
         }
-        
+
         private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             FormAddOrder add = new FormAddOrder(false, user_type, order_id);

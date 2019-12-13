@@ -1,10 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data.Common;
 using System.Diagnostics;
-using System.IO;
-using System.Net;
 using System.Reflection;
-using System.Windows.Forms;
 
 namespace CRM
 {
@@ -14,7 +11,7 @@ namespace CRM
         {
             /*FormLoading loading = new FormLoading();
             loading.Show();*/
-            
+
             string productVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
             string update = "";

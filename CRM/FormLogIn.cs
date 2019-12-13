@@ -2,7 +2,6 @@
 using System;
 using System.Data;
 using System.Data.Common;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -152,9 +151,9 @@ namespace CRM
                     }
                 }
             }
-            if(ban == 1)
+            if (ban == 1)
             {
-                foreach(Control control in this.Controls)
+                foreach (Control control in this.Controls)
                 {
                     control.Enabled = false;
                 }

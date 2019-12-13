@@ -124,7 +124,7 @@ namespace CRM
                                 textBoxPriorComm.Text = reader.GetString(9);
                                 textBoxSubComm.Text = reader.GetString(10);
                                 comboBoxPointOfGrub.Text = reader.GetString(11);
-                                checkBoxCustNotif.Enabled = reader.GetBoolean(12);
+                                checkBoxCustNotif.Checked = reader.GetBoolean(12);
                             }
                         }
                     }
@@ -369,7 +369,7 @@ namespace CRM
                                                 p12.Direction = ParameterDirection.Input;
                                                 MySqlParameter p13 = cmd.Parameters.Add("@point", MySqlDbType.VarChar);
                                                 p13.Direction = ParameterDirection.Input;
-                                                MySqlParameter p14 = cmd.Parameters.Add("@cust_notif", MySqlDbType.Bit);
+                                                MySqlParameter p14 = cmd.Parameters.Add("@cust_notif", MySqlDbType.Int16);
                                                 p14.Direction = ParameterDirection.Input;
 
                                                 p1.Value = custName.TrimStart();
@@ -385,7 +385,7 @@ namespace CRM
                                                 p11.Value = order_id;
                                                 p12.Value = textBoxDate.Text;
                                                 p13.Value = comboBoxPointOfGrub.Text;
-                                                p14.Value = checkBoxCustNotif.Checked;
+                                                p14.Value = checkBoxCustNotif.Checked ? 1 : 0;
                                                 mySqlConnection.Open();
                                                 cmd.ExecuteNonQuery();
                                             }

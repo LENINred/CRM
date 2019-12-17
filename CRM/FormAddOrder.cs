@@ -39,6 +39,7 @@ namespace CRM
             richTextBoxOrderInfo.Enabled = enab;
             radioButtonExistCustomer.Enabled = enab;
             radioButtonNewCustomer.Enabled = enab;
+
             comboBoxCustomers.Items.AddRange(loadCustomers().ToArray());
             List<string> users = loadExecutors();
             comboBoxExecutor.Items.AddRange(users.ToArray());
@@ -52,10 +53,7 @@ namespace CRM
             if ((user_type == 2) || (user_type == 3))
             {
                 log = "Дизайнеры";
-                comboBoxOrderStatus.Items.Add("Подтверждение макета заказчиком");
-                comboBoxOrderStatus.Items.Add("Макет подтвержден заказчиком");
-                comboBoxOrderStatus.Items.Add("Ожидание внешнего подрядчика");
-                comboBoxOrderStatus.Items.Add("Работа завершена");
+                comboBoxOrderStatus.Items.AddRange(new string[]{ "Подтверждение макета заказчиком", "Макет подтвержден заказчиком","Ожидание внешнего подрядчика","Работа завершена"});
             }
             if (order_id > 0)
             {
@@ -298,7 +296,7 @@ namespace CRM
                                                 l += "Тип заказа: " + logData[5] + " -> " + comboBoxOrderType.Text + "\n";
                                             if (!logData[6].Equals(comboBoxOrderStatus.Text))
                                                 l += "Статус заказа: " + logData[6] + " -> " + comboBoxOrderStatus.Text + "\n";
-                                            if (!logData[7].Equals(comboBoxExecutor.Text))
+                                            if (!logData[7].Equals(comboBoxExecutor.Text)) 
                                                 l += "Исполнитель: " + logData[7] + " -> " + comboBoxExecutor.Text + "\n";
                                             if (!logData[8].Equals(comboBoxExecutor.Text))
                                                 l += "Принявший заказ: " + logData[8] + " -> " + comboBoxAcceptor.Text + "\n";
@@ -328,11 +326,6 @@ namespace CRM
                                                     }
                                                 }
                                             }
-                                        }
-
-                                        if (openFileDialog1.FileName != "")
-                                        {
-                                            uploadFiles("" + order_id, openFileDialog1.FileNames);
                                         }
 
                                         using (var mySqlConnection = new DBUtils().getDBConnection())
@@ -389,6 +382,10 @@ namespace CRM
                                                 mySqlConnection.Open();
                                                 cmd.ExecuteNonQuery();
                                             }
+                                        }
+                                        if (openFileDialog1.FileName != "")
+                                        {
+                                            uploadFiles("" + order_id, openFileDialog1.FileNames);
                                         }
                                         string json = "";
                                         if (ord_type == 0)
@@ -463,8 +460,6 @@ namespace CRM
             ClientWebSocket webSocket = null;
             webSocket = new ClientWebSocket();
             await webSocket.ConnectAsync(new Uri("ws://83.220.174.171:18357"), CancellationToken.None);
-
-            // Do something with WebSocket
 
             var arraySegment = new ArraySegment<byte>(Encoding.UTF8.GetBytes(message));
             await webSocket.SendAsync(arraySegment, WebSocketMessageType.Text, true, CancellationToken.None);

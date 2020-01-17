@@ -326,5 +326,16 @@ namespace CRM
             dataGridView1.DataSource = loadOrdersFromDB(what);
             loadGroupTree();
         }
+
+        private void buttonChangeCustomers_Click(object sender, EventArgs e)
+        {
+            if (!new InternetConnection().CheckForInternetConnection())
+            {
+                MessageBox.Show("На компьютере отсутствует интернет соединение");
+                return;
+            }
+            FormList list = new FormList(3);
+            list.ShowDialog();
+        }
     }
 }

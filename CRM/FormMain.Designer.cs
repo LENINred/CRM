@@ -55,6 +55,7 @@
             this.buttonTableExport = new System.Windows.Forms.Button();
             this.buttonCustomersExport = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.buttonChangeCustomers = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -266,11 +267,22 @@
             this.buttonCustomersExport.UseVisualStyleBackColor = true;
             this.buttonCustomersExport.Click += new System.EventHandler(this.buttonCustomersExport_Click);
             // 
+            // buttonChangeCustomers
+            // 
+            this.buttonChangeCustomers.Location = new System.Drawing.Point(12, 444);
+            this.buttonChangeCustomers.Name = "buttonChangeCustomers";
+            this.buttonChangeCustomers.Size = new System.Drawing.Size(204, 23);
+            this.buttonChangeCustomers.TabIndex = 23;
+            this.buttonChangeCustomers.Text = "Редактировать список клиентов";
+            this.buttonChangeCustomers.UseVisualStyleBackColor = true;
+            this.buttonChangeCustomers.Click += new System.EventHandler(this.buttonChangeCustomers_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 561);
+            this.Controls.Add(this.buttonChangeCustomers);
             this.Controls.Add(this.buttonCustomersExport);
             this.Controls.Add(this.buttonTableExport);
             this.Controls.Add(this.dateTimePickerTo);
@@ -320,6 +332,7 @@
         private System.Windows.Forms.Button buttonTableExport;
         private System.Windows.Forms.Button buttonCustomersExport;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button buttonChangeCustomers;
     }
 }
 

@@ -28,13 +28,23 @@ namespace CRM
                 querys = new[] { "add_user", "delete_user", "change_user" };
                 this.Text = "Сотрудники";
                 formText = "Ф.И.О.";
+                buttonAdd.Click += buttonAdd_Click;
             }
-            else
+            else if (type == 2)
             {
                 query = "load_types_list";
                 querys = new[] { "add_type", "delete_type", "change_type" };
                 this.Text = "Виды работ";
                 formText = "Вид работы";
+                buttonAdd.Click += buttonAdd_Click;
+            }
+            else if (type == 3)
+            {
+                query = "load_cust_list";
+                querys = new[] { "add_new_customer", "delete_customer", "change_cust" };
+                this.Text = "Клиенты";
+                formText = "Ф.И.О.";
+                buttonAdd.Click += buttonAddCust_Click;
             }
 
             loadList(query);
@@ -55,7 +65,9 @@ namespace CRM
                         {
                             while (reader.Read())
                             {
-                                list.Add(reader.GetInt32(0) + ";" + reader.GetString(1));
+                                if(type == 3)
+                                    list.Add(reader.GetInt32(0) + ";" + reader.GetString(1) + ";" + reader.GetString(2));
+                                else list.Add(reader.GetInt32(0) + ";" + reader.GetString(1));
                             }
                         }
                     }
@@ -85,6 +97,7 @@ namespace CRM
                 Label lab = new Label();
                 lab.Name = "label-" + i;
                 lab.Tag = obj.Split(';')[0];
+                if(type == 3) lab.Tag += (";" + obj.Split(';')[2]);
                 lab.Text = obj.Split(';')[1];
                 lab.AutoSize = true;
                 lab.AutoEllipsis = false;
@@ -97,7 +110,11 @@ namespace CRM
                 buttonCh.AutoEllipsis = false;
                 buttonCh.Text = "Изменить";
                 buttonCh.Location = new Point(x + (int)size.Width + 5, y - 5);
-                buttonCh.Click += ButtonCh_Click;
+                if(type == 3)
+                {
+                    buttonCh.Click += ButtonChCust_Click;
+                }
+                else buttonCh.Click += ButtonCh_Click;
 
                 Button buttonRm = new Button();
                 buttonRm.Name = "buttonRm-" + i;
@@ -118,7 +135,7 @@ namespace CRM
 
         private void ButtonRm_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Удалить сотрудника", "Подтверждение", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Удалить", "Подтверждение", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 Label lab = (Label)((Button)sender).Parent.Controls.Find("label-" + ((Button)sender).Name.ToString().Split('-')[1], true)[0];
@@ -133,7 +150,7 @@ namespace CRM
                         MySqlParameter p1 = cmd.Parameters.Add("@id", MySqlDbType.Int32);
                         p1.Direction = ParameterDirection.Input;
 
-                        p1.Value = lab.Tag;
+                        p1.Value = lab.Tag.ToString().Split(';')[0];
                         mySqlConnection.Open();
                         cmd.ExecuteNonQuery();
                     }
@@ -202,6 +219,77 @@ namespace CRM
                             p1.Direction = ParameterDirection.Input;
 
                             p1.Value = userName.textBox1.Text;
+                            mySqlConnection.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    panelUsers.Controls.Clear();
+                    list.Clear();
+                    loadList(query);
+                }
+            }
+        }
+
+        private void ButtonChCust_Click(object sender, EventArgs e)
+        {
+            Label lab = (Label)((Button)sender).Parent.Controls.Find("label-" + ((Button)sender).Name.ToString().Split('-')[1], true)[0];
+            FormChangeCustomer editText = new FormChangeCustomer(lab.Text, lab.Tag.ToString().Split(';')[1]);
+            if (editText.ShowDialog(this) == DialogResult.OK)
+            {
+                if ((editText.textBoxName.Text.Trim().Length > 0) && (editText.textBoxComm.Text.Trim().Length > 0))
+                {
+                    using (var mySqlConnection = new DBUtils().getDBConnection())
+                    {
+                        using (var cmd = new MySqlCommand())
+                        {
+                            cmd.Connection = mySqlConnection;
+                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                            cmd.CommandText = querys[2];
+                            cmd.Parameters.Clear();
+                            MySqlParameter p1 = cmd.Parameters.Add("@id", MySqlDbType.Int32);
+                            p1.Direction = ParameterDirection.Input;
+                            MySqlParameter p2 = cmd.Parameters.Add("@new_name", MySqlDbType.VarChar);
+                            p2.Direction = ParameterDirection.Input;
+                            MySqlParameter p3 = cmd.Parameters.Add("@new_comm", MySqlDbType.VarChar);
+                            p3.Direction = ParameterDirection.Input;
+
+                            p1.Value = lab.Tag.ToString().Split(';')[0];
+                            p2.Value = editText.textBoxName.Text;
+                            p3.Value = editText.textBoxComm.Text;
+                            mySqlConnection.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    lab.Text = editText.textBoxName.Text;
+                }
+            }
+        }
+
+        private void buttonAddCust_Click(object sender, EventArgs e)
+        {
+            FormChangeCustomer custData = new FormChangeCustomer("", "");
+            if (custData.ShowDialog(this) == DialogResult.OK)
+            {
+                if ((custData.textBoxName.Text.Trim().Length > 0) && (custData.textBoxComm.Text.Trim().Length > 0))
+                {
+                    using (var mySqlConnection = new DBUtils().getDBConnection())
+                    {
+                        using (var cmd = new MySqlCommand())
+                        {
+                            cmd.Connection = mySqlConnection;
+                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                            cmd.CommandText = querys[0];
+                            cmd.Parameters.Clear();
+                            MySqlParameter p1 = cmd.Parameters.Add("@customer", MySqlDbType.VarChar);
+                            p1.Direction = ParameterDirection.Input;
+                            MySqlParameter p2 = cmd.Parameters.Add("@comm", MySqlDbType.VarChar);
+                            p2.Direction = ParameterDirection.Input;
+                            MySqlParameter p3 = cmd.Parameters.Add("@sub_comm", MySqlDbType.VarChar);
+                            p3.Direction = ParameterDirection.Input;
+
+                            p1.Value = custData.textBoxName.Text;
+                            p2.Value = custData.textBoxComm.Text;
+                            p3.Value = "";
                             mySqlConnection.Open();
                             cmd.ExecuteNonQuery();
                         }

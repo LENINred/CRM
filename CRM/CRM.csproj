@@ -104,6 +104,12 @@
     </Compile>
     <Compile Include="BackDoorConnection.cs" />
     <Compile Include="DBUtils.cs" />
+    <Compile Include="FormChangeCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormChangeCustomer.Designer.cs">
+      <DependentUpon>FormChangeCustomer.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDevInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -181,6 +187,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAddOrder.resx">
       <DependentUpon>FormAddOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormChangeCustomer.resx">
+      <DependentUpon>FormChangeCustomer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormDevInfo.resx">
       <DependentUpon>FormDevInfo.cs</DependentUpon>

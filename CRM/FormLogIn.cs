@@ -44,6 +44,7 @@ namespace CRM
             try
             {
                 Directory.Delete("prevVersion", true);
+                Directory.Delete("CRM-master", true);
             }
             catch {; }
             using (var client = new WebClient())
@@ -71,7 +72,6 @@ namespace CRM
                     string s2 = Path.GetFileName(s1);
                     File.Copy(s1, s2, true);
                 }
-                Directory.Delete("CRM-master", true);
             }
             Application.Restart();
         }

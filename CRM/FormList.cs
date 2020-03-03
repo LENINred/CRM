@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace CRM
@@ -66,14 +68,15 @@ namespace CRM
                             while (reader.Read())
                             {
                                 if(type == 3)
-                                    list.Add(reader.GetInt32(0) + ";" + reader.GetString(1) + ";" + reader.GetString(2));
+                                    list.Add(reader.GetInt32(0) + ";" + reader.GetString(1) + ";" + reader.GetString(2) + ";" + reader.GetString(3));
                                 else list.Add(reader.GetInt32(0) + ";" + reader.GetString(1));
                             }
                         }
                     }
                 }
             }
-            createObjList(list);
+            Thread thread = new Thread(() => createObjList(list));
+            thread.Start();
         }
 
         private void createObjList(List<string> list)
@@ -97,7 +100,7 @@ namespace CRM
                 Label lab = new Label();
                 lab.Name = "label-" + i;
                 lab.Tag = obj.Split(';')[0];
-                if(type == 3) lab.Tag += (";" + obj.Split(';')[2]);
+                if(type == 3) lab.Tag += (";" + obj.Split(';')[2]) + (";" + obj.Split(';')[3]);
                 lab.Text = obj.Split(';')[1];
                 lab.AutoSize = true;
                 lab.AutoEllipsis = false;
@@ -125,9 +128,13 @@ namespace CRM
                 buttonRm.Location = new Point(x + (int)size.Width + 10 + buttonCh.Width, y - 5);
                 buttonRm.Click += ButtonRm_Click;
 
-                panelUsers.Controls.Add(lab);
-                panelUsers.Controls.Add(buttonCh);
-                panelUsers.Controls.Add(buttonRm);
+                this.BeginInvoke((ThreadStart)delegate {
+
+                    panelUsers.Controls.Add(lab);
+                    panelUsers.Controls.Add(buttonCh);
+                    panelUsers.Controls.Add(buttonRm);
+                });
+                
                 y += 29;
                 i++;
             }
@@ -233,7 +240,7 @@ namespace CRM
         private void ButtonChCust_Click(object sender, EventArgs e)
         {
             Label lab = (Label)((Button)sender).Parent.Controls.Find("label-" + ((Button)sender).Name.ToString().Split('-')[1], true)[0];
-            FormChangeCustomer editText = new FormChangeCustomer(lab.Text, lab.Tag.ToString().Split(';')[1]);
+            FormChangeCustomer editText = new FormChangeCustomer(lab.Text, lab.Tag.ToString().Split(';')[1], lab.Tag.ToString().Split(';')[2]);
             if (editText.ShowDialog(this) == DialogResult.OK)
             {
                 if ((editText.textBoxName.Text.Trim().Length > 0) && (editText.textBoxComm.Text.Trim().Length > 0))
@@ -252,10 +259,13 @@ namespace CRM
                             p2.Direction = ParameterDirection.Input;
                             MySqlParameter p3 = cmd.Parameters.Add("@new_comm", MySqlDbType.VarChar);
                             p3.Direction = ParameterDirection.Input;
+                            MySqlParameter p4 = cmd.Parameters.Add("@new_mail", MySqlDbType.VarChar);
+                            p4.Direction = ParameterDirection.Input;
 
                             p1.Value = lab.Tag.ToString().Split(';')[0];
                             p2.Value = editText.textBoxName.Text;
                             p3.Value = editText.textBoxComm.Text;
+                            p4.Value = editText.textBoxMail.Text;
                             mySqlConnection.Open();
                             cmd.ExecuteNonQuery();
                         }
@@ -267,7 +277,7 @@ namespace CRM
 
         private void buttonAddCust_Click(object sender, EventArgs e)
         {
-            FormChangeCustomer custData = new FormChangeCustomer("", "");
+            FormChangeCustomer custData = new FormChangeCustomer("", "", "");
             if (custData.ShowDialog(this) == DialogResult.OK)
             {
                 if ((custData.textBoxName.Text.Trim().Length > 0) && (custData.textBoxComm.Text.Trim().Length > 0))
@@ -289,7 +299,7 @@ namespace CRM
 
                             p1.Value = custData.textBoxName.Text;
                             p2.Value = custData.textBoxComm.Text;
-                            p3.Value = "";
+                            p3.Value = custData.textBoxMail.Text;
                             mySqlConnection.Open();
                             cmd.ExecuteNonQuery();
                         }

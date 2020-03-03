@@ -337,5 +337,38 @@ namespace CRM
             FormList list = new FormList(3);
             list.ShowDialog();
         }
+
+        private void buttonAddNewCustomer_Click(object sender, EventArgs e)
+        {
+            FormChangeCustomer custData = new FormChangeCustomer("", "", "");
+            if (custData.ShowDialog(this) == DialogResult.OK)
+            {
+                if ((custData.textBoxName.Text.Trim().Length > 0) && (custData.textBoxComm.Text.Trim().Length > 0))
+                {
+                    using (var mySqlConnection = new DBUtils().getDBConnection())
+                    {
+                        using (var cmd = new MySqlCommand())
+                        {
+                            cmd.Connection = mySqlConnection;
+                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                            cmd.CommandText = "add_new_customer";
+                            cmd.Parameters.Clear();
+                            MySqlParameter p1 = cmd.Parameters.Add("@customer", MySqlDbType.VarChar);
+                            p1.Direction = ParameterDirection.Input;
+                            MySqlParameter p2 = cmd.Parameters.Add("@comm", MySqlDbType.VarChar);
+                            p2.Direction = ParameterDirection.Input;
+                            MySqlParameter p3 = cmd.Parameters.Add("@sub_comm", MySqlDbType.VarChar);
+                            p3.Direction = ParameterDirection.Input;
+
+                            p1.Value = custData.textBoxName.Text;
+                            p2.Value = custData.textBoxComm.Text;
+                            p3.Value = custData.textBoxMail.Text;
+                            mySqlConnection.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
     }
 }

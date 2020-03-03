@@ -56,6 +56,7 @@
             this.buttonCustomersExport = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.buttonChangeCustomers = new System.Windows.Forms.Button();
+            this.buttonAddNewCustomer = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -269,7 +270,7 @@
             // 
             // buttonChangeCustomers
             // 
-            this.buttonChangeCustomers.Location = new System.Drawing.Point(12, 444);
+            this.buttonChangeCustomers.Location = new System.Drawing.Point(9, 416);
             this.buttonChangeCustomers.Name = "buttonChangeCustomers";
             this.buttonChangeCustomers.Size = new System.Drawing.Size(204, 23);
             this.buttonChangeCustomers.TabIndex = 23;
@@ -277,11 +278,22 @@
             this.buttonChangeCustomers.UseVisualStyleBackColor = true;
             this.buttonChangeCustomers.Click += new System.EventHandler(this.buttonChangeCustomers_Click);
             // 
+            // buttonAddNewCustomer
+            // 
+            this.buttonAddNewCustomer.Location = new System.Drawing.Point(9, 445);
+            this.buttonAddNewCustomer.Name = "buttonAddNewCustomer";
+            this.buttonAddNewCustomer.Size = new System.Drawing.Size(204, 23);
+            this.buttonAddNewCustomer.TabIndex = 24;
+            this.buttonAddNewCustomer.Text = "Добавить нового клиента";
+            this.buttonAddNewCustomer.UseVisualStyleBackColor = true;
+            this.buttonAddNewCustomer.Click += new System.EventHandler(this.buttonAddNewCustomer_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 561);
+            this.Controls.Add(this.buttonAddNewCustomer);
             this.Controls.Add(this.buttonChangeCustomers);
             this.Controls.Add(this.buttonCustomersExport);
             this.Controls.Add(this.buttonTableExport);
@@ -333,6 +345,7 @@
         private System.Windows.Forms.Button buttonCustomersExport;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button buttonChangeCustomers;
+        private System.Windows.Forms.Button buttonAddNewCustomer;
     }
 }
 

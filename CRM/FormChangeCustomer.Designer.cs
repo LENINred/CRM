@@ -33,6 +33,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxComm = new System.Windows.Forms.MaskedTextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxMail = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textBoxName
@@ -45,12 +47,13 @@
             // buttonSave
             // 
             this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonSave.Location = new System.Drawing.Point(12, 105);
+            this.buttonSave.Location = new System.Drawing.Point(12, 163);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(153, 23);
             this.buttonSave.TabIndex = 1;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // label1
             // 
@@ -78,11 +81,29 @@
             this.textBoxComm.Size = new System.Drawing.Size(153, 20);
             this.textBoxComm.TabIndex = 30;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 118);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(90, 13);
+            this.label3.TabIndex = 32;
+            this.label3.Text = "Изменить Почту";
+            // 
+            // textBoxMail
+            // 
+            this.textBoxMail.Location = new System.Drawing.Point(12, 137);
+            this.textBoxMail.Name = "textBoxMail";
+            this.textBoxMail.Size = new System.Drawing.Size(153, 20);
+            this.textBoxMail.TabIndex = 31;
+            // 
             // FormChangeCustomer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(177, 141);
+            this.ClientSize = new System.Drawing.Size(177, 198);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBoxMail);
             this.Controls.Add(this.textBoxComm);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -102,5 +123,7 @@
         public System.Windows.Forms.TextBox textBoxName;
         public System.Windows.Forms.Button buttonSave;
         public System.Windows.Forms.MaskedTextBox textBoxComm;
+        private System.Windows.Forms.Label label3;
+        public System.Windows.Forms.TextBox textBoxMail;
     }
 }

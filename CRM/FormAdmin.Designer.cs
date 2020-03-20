@@ -31,6 +31,8 @@
             this.buttonLogs = new System.Windows.Forms.Button();
             this.buttonUsersList = new System.Windows.Forms.Button();
             this.buttonOrdersTypeList = new System.Windows.Forms.Button();
+            this.buttonChangePaperSizes = new System.Windows.Forms.Button();
+            this.buttonChangePrototermServer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonLogs
@@ -63,11 +65,33 @@
             this.buttonOrdersTypeList.UseVisualStyleBackColor = true;
             this.buttonOrdersTypeList.Click += new System.EventHandler(this.buttonOrdersTypeList_Click);
             // 
+            // buttonChangePaperSizes
+            // 
+            this.buttonChangePaperSizes.Location = new System.Drawing.Point(12, 99);
+            this.buttonChangePaperSizes.Name = "buttonChangePaperSizes";
+            this.buttonChangePaperSizes.Size = new System.Drawing.Size(179, 37);
+            this.buttonChangePaperSizes.TabIndex = 3;
+            this.buttonChangePaperSizes.Text = "Изменение списка форматов бумаги";
+            this.buttonChangePaperSizes.UseVisualStyleBackColor = true;
+            this.buttonChangePaperSizes.Click += new System.EventHandler(this.buttonChangePaperSizes_Click);
+            // 
+            // buttonChangePrototermServer
+            // 
+            this.buttonChangePrototermServer.Location = new System.Drawing.Point(13, 144);
+            this.buttonChangePrototermServer.Name = "buttonChangePrototermServer";
+            this.buttonChangePrototermServer.Size = new System.Drawing.Size(179, 37);
+            this.buttonChangePrototermServer.TabIndex = 4;
+            this.buttonChangePrototermServer.Text = "Изменение адреса сервера фототерминалов";
+            this.buttonChangePrototermServer.UseVisualStyleBackColor = true;
+            this.buttonChangePrototermServer.Click += new System.EventHandler(this.buttonChangePrototermServer_Click);
+            // 
             // FormAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(205, 325);
+            this.Controls.Add(this.buttonChangePrototermServer);
+            this.Controls.Add(this.buttonChangePaperSizes);
             this.Controls.Add(this.buttonOrdersTypeList);
             this.Controls.Add(this.buttonUsersList);
             this.Controls.Add(this.buttonLogs);
@@ -85,5 +109,7 @@
         private System.Windows.Forms.Button buttonLogs;
         private System.Windows.Forms.Button buttonUsersList;
         private System.Windows.Forms.Button buttonOrdersTypeList;
+        private System.Windows.Forms.Button buttonChangePaperSizes;
+        private System.Windows.Forms.Button buttonChangePrototermServer;
     }
 }

@@ -48,6 +48,14 @@ namespace CRM
                 formText = "Ф.И.О.";
                 buttonAdd.Click += buttonAddCust_Click;
             }
+            else if (type == 4)
+            {
+                query = "get_paper_sizes";
+                querys = new[] { "add_paper_size", "remove_paper_size", "change_paper_size" };
+                this.Text = "Форматы";
+                formText = "Форматы";
+                buttonAdd.Click += buttonAddSize_Click;
+            }
 
             loadList(query);
         }
@@ -69,6 +77,8 @@ namespace CRM
                             {
                                 if(type == 3)
                                     list.Add(reader.GetInt32(0) + ";" + reader.GetString(1) + ";" + reader.GetString(2) + ";" + reader.GetString(3));
+                                else if(type == 4)
+                                    list.Add(reader.GetInt32(0) + ";" + reader.GetString(1) + ";" + reader.GetString(2));
                                 else list.Add(reader.GetInt32(0) + ";" + reader.GetString(1));
                             }
                         }
@@ -101,7 +111,12 @@ namespace CRM
                 lab.Name = "label-" + i;
                 lab.Tag = obj.Split(';')[0];
                 if(type == 3) lab.Tag += (";" + obj.Split(';')[2]) + (";" + obj.Split(';')[3]);
-                lab.Text = obj.Split(';')[1];
+                if(type == 4) lab.Tag += ";" + obj.Split(';')[1] + ";" + obj.Split(';')[2] + ";" + obj.Split(';')[3];
+
+                if (type == 4)
+                    lab.Text += obj.Split(';')[1] + "x" + obj.Split(';')[2] + " : " + obj.Split(';')[3] + "р.";
+                else
+                    lab.Text = obj.Split(';')[1];
                 lab.AutoSize = true;
                 lab.AutoEllipsis = false;
                 lab.Location = new Point(x, y);
@@ -113,10 +128,12 @@ namespace CRM
                 buttonCh.AutoEllipsis = false;
                 buttonCh.Text = "Изменить";
                 buttonCh.Location = new Point(x + (int)size.Width + 5, y - 5);
-                if(type == 3)
+                if (type == 3)
                 {
                     buttonCh.Click += ButtonChCust_Click;
                 }
+                else if(type == 4)
+                    buttonCh.Click += ButtonChSize_Click;
                 else buttonCh.Click += ButtonCh_Click;
 
                 Button buttonRm = new Button();
@@ -275,6 +292,37 @@ namespace CRM
             }
         }
 
+        private void ButtonChSize_Click(object sender, EventArgs e)
+        {
+            Label lab = (Label)((Button)sender).Parent.Controls.Find("label-" + ((Button)sender).Name.ToString().Split('-')[1], true)[0];
+            FormChangePaperSize editText = new FormChangePaperSize(lab.Tag.ToString().Split(';')[1], lab.Tag.ToString().Split(';')[2], lab.Tag.ToString().Split(';')[3]);
+            if (editText.ShowDialog(this) == DialogResult.OK)
+            {
+                if (editText.textBoxPrice.Text.Trim().Length > 0)
+                {
+                    using (var mySqlConnection = new DBUtils().getDBConnection())
+                    {
+                        using (var cmd = new MySqlCommand())
+                        {
+                            cmd.Connection = mySqlConnection;
+                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                            cmd.CommandText = querys[2];
+                            cmd.Parameters.Clear();
+                            MySqlParameter p1 = cmd.Parameters.Add("@id", MySqlDbType.Int32);
+                            p1.Direction = ParameterDirection.Input;
+                            MySqlParameter p2 = cmd.Parameters.Add("@price", MySqlDbType.VarChar);
+
+                            p1.Value = lab.Tag.ToString().Split(';')[0];
+                            p2.Value = editText.textBoxPrice.Text;
+                            mySqlConnection.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    lab.Text = editText.textBoxX.Text + "x" + editText.textBoxY.Text + " : " + editText.textBoxPrice.Text;
+                }
+            }
+        }
+
         private void buttonAddCust_Click(object sender, EventArgs e)
         {
             FormChangeCustomer custData = new FormChangeCustomer("", "", "");
@@ -300,6 +348,36 @@ namespace CRM
                             p1.Value = custData.textBoxName.Text;
                             p2.Value = custData.textBoxComm.Text;
                             p3.Value = custData.textBoxMail.Text;
+                            mySqlConnection.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    panelUsers.Controls.Clear();
+                    list.Clear();
+                    loadList(query);
+                }
+            }
+        }
+
+        private void buttonAddSize_Click(object sender, EventArgs e)
+        {
+            FormChangePaperSize paperSize = new FormChangePaperSize("","","");
+            if (paperSize.ShowDialog(this) == DialogResult.OK)
+            {
+                if ((paperSize.textBoxX.Text.Trim().Length > 0) && (paperSize.textBoxY.Text.Trim().Length > 0))
+                {
+                    using (var mySqlConnection = new DBUtils().getDBConnection())
+                    {
+                        using (var cmd = new MySqlCommand())
+                        {
+                            cmd.Connection = mySqlConnection;
+                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                            cmd.CommandText = querys[0];
+                            cmd.Parameters.Clear();
+                            MySqlParameter p1 = cmd.Parameters.Add("@size", MySqlDbType.VarChar);
+                            p1.Direction = ParameterDirection.Input;
+
+                            p1.Value = paperSize.textBoxX.Text + ";" + paperSize.textBoxY.Text;
                             mySqlConnection.Open();
                             cmd.ExecuteNonQuery();
                         }

@@ -28,6 +28,7 @@ namespace CRM
             dateTimePickerTo.Text = DateTime.Now.ToString("dd-MM-yyyy");
 
             dataGridView1.DataSource = loadOrdersFromDB(what);
+            dataGridView2.DataSource = loadPhototerminalOrdersFromDB(what);
             loadGroupTree();
 
             new Thread(() => setLogInTime()).Start();
@@ -70,7 +71,32 @@ namespace CRM
             DataTable tblOrders = new DataTable();
             using (var con = new DBUtils().getDBConnection())
             {
-                using (var cmd = new MySqlCommand("get_orders", con))
+                using (var cmd = new MySqlCommand("get_not_phototerminal_orders", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new MySqlParameter("@what", MySqlDbType.VarChar));
+                    cmd.Parameters["@what"].Value = what;
+                    cmd.Parameters.Add(new MySqlParameter("@dateFrom", MySqlDbType.VarChar));
+                    cmd.Parameters["@dateFrom"].Value = Convert.ToDateTime(dateTimePickerFrom.Text).ToString("yyyy-MM-dd"); ;
+                    cmd.Parameters.Add(new MySqlParameter("@dateTo", MySqlDbType.VarChar));
+                    cmd.Parameters["@dateTo"].Value = Convert.ToDateTime(dateTimePickerTo.Text).ToString("yyyy-MM-dd");
+                    MySqlDataAdapter dap = new MySqlDataAdapter(cmd);
+                    dap.Fill(tblOrders);
+                }
+            }
+            loading.Dispose();
+            return tblOrders;
+        }
+
+        private DataTable loadPhototerminalOrdersFromDB(string what)
+        {
+            FormLoading loading = new FormLoading();
+            loading.Show();
+
+            DataTable tblOrders = new DataTable();
+            using (var con = new DBUtils().getDBConnection())
+            {
+                using (var cmd = new MySqlCommand("get_phototerminal_orders", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new MySqlParameter("@what", MySqlDbType.VarChar));
@@ -152,6 +178,17 @@ namespace CRM
             }
             if (treeViewGroups.SelectedNode.Text.Contains("Все"))
                 loadGroupTree();
+
+            int selPhIndex = 0;
+            if (dataGridView2.SelectedRows.Count > 0)
+            {
+                selPhIndex = dataGridView2.SelectedRows[0].Index;
+            }
+            dataGridView2.DataSource = loadPhototerminalOrdersFromDB(what);
+            if (dataGridView2.SelectedRows.Count > 0)
+            {
+                dataGridView2.Rows[selPhIndex].Selected = true;
+            }
         }
 
         private void treeViewGroups_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

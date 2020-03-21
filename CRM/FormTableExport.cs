@@ -19,9 +19,11 @@ namespace CRM
         {
             comboBoxCustomers.Items.AddRange(loadCustomers().ToArray());
             comboBoxExecutor.Items.AddRange(loadExecutors().ToArray());
+            comboBoxAcceptor.Items.AddRange(loadExecutors().ToArray());
             comboBoxOrderType.Items.AddRange(loadOrderTypes().ToArray());
             comboBoxCustomers.SelectedIndex = 0;
             comboBoxExecutor.SelectedIndex = 0;
+            comboBoxAcceptor.SelectedIndex = 0;
             comboBoxOrderType.SelectedIndex = 0;
             comboBoxOrderStatus.SelectedIndex = 0;
             dateTimePickerFrom.Text = "01-09-2019";
@@ -47,7 +49,7 @@ namespace CRM
                     {
                         cmd.Connection = mySqlConnection;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "export_table";
+                        cmd.CommandText = "export_table_new";
                         cmd.Parameters.Clear();
                         MySqlParameter p1 = cmd.Parameters.Add("@type", MySqlDbType.VarChar);
                         p1.Direction = ParameterDirection.Input;
@@ -55,19 +57,22 @@ namespace CRM
                         p2.Direction = ParameterDirection.Input;
                         MySqlParameter p3 = cmd.Parameters.Add("@executor", MySqlDbType.VarChar);
                         p3.Direction = ParameterDirection.Input;
-                        MySqlParameter p4 = cmd.Parameters.Add("@customer", MySqlDbType.VarChar);
+                        MySqlParameter p4 = cmd.Parameters.Add("@acceptor", MySqlDbType.VarChar);
                         p4.Direction = ParameterDirection.Input;
-                        MySqlParameter p5 = cmd.Parameters.Add("@dateFrom", MySqlDbType.Date);
+                        MySqlParameter p5 = cmd.Parameters.Add("@customer", MySqlDbType.VarChar);
                         p5.Direction = ParameterDirection.Input;
-                        MySqlParameter p6 = cmd.Parameters.Add("@dateTo", MySqlDbType.Date);
+                        MySqlParameter p6 = cmd.Parameters.Add("@dateFrom", MySqlDbType.Date);
                         p6.Direction = ParameterDirection.Input;
+                        MySqlParameter p7 = cmd.Parameters.Add("@dateTo", MySqlDbType.Date);
+                        p7.Direction = ParameterDirection.Input;
 
                         p1.Value = comboBoxOrderType.SelectedItem.ToString();
                         p2.Value = comboBoxOrderStatus.SelectedItem.ToString();
                         p3.Value = comboBoxExecutor.SelectedItem.ToString();
-                        p4.Value = custName;
-                        p5.Value = dateTimePickerFrom.Value.ToString("yyyy-MM-dd");
-                        p6.Value = dateTimePickerTo.Value.ToString("yyyy-MM-dd");
+                        p4.Value = comboBoxAcceptor.SelectedItem.ToString();
+                        p5.Value = custName;
+                        p6.Value = dateTimePickerFrom.Value.ToString("yyyy-MM-dd");
+                        p7.Value = dateTimePickerTo.Value.ToString("yyyy-MM-dd");
 
                         mySqlConnection.Open();
                         MySqlDataAdapter dap = new MySqlDataAdapter(cmd);

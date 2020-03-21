@@ -43,6 +43,8 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.comboBoxCustomers = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.comboBoxAcceptor = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -94,14 +96,14 @@
             // 
             // dateTimePickerTo
             // 
-            this.dateTimePickerTo.Location = new System.Drawing.Point(33, 216);
+            this.dateTimePickerTo.Location = new System.Drawing.Point(33, 256);
             this.dateTimePickerTo.Name = "dateTimePickerTo";
             this.dateTimePickerTo.Size = new System.Drawing.Size(169, 20);
             this.dateTimePickerTo.TabIndex = 25;
             // 
             // dateTimePickerFrom
             // 
-            this.dateTimePickerFrom.Location = new System.Drawing.Point(33, 190);
+            this.dateTimePickerFrom.Location = new System.Drawing.Point(33, 230);
             this.dateTimePickerFrom.Name = "dateTimePickerFrom";
             this.dateTimePickerFrom.Size = new System.Drawing.Size(169, 20);
             this.dateTimePickerFrom.TabIndex = 24;
@@ -109,7 +111,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 174);
+            this.label3.Location = new System.Drawing.Point(13, 214);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 13);
             this.label3.TabIndex = 23;
@@ -118,7 +120,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 222);
+            this.label4.Location = new System.Drawing.Point(13, 262);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(21, 13);
             this.label4.TabIndex = 22;
@@ -127,7 +129,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 197);
+            this.label5.Location = new System.Drawing.Point(13, 193);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(14, 13);
             this.label5.TabIndex = 21;
@@ -155,7 +157,7 @@
             // 
             // buttonExport
             // 
-            this.buttonExport.Location = new System.Drawing.Point(13, 248);
+            this.buttonExport.Location = new System.Drawing.Point(13, 288);
             this.buttonExport.Name = "buttonExport";
             this.buttonExport.Size = new System.Drawing.Size(189, 23);
             this.buttonExport.TabIndex = 28;
@@ -169,7 +171,7 @@
             this.comboBoxCustomers.FormattingEnabled = true;
             this.comboBoxCustomers.Items.AddRange(new object[] {
             "Все"});
-            this.comboBoxCustomers.Location = new System.Drawing.Point(16, 150);
+            this.comboBoxCustomers.Location = new System.Drawing.Point(16, 190);
             this.comboBoxCustomers.Name = "comboBoxCustomers";
             this.comboBoxCustomers.Size = new System.Drawing.Size(185, 21);
             this.comboBoxCustomers.TabIndex = 30;
@@ -177,17 +179,39 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(13, 134);
+            this.label7.Location = new System.Drawing.Point(13, 174);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(108, 13);
             this.label7.TabIndex = 29;
             this.label7.Text = "Отбор по заказчику";
             // 
+            // comboBoxAcceptor
+            // 
+            this.comboBoxAcceptor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxAcceptor.FormattingEnabled = true;
+            this.comboBoxAcceptor.Items.AddRange(new object[] {
+            "Все"});
+            this.comboBoxAcceptor.Location = new System.Drawing.Point(16, 150);
+            this.comboBoxAcceptor.Name = "comboBoxAcceptor";
+            this.comboBoxAcceptor.Size = new System.Drawing.Size(185, 21);
+            this.comboBoxAcceptor.TabIndex = 32;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(13, 134);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(158, 13);
+            this.label8.TabIndex = 31;
+            this.label8.Text = "Отбор по принявшему заявки";
+            // 
             // FormTableExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(216, 283);
+            this.ClientSize = new System.Drawing.Size(216, 323);
+            this.Controls.Add(this.comboBoxAcceptor);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.comboBoxCustomers);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.buttonExport);
@@ -203,7 +227,6 @@
             this.Controls.Add(this.comboBoxOrderType);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MaximumSize = new System.Drawing.Size(232, 322);
             this.MinimumSize = new System.Drawing.Size(232, 322);
             this.Name = "FormTableExport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -231,5 +254,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ComboBox comboBoxCustomers;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox comboBoxAcceptor;
+        private System.Windows.Forms.Label label8;
     }
 }

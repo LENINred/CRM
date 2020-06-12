@@ -331,7 +331,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(0, 438);
             this.progressBar1.Name = "progressBar1";
@@ -371,7 +371,8 @@
             this.comboBoxPointOfGrub.FormattingEnabled = true;
             this.comboBoxPointOfGrub.Items.AddRange(new object[] {
             "Мир",
-            "Центральный рынок"});
+            "Центральный рынок",
+            "Семья"});
             this.comboBoxPointOfGrub.Location = new System.Drawing.Point(13, 410);
             this.comboBoxPointOfGrub.Name = "comboBoxPointOfGrub";
             this.comboBoxPointOfGrub.Size = new System.Drawing.Size(134, 21);
@@ -387,7 +388,7 @@
             this.checkBoxCustNotif.Text = "Заказчик оповещен о завершении работы";
             this.checkBoxCustNotif.UseVisualStyleBackColor = true;
             // 
-            // FormAddOrderTest
+            // FormAddOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -428,7 +429,7 @@
             this.Controls.Add(this.comboBoxCustomers);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MinimumSize = new System.Drawing.Size(587, 446);
-            this.Name = "FormAddOrderTest";
+            this.Name = "FormAddOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Создание заказа";
             this.Load += new System.EventHandler(this.AddOrder_Load);

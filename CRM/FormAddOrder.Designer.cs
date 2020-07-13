@@ -372,7 +372,8 @@
             this.comboBoxPointOfGrub.Items.AddRange(new object[] {
             "Мир",
             "Центральный рынок",
-            "Семья"});
+            "Семья",
+            "ТРЦ Планета"});
             this.comboBoxPointOfGrub.Location = new System.Drawing.Point(13, 410);
             this.comboBoxPointOfGrub.Name = "comboBoxPointOfGrub";
             this.comboBoxPointOfGrub.Size = new System.Drawing.Size(134, 21);

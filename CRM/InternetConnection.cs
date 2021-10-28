@@ -1,4 +1,6 @@
-﻿namespace CRM
+﻿using System.Net;
+
+namespace CRM
 {
     class InternetConnection
     {
@@ -6,6 +8,8 @@
         {
             try
             {
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 using (var client = new System.Net.WebClient())
                 using (client.OpenRead("http://google.com/generate_204"))
                     return true;

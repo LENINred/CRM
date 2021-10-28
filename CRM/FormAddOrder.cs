@@ -641,6 +641,7 @@ namespace CRM
 
             using (WebClient client = new WebClient())
             {
+                
                 client.Credentials = new NetworkCredential("seller", "Az123456!");
                 int i = 1;
                 foreach (string file in fileNames)

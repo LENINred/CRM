@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 using System.Diagnostics;
+using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
@@ -119,6 +120,8 @@ namespace CRM
             {
                 using (var cmd = new MySqlCommand("set_login_time", con))
                 {
+                    ServicePointManager.Expect100Continue = true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new MySqlParameter("@ip", MySqlDbType.VarChar));
                     cmd.Parameters["@ip"].Value = new System.Net.WebClient().DownloadString("https://api.ipify.org");
